@@ -206,33 +206,27 @@
                                     <ul class="product-bar">
                                         <li>
                                             <h4>Product</h4>
-                                            <h6>Macbook pro </h6>
+                                            <h6>{{$product->name}}</h6>
                                         </li>
                                         <li>
                                             <h4>Category</h4>
-                                            <h6>Computers</h6>
-                                        </li>
-                                        <li>
-                                            <h4>Minimum Qty</h4>
-                                            <h6>5</h6>
+                                            <h6>{{$product->category->name}}</h6>
                                         </li>
                                         <li>
                                             <h4>Quantity</h4>
-                                            <h6>50</h6>
+                                            <h6>{{$product->quantity}}</h6>
                                         </li>
                                         <li>
                                             <h4>Price</h4>
-                                            <h6>1500.00</h6>
+                                            <h6>{{$product->price}}</h6>
                                         </li>
                                         <li>
-                                            <h4>Status</h4>
-                                            <h6>Active</h6>
+                                            <h4>Size</h4>
+                                            <h6>{{$product->size}}</h6>
                                         </li>
                                         <li>
                                             <h4>Description</h4>
-                                            <h6>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                                since the 1500s,</h6>
+                                            <h6>{{$product->description}}</h6>
                                         </li>
                                     </ul>
                                 </div>
@@ -245,9 +239,9 @@
                                 <div class="slider-product-details">
                                     <div class="owl-carousel owl-theme product-slide">
                                         <div class="slider-product">
-                                            <img src="{{ asset('manager/img/product/product69.jpg') }}" alt="img">
-                                            <h4>macbookpro.jpg</h4>
-                                            <h6>581kb</h6>
+                                            <img src="{{ asset('storage/productPictures/' .$product->product_image) }}" alt="img">
+                                            <h4>{{$product->name}}</h4>
+                                            <h6>{{$product->category->name}}</h6>
                                         </div>
                                     </div>
                                 </div>

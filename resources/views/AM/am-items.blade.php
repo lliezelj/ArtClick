@@ -26,9 +26,32 @@
 
     <link rel="stylesheet" href="{{ asset('manager/plugins/fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('manager/plugins/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 
     <link rel="stylesheet" href="{{ asset('manager/css/style.css') }}">
 </head>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 
 <body>
     <div id="global-loader">
@@ -97,21 +120,24 @@
                             <a class="dropdown-item" href="generalsettings.html"><i class="me-2"
                                     data-feather="settings"></i>Settings</a>
                             <hr class="m-0">
-                            <a class="dropdown-item logout pb-0" href="signin.html"><img
-                                    src="assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
+                            <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item logout pb-0"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</button>
+                            </form>
                         </div>
                     </div>
                 </li>
             </ul>
-
-
             <div class="dropdown mobile-user-menu">
                 <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
                     aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="profile.html">My Profile</a>
                     <a class="dropdown-item" href="generalsettings.html">Settings</a>
-                    <a class="dropdown-item" href="signin.html">Logout</a>
+                    <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="dropdown-item">Logout</button>
+                    </form>
                 </div>
             </div>
 
@@ -130,7 +156,7 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
                                     Items</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-items-category')}}" class="active">Items List</a></li>
+                                <li><a href="{{route('admin.category')}}" class="active">Items List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -213,55 +239,53 @@
                                 </button>
                             </div>
                             <div class="modal-body">
+                            <form class="form-group" method="POST" action="{{route('add.product')}}" enctype="multipart/form-data">
+                            @csrf
                                 <div class="row">
                                     <div class="col-lg-6 col-sm-12 col-12">
                                         <div class="form-group">
                                             <label>Item Name</label>
-                                            <input type="text">
+                                            <input type="text" name="name" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-sm-12 col-12">
                                         <div class="form-group">
                                             <label>Category</label>
-                                            <select class="select">
-                                                <option>Choose Category</option>
-                                                <option> Furniture</option>
-                                                <option> Accessories</option>
+                                            <select class="select" name="category_id" required>
+                                                <option selected disabled>Choose Category</option>
+                                                @foreach($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-sm-12 col-12">
                                         <div class="form-group">
-                                            <label>Minimum Quantity</label>
-                                            <input type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-12 col-12">
-                                        <div class="form-group">
                                             <label>Quantity</label>
-                                            <input type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label>Description</label>
-                                            <input type="text">
+                                            <input type="text" name="quantity" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-sm-12 col-12">
                                         <div class="form-group">
                                             <label>Price</label>
-                                            <input type="text">
+                                            <input type="text" name="price" required>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-sm-12 col-12">
                                         <div class="form-group">
-                                            <label>Status</label>
-                                            <select class="select">
-                                                <option>Select size</option>
-                                                <option>Small</option>
-                                                <option>Medium</option>
-                                                <option>Large</option>
+                                            <label>Description</label>
+                                            <input type="text" name="description" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-lg-6 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <label>Size</label>
+                                            <select class="select" name="size" required>
+                                                <option selected disabled>Select size</option>
+                                                <option value="small">Small</option>
+                                                <option value="medium">Medium</option>
+                                                <option value="large">Large</option>
                                             </select>
                                         </div>
                                     </div>
@@ -269,7 +293,7 @@
                                         <div class="form-group">
                                             <label> Item Image</label>
                                             <div class="image-upload">
-                                                <input type="file">
+                                                <input type="file" name="product_image" required>
                                                 <div class="image-uploads">
                                                     <img src="{{ asset('manager/img/icons/upload.svg') }}" alt="img">
                                                     <h4>Drag and drop a file to upload</h4>
@@ -279,9 +303,10 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <a class="btn btn-submit me-2">Submit</a>
-                                    <a class="btn btn-cancel" data-bs-dismiss="modal">Cancel</a>
+                                    <button type="submit" name="submit" class="btn btn-submit me-2">Submit</button>
+                                    <button class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
                                 </div>
+                            </form>
                             </div>
                         </div>
                     </div>
@@ -312,20 +337,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @foreach($products as $item)
                                     <tr>
                                         <td class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/product1.jpg') }}" alt="product">
+                                                <img src="{{ asset('storage/productPictures/' .$item->product_image) }}" alt="product">
                                             </a>
-                                            <a href="javascript:void(0);">Macbook pro</a>
+                                            <a href="javascript:void(0);">{{$item->name}}</a>
                                         </td>
-                                        <td>Computers</td>
-                                        <td>1500.00</td>                                      
-                                        <td>2</td>
-                                        <td>Small</td>
-                                        <td>asddtbttwtwet;wejgw97yhg</td>
+                                        <td>{{$item->category->name}}</td>
+                                        <td>{{$item->price}}</td>                                      
+                                        <td>{{$item->quantity}}</td>
+                                        <td>{{$item->size}}</td>
+                                        <td>{{$item->description}}</td>
                                         <td>
-                                            <a class="me-3" href="{{ route('am-items-details')}}">
+                                            <a class="me-3" href="{{ route('view.product',['id'=> $item->id]) }}">
                                                 <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
                                             </a>
                                             <a class="me-3" data-bs-toggle="modal" data-bs-target="#productedit">
@@ -336,55 +362,7 @@
                                             </a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="productimgname">
-                                            <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/product2.jpg') }}" alt="product">
-                                            </a>
-                                            <a href="javascript:void(0);">Orange</a>
-                                        </td>
-                                        <td>Fruits</td>                                       
-                                        <td>10.00</td>                                       
-                                        <td>3</td>
-                                        <td>Medium</td>
-                                        <td>asfasehtgiyweyfsdjnfiya</td>
-                                        <td>
-                                            <a class="me-3" href="{{ route('am-items-details')}}">
-                                                <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
-                                            </a>
-                                            <a class="me-3" href="editproduct.html">
-                                                <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
-                                            </a>
-                                            <a class="confirm-text" href="javascript:void(0);">
-                                                <img src="{{ asset('manager/img/icons/delete.svg') }}" alt="img">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="productimgname">
-                                            <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/product7.jpg') }}" alt="product">
-                                            </a>
-                                            <a href="javascript:void(0);">Apple Earpods</a>
-                                        </td>
-                                        <td>Shoes</td>  
-                                        <td>10.00</td>
-                                        <td>4</td>
-                                        <td>Large</td>
-                                        <td>fgfygawy8fgqbfvkaehf98q</td>
-                                        <td>
-                                            <a class="me-3" href="{{ route('am-items-details')}}">
-                                                <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
-                                            </a>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#productedit">
-                                                <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
-                                            </a>
-                                            <a class="confirm-text" href="javascript:void(0);">
-                                                <img src="{{ asset('manager/img/icons/delete.svg') }}" alt="img">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -438,13 +416,13 @@
                         <div class="col-lg-12 col-sm-12 col-12">
                             <div class="form-group">
                                 <label>Description</label>
-                                <input type="text">
+                                <input type="text" name="description">
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-12 col-12">
                             <div class="form-group">
                                 <label>Price</label>
-                                <input type="text">
+                                <input type="text" name="price">
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-12 col-12">
@@ -496,6 +474,7 @@
 
     <script src="{{ asset('manager/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('manager/plugins/sweetalert/sweetalerts.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="{{ asset('manager/js/script.js') }}"></script>
 </body>

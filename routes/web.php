@@ -2,15 +2,42 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('customer.homepage');
-});
-
 Auth::routes(['verify' => true]);
-Route::middleware(['auth', 'verified'])->group(function () {
-
+Route::get('/', function () {
+return view('customer.landingpage');
+});
+Route::group(['middleware' => ['auth', 'verified']], function () {
+Route::get('/homepage',[App\Http\Controllers\HomeController::class, 'index'])->name('homepage');   
 
 });
+
+Route::group(['middleware' => ['auth','verified','admin']], function () {
+    // Admin routes here
+    Route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/category-list', [App\Http\Controllers\CategoryController::class, 'index'])->name('admin.category');
+    Route::post('/admin/category-add', [App\Http\Controllers\CategoryController::class, 'categoryStore'])->name('add.category');
+    Route::get('/categories/{id}/products', [App\Http\Controllers\CategoryController::class, 'getProductsByCategory']);
+
+
+
+
+    Route::get('/admin/items-list', [App\Http\Controllers\ProductController::class, 'index'])->name('admin.product');
+    Route::post('/admin/product-add', [App\Http\Controllers\ProductController::class, 'productStore'])->name('add.product');
+    Route::get('/admin/item-details/{id}', [App\Http\Controllers\ProductController::class, 'viewProduct'])->name('view.product');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -18,10 +45,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/forgot-password', function () {
     return view('customer.forgot-password');
 })->name('forgot-password');
-
-Route::get('/homepage', function () {
-    return view('customer.homepage');
-})->name('homepage');
 
 
 Route::get('/announcement', function () {

@@ -160,33 +160,42 @@
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
-                                    <form action="#">
+                                    <form  method="POST" action="{{ route('login') }}">
+                                        @csrf
                                         <div class="form-group">
-                                            <label for="singin-email-2">Username or email address *</label>
-                                            <input type="text" class="form-control" id="singin-email-2"
-                                                name="singin-email" required>
+                                            <label for="singin-email-2">Email address *</label>
+                                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                            @error('email')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div><!-- End .form-group -->
 
                                         <div class="form-group">
                                             <label for="singin-password-2">Password *</label>
-                                            <input type="password" class="form-control" id="singin-password-2"
-                                                name="singin-password" required>
+                                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                            @error('password')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div><!-- End .form-group -->
 
                                         <div class="form-footer">
-                                            <button type="submit" class="btn btn-outline-primary-2">
+                                            <button type="submit" name="submit" class="btn btn-outline-primary-2">
                                                 <span>LOG IN</span>
                                                 <i class="icon-long-arrow-right"></i>
                                             </button>
 
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input"
-                                                    id="signin-remember-2">
-                                                <label class="custom-control-label" for="signin-remember-2">Remember
-                                                    Me</label>
-                                            </div><!-- End .custom-checkbox -->
+                                            <input class="custom-control-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="remember">RememberMe</label>
+                                        </div>
 
-                                            <a href="#" class="forgot-link">Forgot Your Password?</a>
+                                         @if (Route::has('password.request'))
+                                            <a href="{{ route('password.request') }}" class="forgot-link">Forgot Your Password?</a>
+                                            @endif
                                         </div><!-- End .form-footer -->
                                     </form>
                                 </div><!-- .End .tab-pane -->

@@ -26,10 +26,33 @@
 
     <link rel="stylesheet" href="{{ asset('manager/plugins/fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('manager/plugins/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 
     <link rel="stylesheet" href="{{ asset('manager/css/style.css') }}">
 </head>
 
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 <body>
     <div id="global-loader">
         <div class="whirly-loader"> </div>
@@ -78,7 +101,7 @@
                 </li>
                 <li class="nav-item dropdown has-arrow main-drop">
                     <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-                        <span class="user-img"><img src="{{ asset('manager/img/profiles/avator1.jpg') }}" alt="">
+                        <span class="user-img"><img src="{{ asset('manager/img/profiles/avatar-17.jpg') }}" alt="">
                             <span class="status online"></span></span>
                     </a>
                     <div class="dropdown-menu menu-drop-user">
@@ -97,8 +120,10 @@
                             <a class="dropdown-item" href="generalsettings.html"><i class="me-2"
                                     data-feather="settings"></i>Settings</a>
                             <hr class="m-0">
-                            <a class="dropdown-item logout pb-0" href="signin.html"><img
-                                    src="{{ asset('manager/img/icons/log-out.svg') }}" class="me-2" alt="img">Logout</a>
+                            <form action="{{ route('logout') }}" method="POST">
+                             @csrf
+                            <button type="submit" class="dropdown-item logout pb-0" ><img src="{{ asset('manager/img/icons/log-out.svg') }}" class="me-2" alt="img">Logout</button>
+                            </form>
                         </div>
                     </div>
                 </li>
@@ -111,7 +136,10 @@
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="profile.html">My Profile</a>
                     <a class="dropdown-item" href="generalsettings.html">Settings</a>
-                    <a class="dropdown-item" href="signin.html">Logout</a>
+                    <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="dropdown-item">Logout</button>
+                    </form>
                 </div>
             </div>
 
@@ -130,7 +158,7 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
                                     Items</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-items-category')}}" class="active">Items List</a></li>
+                                <li><a href="{{route('admin.category')}}" class="active">Items List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -214,10 +242,12 @@
                             </div>
                             <div class="modal-body">
                                 <div class="row">
+                                <form method="POST" action="{{ route('add.category')}}" enctype="multipart/form-data">
+                                    @csrf
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label>Category Name</label>
-                                            <input type="text">
+                                            <input type="text" name="name">
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -225,7 +255,7 @@
                                             <label>
                                                 Image</label>
                                             <div class="image-upload">
-                                                <input type="file">
+                                                <input type="file" name="image">
                                                 <div class="image-uploads">
                                                     <img src="{{ asset('manager/img/icons/upload.svg') }}" alt="img">
                                                     <h4>Drag and drop a file to upload</h4>
@@ -233,12 +263,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                             </div>
+                        </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-submit">Submit</button>
+                                <button type="submit" name="submit" class="btn btn-submit">Submit</button>
                                 <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -265,16 +296,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($categories as $category)
                                     <tr>
                                         <td class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/product1.jpg') }}" alt="product">
+                                                <img src="{{ asset('storage/categoryPictures/'.$category->image) }}" alt="product">
                                             </a>
-                                            <a href="javascript:void(0);">Macbook pro</a>
+                                            <a href="javascript:void(0);">{{$category->name}}</a>
                                         </td>
                                         <td>20</td>
                                         <td>
-                                            <a class="me-3" href="{{route('am-items')}}">
+                                            <a class="me-3 " href="{{route('admin.product')}}">
                                                 <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
                                             </a>
                                             <a class="me-3" data-bs-toggle="modal" data-bs-target="#category-edit">
@@ -285,8 +317,7 @@
                                             </a>
                                         </td>
                                     </tr>
-
-
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -356,6 +387,7 @@
 
         <script src="{{ asset('manager/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
         <script src="{{ asset('manager/plugins/sweetalert/sweetalerts.min.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script src="{{ asset('manager/js/script.js') }}"></script>
 </body>
