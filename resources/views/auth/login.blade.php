@@ -152,16 +152,16 @@
                         <div class="form-tab">
                             <ul class="nav nav-pills nav-fill" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link" id="signin-tab-2" data-toggle="tab" href="#signin-2" role="tab"
-                                        aria-controls="signin-2" aria-selected="false">Sign In</a>
+                                    <a class="nav-link active" id="signin-tab-2" data-toggle="tab" href="#signin-2" role="tab"
+                                        aria-controls="signin-2" aria-selected="true">Sign In</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="register-tab-2" data-toggle="tab" href="#register-2"
-                                        role="tab" aria-controls="register-2" aria-selected="true">Register</a>
+                                    <a class="nav-link" id="register-tab-2" data-toggle="tab" href="#register-2"
+                                        role="tab" aria-controls="register-2" aria-selected="false">Register</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane fade" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
+                                <div class="tab-pane fade show active" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
                                     <form  method="POST" action="{{ route('login') }}">
                                         @csrf
                                         <div class="form-group">
@@ -191,17 +191,16 @@
                                             </button>
 
                                             <div class="custom-control custom-checkbox">
-                                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="signin-remember-2">Remember
-                                                    Me</label>
-                                            </div>
+                                            <input class="custom-control-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="remember">RememberMe</label>
+                                        </div>
                                             @if (Route::has('password.request'))
-                                            <a href="#" class="forgot-link">Forgot Your Password?</a>
+                                            <a href="{{ route('password.request') }}" class="forgot-link">Forgot Your Password?</a>
                                             @endif
                                         </div><!-- End .form-footer -->
                                     </form>
                                 </div><!-- .End .tab-pane -->
-                                <div class="tab-pane fade show active" id="register-2" role="tabpanel"
+                                <div class="tab-pane fade " id="register-2" role="tabpanel"
                                     aria-labelledby="register-tab-2">
                                     <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                                     @csrf
