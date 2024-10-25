@@ -154,9 +154,9 @@
                         </li>
                         <li class="submenu">
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
-                                    Items</span> <span class="menu-arrow"></span></a>
+                                    Artworks</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('admin.category')}}" class="active">Items List</a></li>
+                                <li><a href="{{route('admin.category')}}" class="active">artworks List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -219,12 +219,12 @@
             <div class="content">
                 <div class="page-header">
                     <div class="page-title">
-                        <h4>Items List</h4>
-                        <h6>Manage your items</h6>
+                        <h4>Artworks List By <span class="text-success"> {{$theArtist->lastname}}, {{$theArtist->firstname}}</span></h4>
+                        <h6>Manage your Artworks</h6>
                     </div>
                     <div class="page-btn">
                                 <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#productadd">
-                                    <img src="{{ asset('manager/img/icons/plus.svg') }}" alt="img" class="me-1">Add New Item</a>
+                                    <img src="{{ asset('manager/img/icons/plus.svg') }}" alt="img" class="me-1">Add New artwork</a>
 
                     </div>
                 </div>
@@ -233,7 +233,7 @@
                     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Add Item</h5>
+                                <h5 class="modal-title">Add artwork</h5>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">x</span>
                                 </button>
@@ -244,7 +244,7 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-sm-12 col-12">
                                         <div class="form-group">
-                                            <label>Item Name</label>
+                                            <label>artwork Name</label>
                                             <input type="text" name="name" required>
                                         </div>
                                     </div>
@@ -259,19 +259,26 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-sm-12 col-12">
+                                    <div class="col-lg-6 col-sm-12 col-12">
                                         <div class="form-group">
                                             <label>Quantity</label>
                                             <input type="text" name="quantity" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-sm-12 col-12">
+                                    <div class="col-lg-6 col-sm-12 col-12">
                                         <div class="form-group">
                                             <label>Price</label>
                                             <input type="text" name="price" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-sm-12 col-12">
+                                    <div class="col-lg-6 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <input type="text" name="description" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-lg-6 col-sm-12 col-12">
                                         <div class="form-group">
                                             <label>Size</label>
                                             <select class="select" name="size" required>
@@ -282,26 +289,9 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label>Description</label>
-                                            <input type="text" name="description" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label>Artists</label>
-                                            <select class="select" name="artist_id">
-                                                <option selected disabled>Choose Artist</option>
-                                                @foreach($artists as $artist)
-                                                <option value="{{ $artist->id }}">{{ $artist->lastname}}, {{ $artist->firstname}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label> Item Image</label>
+                                            <label> Artwork Image</label>
                                             <div class="image-upload">
                                                 <input type="file" name="product_image">
                                                 <div class="image-uploads">
@@ -337,7 +327,7 @@
                             <table class="table  datanew">
                                 <thead>
                                     <tr>
-                                        <th>Items Name</th> 
+                                        <th>artworks Name</th> 
                                         <th>Category </th>                                       
                                         <th>Price</th>                                       
                                         <th>Quantity</th>
@@ -347,45 +337,45 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($products as $item)
+                                @foreach($artworks as $artwork)
                                     <tr>
                                         <td class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{$item->product_image ? asset('storage/productPictures/' .$item->product_image) : asset('icon/null-image.png') }}" alt="product">
+                                                <img src="{{$artwork->product_image ? asset('storage/productPictures/' .$artwork->product_image) : asset('icon/null-image.png') }}" alt="product">
                                             </a>
-                                            <a href="javascript:void(0);">{{$item->name}}</a>
+                                            <a href="javascript:void(0);">{{$artwork->name}}</a>
                                         </td>
-                                        <td>{{$item->category->name}}</td>
-                                        <td>{{$item->price}}</td>                                      
-                                        <td>{{$item->quantity}}</td>
-                                        <td>{{$item->size}}</td>
-                                        <td>{{$item->description}}</td>
+                                        <td>{{$artwork->category->name}}</td>
+                                        <td>{{$artwork->price}}</td>                                      
+                                        <td>{{$artwork->quantity}}</td>
+                                        <td>{{$artwork->size}}</td>
+                                        <td>{{$artwork->description}}</td>
                                         <td>
-                                            <a class="me-3" href="{{ route('view.product',['id'=> $item->id]) }}">
+                                            <a class="me-3" href="{{ route('view.product',['id'=> $artwork->id]) }}">
                                                 <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
                                             </a>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#productedit{{$item->id}}">
+                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#productedit{{$artwork->id}}">
                                                 <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
                                             </a>
                                             <!-- Product Edit Modal -->
-                                            <div class="modal fade" id="productedit{{$item->id}}" tabindex="-1" aria-labelledby="productedit" aria-hidden="true">
+                                            <div class="modal fade" id="productedit{{$artwork->id}}" tabindex="-1" aria-labelledby="productedit" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">Edit Item</h5>
+                                                            <h5 class="modal-title">Edit Artwork</h5>
                                                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">˟</span>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                        <form class="form-group" method="POST" action="{{route('update.product', ['id' => $item->id]) }}" enctype="multipart/form-data">
+                                                        <form class="form-group" method="POST" action="{{route('update.product', ['id' => $artwork->id]) }}" enctype="multipart/form-data">
                                                         @csrf
                                                         @method('PUT')
                                                         <div class="row">
                                                             <div class="col-lg-6 col-sm-12 col-12">
                                                                 <div class="form-group">
-                                                                    <label>Item Name</label>
-                                                                    <input type="text" name="name" value="{{$item->name}}">
+                                                                    <label>artwork Name</label>
+                                                                    <input type="text" name="name" value="{{$artwork->name}}">
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6 col-sm-12 col-12">
@@ -393,61 +383,42 @@
                                                                     <label>Category</label>
                                                                     <select class="select" name="category_id">
                                                                         <!-- Preselecting the current category -->
-                                                                        <option selected disabled>{{$item->category->name}}</option>
+                                                                        <option selected disabled>{{$artwork->category->name}}</option>
                                                                         @foreach($categories as $category)
                                                                             <option value="{{ $category->id }}" 
-                                                                                {{ $item->category_id == $category->id ? 'selected' : '' }}>
+                                                                                {{ $artwork->category_id == $category->id ? 'selected' : '' }}>
                                                                                 {{ $category->name }}
                                                                             </option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4 col-sm-12 col-12">
+                                                            <div class="col-lg-6 col-sm-12 col-12">
                                                                 <div class="form-group">
                                                                     <label>Quantity</label>
-                                                                    <input type="text" name="quantity" value="{{$item->quantity}}">
+                                                                    <input type="text" name="quantity" value="{{$artwork->quantity}}">
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4 col-sm-12 col-12">
+                                                            <div class="col-lg-6 col-sm-12 col-12">
                                                                 <div class="form-group">
                                                                     <label>Price</label>
-                                                                    <input type="text" name="price" value="{{$item->price}}">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-4 col-sm-12 col-12">
-                                                                <div class="form-group">
-                                                                    <label>Size</label>
-                                                                    <select class="select" name="size">
-                                                                        <option selected disabled>{{$item->size}}</option>
-                                                                        <option value="small" {{ $item->size == 'small' ? 'selected' : '' }}>Small</option>
-                                                                        <option value="medium" {{ $item->size == 'medium' ? 'selected' : '' }}>Medium</option>
-                                                                        <option value="large" {{ $item->size == 'large' ? 'selected' : '' }}>Large</option>
-                                                                    </select>
+                                                                    <input type="text" name="price" value="{{$artwork->price}}">
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6 col-sm-12 col-12">
                                                                 <div class="form-group">
                                                                     <label>Description</label>
-                                                                    <input type="text" name="description" value="{{$item->description}}">
+                                                                    <input type="text" name="description" value="{{$artwork->description}}">
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6 col-sm-12 col-12">
                                                                 <div class="form-group">
-                                                                    <label>Artist</label>
-                                                                    <select class="select" name="artist_id">
-                                                                    <option selected disabled>{{ $item->artist ? "{$item->artist->lastname}, {$item->artist->firstname}" : '' }}</option>
-                                                                    <option value="">None</option>
-                                                                        @foreach($artists as $artist)
-                                                                            <option value="{{ $artist->id }}" 
-                                                                                {{ $item->artist_id == $artist->id ? 'selected' : '' }}>
-                                                                                @if($artist)
-                                                                                {{ $artist->lastname }}, {{ $artist->firstname }}
-                                                                                @else
-                                                                                {{''}}
-                                                                                @endif
-                                                                            </option>
-                                                                        @endforeach
+                                                                    <label>Size</label>
+                                                                    <select class="select" name="size">
+                                                                        <option selected disabled>{{$artwork->size}}</option>
+                                                                        <option value="small" {{ $artwork->size == 'small' ? 'selected' : '' }}>Small</option>
+                                                                        <option value="medium" {{ $artwork->size == 'medium' ? 'selected' : '' }}>Medium</option>
+                                                                        <option value="large" {{ $artwork->size == 'large' ? 'selected' : '' }}>Large</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -474,18 +445,18 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a class="" data-bs-toggle="modal" data-bs-target="#productdelete{{$item->id}}">
+                                            <a class="" data-bs-toggle="modal" data-bs-target="#productdelete{{$artwork->id}}">
                                                 <img src="{{ asset('manager/img/icons/delete.svg') }}" alt="img">
                                             </a>
                                              <!-- Product Delete -->
-                                            <form method="POST" action="{{ route('delete.product',['id' => $item->id]) }}" enctype="multipart/form-data">
+                                            <form method="POST" action="{{ route('delete.product',['id' => $artwork->id]) }}" enctype="multipart/form-data">
                                             @csrf
                                             @method('DELETE')
-                                            <div class="modal fade" id="productdelete{{$item->id}}" tabindex="-1" aria-labelledby="artist" role="dialog" aria-hidden="true">
+                                            <div class="modal fade" id="productdelete{{$artwork->id}}" tabindex="-1" aria-labelledby="artist" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header text-center">
-                                                        <h6 class="modal-title w-100">Delete <span class="text-danger">{{$item->name}}</span> item?</h6>
+                                                        <h6 class="modal-title w-100">Delete <span class="text-danger">{{$artwork->name}}</span> artwork?</h6>
                                                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>

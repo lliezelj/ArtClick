@@ -196,7 +196,7 @@
                         <li class="submenu">
                             <a href="javascript:void(0);"><i data-feather="award"></i><span> Artist </span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-artist')}}" >Artist List </a></li>
+                                <li><a href="{{route('admin.artist')}}" >Artist List </a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -300,22 +300,96 @@
                                     <tr>
                                         <td class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('storage/categoryPictures/'.$category->image) }}" alt="product">
+                                            <img src="{{ $category->image ? asset('storage/categoryPictures/' . $category->image) : asset('icon/null-image.png') }}" alt="product">
                                             </a>
                                             <a href="javascript:void(0);">{{$category->name}}</a>
                                         </td>
-                                        <td>20</td>
+                                        <td>{{$category->products_count}}</td>
                                         <td>
-                                            <a class="me-3 " href="{{route('admin.product')}}">
+                                            <a class="me-3 " href="{{route('get.products',['id' => $category->id])}}">
                                                 <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
                                             </a>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#category-edit">
+                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#category-edit{{$category->id}}">
                                                 <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
                                             </a>
-                                            <a class="confirm-text" href="javascript:void(0);">
+                                             <!-- Category Edit Modal -->
+                                                <div class="modal fade" id="category-edit{{$category->id}}" tabindex="-1" aria-labelledby="artist" role="dialog" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Edit Category</h5>
+                                                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="row">
+                                                                <form method="POST" action="{{ route('update.category',['id' => $category->id])}}" enctype="multipart/form-data">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                    <div class="col-12">
+                                                                        <div class="form-group">
+                                                                            <label>Category Name</label>
+                                                                            <input type="text" name="name" value="{{$category->name}}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="form-group">
+                                                                            <label>
+                                                                                Image</label>
+                                                                            <div class="image-upload">
+                                                                                <input type="file" name="image" value="{{$category->image}}">
+                                                                                <div class="image-uploads">
+                                                                                    <img src="{{ asset('manager/img/icons/upload.svg') }}" alt="img">
+                                                                                    <h4>Drag and drop a file to upload</h4>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" name="submit" class="btn btn-submit">Save</button>
+                                                                <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                                                            </div>
+                                                          </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            <a class="" data-bs-toggle="modal" data-bs-target="#category-delete{{$category->id}}">
                                                 <img src="{{ asset('manager/img/icons/delete.svg') }}" alt="img">
                                             </a>
-                                        </td>
+
+                                             <!-- Category Delete Modal -->
+                                            <form method="POST" action="{{ route('delete.category',['id' => $category->id])}}" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('DELETE')
+                                            <div class="modal fade" id="category-delete{{$category->id}}" tabindex="-1" aria-labelledby="artist" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header text-center">
+                                                            <h6 class="modal-title w-100">Delete <span class="text-danger">{{$category->name}}</span> Category?</h6>
+                                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <h3>You won't be able to revert this!</h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer justify-content-center">
+                                                            <button type="submit" name="submit" class="btn btn-danger custom-btn-small">Delete</button>
+                                                            <button type="button" class="btn btn-cancel btn-sm" data-bs-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                             </div>
+                                          </form>
+                                       </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -328,45 +402,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="category-edit" tabindex="-1" aria-labelledby="artist" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add New Category</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label>Category Name</label>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label>
-                                    Image</label>
-                                <div class="image-upload">
-                                    <input type="file">
-                                    <div class="image-uploads">
-                                        <img src="{{ asset('manager/img/icons/upload.svg') }}" alt="img">
-                                        <h4>Drag and drop a file to upload</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-submit">Submit</button>
-                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
+   
+   
 
 
 

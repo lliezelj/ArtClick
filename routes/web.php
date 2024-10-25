@@ -14,16 +14,28 @@ Route::get('/homepage',[App\Http\Controllers\HomeController::class, 'index'])->n
 Route::group(['middleware' => ['auth','verified','admin']], function () {
     // Admin routes here
     Route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
+
+    //category routes
     Route::get('/admin/category-list', [App\Http\Controllers\CategoryController::class, 'index'])->name('admin.category');
     Route::post('/admin/category-add', [App\Http\Controllers\CategoryController::class, 'categoryStore'])->name('add.category');
-    Route::get('/categories/{id}/products', [App\Http\Controllers\CategoryController::class, 'getProductsByCategory']);
+    Route::get('/admin/categories/{id}/products', [App\Http\Controllers\CategoryController::class, 'getProductsByCategory'])->name('get.products');
+    Route::put('/admin/category/{id}/edit', [App\Http\Controllers\CategoryController::class, 'update'])->name('update.category');
+    Route::delete('/admin/category/{id}/delete', [App\Http\Controllers\CategoryController::class, 'delete'])->name('delete.category');
 
-
-
-
+    //items/products routes
     Route::get('/admin/items-list', [App\Http\Controllers\ProductController::class, 'index'])->name('admin.product');
     Route::post('/admin/product-add', [App\Http\Controllers\ProductController::class, 'productStore'])->name('add.product');
     Route::get('/admin/item-details/{id}', [App\Http\Controllers\ProductController::class, 'viewProduct'])->name('view.product');
+    Route::put('/admin/product/{id}/edit', [App\Http\Controllers\ProductController::class, 'updateProduct'])->name('update.product');
+    Route::delete('/admin/product/{id}/delete', [App\Http\Controllers\ProductController::class, 'deleteProduct'])->name('delete.product');
+
+
+    //Artist routes
+    Route::get('/admin/artists-list', [App\Http\Controllers\ArtistController::class, 'index'])->name('admin.artist');
+    Route::get('/admin/artist/{id}/artworks', [App\Http\Controllers\ArtistController::class, 'getArtworksByArtists'])->name('get.artworks');
+    Route::post('/admin/artist-add', [App\Http\Controllers\ArtistController::class, 'storeArtist'])->name('add.artist');
+    Route::put('/admin/artist/{id}/update', [App\Http\Controllers\ArtistController::class, 'updateArtist'])->name('update.artist');
+    Route::delete('/admin/artist/{id}/delete', [App\Http\Controllers\ArtistController::class, 'deleteArtist'])->name('delete.artist');
 });
 
 

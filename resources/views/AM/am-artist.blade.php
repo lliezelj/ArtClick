@@ -25,10 +25,32 @@
 
     <link rel="stylesheet" href="{{ asset('manager/plugins/fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('manager/plugins/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 
     <link rel="stylesheet" href="{{ asset('manager/css/style.css') }}">
 </head>
-
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 <body>
     <div id="global-loader">
         <div class="whirly-loader"> </div>
@@ -96,8 +118,11 @@
                             <a class="dropdown-item" href="generalsettings.html"><i class="me-2"
                                     data-feather="settings"></i>Settings</a>
                             <hr class="m-0">
-                            <a class="dropdown-item logout pb-0" href="signin.html"><img
-                                    src="{{ asset('manager/img/icons/log-out.svg')}}" class="me-2" alt="img">Logout</a>
+                            <form method="POST" action="{{ route('logout') }}">
+                             @csrf
+                            <button type="submit" class="dropdown-item logout pb-0"><img
+                            src="{{ asset('manager/img/icons/log-out.svg')}}" class="me-2" alt="img">Logout</button>
+                           </form>
                         </div>
                     </div>
                 </li>
@@ -129,7 +154,7 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
                                     Items</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-items-category')}}">Items List</a></li>
+                                <li><a href="{{route('admin.category')}}">Items List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -200,7 +225,7 @@
                     </div>
                 </div>
 
-
+                <!-- Add Artist Modal -->
                 <div class="modal fade" id="artist-add" tabindex="-1" aria-labelledby="artist" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -211,19 +236,33 @@
                                 </button>
                             </div>
                             <div class="modal-body">
+                                <form method="POST" action="{{route('add.artist')}}" enctype="multipart/form-data">
+                                @csrf
                                 <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label>Artist Name</label>
-                                            <input type="text" value="Cash">
-                                        </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Artist Lastname</label>
+                                        <input type="text" name="lastname">
                                     </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label>Artist Firstname</label>
+                                        <input type="text" name="firstname">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Artist Tribe</label>
+                                        <input type="text" name="tribe">
+                                    </div>
+                                </div>
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label>
                                                 Image</label>
                                             <div class="image-upload">
-                                                <input type="file">
+                                                <input type="file" name="artist_image">
                                                 <div class="image-uploads">
                                                     <img src="{{ asset('manager/img/icons/upload.svg') }}" alt="img">
                                                     <h4>Drag and drop a file to upload</h4>
@@ -234,10 +273,11 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-submit">Submit</button>
+                                <button type="submit" name="submit" class="btn btn-submit">Submit</button>
                                 <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
                             </div>
-                        </div>
+                          </form>
+                       </div>
                     </div>
                 </div>
 
@@ -256,109 +296,125 @@
                                 </div>
                             </div>
                         </div>
-
-
-
                         <div class="table-responsive">
                             <table class="table  datanew">
                                 <thead>
                                     <tr>
-                                        <th>Artist name</th>                                        
+                                        <th>Artist Name</th>  
+                                        <th>Tribe</th>  
+                                        <th>Artworks Count</th>                                     
                                         <th>Date Added</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody> 
+                                    @foreach ($artists as $artist)
                                     <tr>
                                         <td class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/noimage.png') }}" alt="product">
+                                                <img src="{{$artist->artist_image ? asset('storage/artistPictures/' .$artist->artist_image) : asset('icon/null-image.png')  }}" alt="product">
                                             </a>
-                                            <a href="javascript:void(0);">Liezel</a>
+                                            <a href="javascript:void(0);">{{$artist->lastname}}, {{$artist->firstname}}</a>
                                         </td>
-                                    
-                                        <td>January 1, 20234</td>
+                                        <td>{{$artist->tribe}}</td>
+                                        <td>{{$artist->artworks_count}}</td>
+                                        <td>{{ \Carbon\Carbon::parse($artist->created_at)->format('F j, Y') }}</td>
                                         <td>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#artist-edit">
+                                            <a class="me-3 " href="{{route('get.artworks', ['id' => $artist->id]) }}">
+                                                <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
+                                            </a>
+                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#artist-edit{{$artist->id}}">
                                                 <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
                                             </a>
-                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                            <!-- Edit Artist -->
+                                            <div class="modal fade" id="artist-edit{{$artist->id}}" tabindex="-1" aria-labelledby="artist" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Edit Artist</h5>
+                                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                        <form method="POST" action="{{route('update.artist',['id' => $artist->id]) }}" enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('PUT')
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <div class="form-group">
+                                                                        <label>Artist Lastname</label>
+                                                                        <input type="text" name="lastname" value="{{$artist->lastname}}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <div class="form-group">
+                                                                        <label>Artist Firstname</label>
+                                                                        <input type="text" name="firstname" value="{{$artist->firstname}}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <label>Artist Tribe</label>
+                                                                        <input type="text" name="tribe" value="{{$artist->tribe}}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="form-group">
+                                                                        <label>
+                                                                            Image</label>
+                                                                        <div class="image-upload">
+                                                                            <input type="file" name="artist_image" value="{{$artist->artist_image}}">
+                                                                            <div class="image-uploads">
+                                                                                <img src="{{ asset('manager/img/icons/upload.svg') }}" alt="img">
+                                                                                <h4>Drag and drop a file to upload</h4>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" name="submit" class="btn btn-submit">Update</button>
+                                                            <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a class="" data-bs-toggle="modal" data-bs-target="#artist-delete{{$artist->id}}">
                                                 <img src="{{ asset('manager/img/icons/delete.svg') }}" alt="img">
                                             </a>
+                                            <form method="POST" action="{{ route('delete.artist',['id' => $artist->id])}}" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('DELETE')
+                                            <div class="modal fade" id="artist-delete{{$artist->id}}" tabindex="-1" aria-labelledby="artist" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header text-center">
+                                                            <h6 class="modal-title w-100">Delete <span class="text-danger">{{$artist->lastname}}, {{$artist->firstname}}</span> Artist?</h6>
+                                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <h3>You won't be able to revert this!</h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer justify-content-center">
+                                                            <button type="submit" name="submit" class="btn btn-danger custom-btn-small">Delete</button>
+                                                            <button type="button" class="btn btn-cancel btn-sm" data-bs-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                             </div>
+                                          </form>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="productimgname">
-                                            <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/noimage.png') }}" alt="product">
-                                            </a>
-                                            <a href="javascript:void(0);">Sairah</a>
-                                        </td>
-                                        
-                                        <td>January 1, 20234</td>
-                                        <td>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#artist-edit">
-                                                <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
-                                            </a>
-                                            <a class="me-3 confirm-text" href="javascript:void(0);">
-                                                <img src="{{ asset('manager/img/icons/delete.svg') }}" alt="img">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="productimgname">
-                                            <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/noimage.png') }}" alt="product">
-                                            </a>
-                                            <a href="javascript:void(0);">Synteche</a>
-                                        </td>
-                                        
-                                        <td>January 1, 20234</td>
-                                        <td>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#artist-edit">
-                                                <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
-                                            </a>
-                                            <a class="me-3 confirm-text" href="javascript:void(0);">
-                                                <img src="{{ asset('manager/img/icons/delete.svg') }}" alt="img">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="productimgname">
-                                            <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/noimage.png') }}" alt="product">
-                                            </a>
-                                            <a href="javascript:void(0);">Jomari</a>
-                                        </td>
-                                        
-                                        <td>January 1, 20234</td>
-                                        <td>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#artist-edit">
-                                                <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
-                                            </a>
-                                            <a class="me-3 confirm-text" href="javascript:void(0);">
-                                                <img src="{{ asset('manager/img/icons/delete.svg')}}" alt="img">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="productimgname">
-                                            <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/noimage.png') }}" alt="product">
-                                            </a>
-                                            <a href="javascript:void(0);">Francis</a>
-                                        </td>
-                                        
-                                        <td>January 1, 20234</td>
-                                        <td>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#artist-edit">
-                                                <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
-                                            </a>
-                                            <a class="me-3 confirm-text" href="javascript:void(0);">
-                                                <img src="{{ asset('manager/img/icons/delete.svg') }}" alt="img">
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -370,46 +426,6 @@
     </div>
 
 
-
-    <div class="modal fade" id="artist-edit" tabindex="-1" aria-labelledby="artist" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Artist</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label>Artist Name</label>
-                                <input type="text" value="Cash">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label>
-                                    Image</label>
-                                <div class="image-upload">
-                                    <input type="file">
-                                    <div class="image-uploads">
-                                        <img src="{{ asset('manager/img/icons/upload.svg') }}" alt="img">
-                                        <h4>Drag and drop a file to upload</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-submit">Update</button>
-                    <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script src="{{ asset('manager/js/jquery-3.6.0.min.js') }}"></script>
 
@@ -428,6 +444,7 @@
 
     <script src="{{ asset('manager/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('manager/plugins/sweetalert/sweetalerts.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="{{ asset('manager/js/script.js') }}"></script>
 </body>
