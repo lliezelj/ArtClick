@@ -129,7 +129,7 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
                                     Items</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-items-category')}}" class="active">Items List</a></li>
+                                <li><a href="{{route('admin.category')}}" class="active">Items List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -167,7 +167,7 @@
                         <li class="submenu">
                             <a href="javascript:void(0);"><i data-feather="award"></i><span> Artist </span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-artist')}}" >Artist List </a></li>
+                                <li><a href="{{route('admin.artist')}}" >Artist List </a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -192,7 +192,7 @@
             <div class="content">
                 <div class="page-header">
                     <div class="page-title">
-                        <h4>Iten Details</h4>
+                        <h4>Item Details</h4>
                         <h6>Full details of a item</h6>
                     </div>
                 </div>
@@ -228,6 +228,14 @@
                                             <h4>Description</h4>
                                             <h6>{{$product->description}}</h6>
                                         </li>
+                                        <li>
+                                        <h4>Artist</h4>
+                                        @if($product->artist)
+                                            <h6>{{ $product->artist->lastname }}, {{ $product->artist->firstname }}</h6>
+                                        @else
+                                            <h6></h6>
+                                        @endif
+                                    </li>
                                     </ul>
                                 </div>
                             </div>
@@ -239,7 +247,7 @@
                                 <div class="slider-product-details">
                                     <div class="owl-carousel owl-theme product-slide">
                                         <div class="slider-product">
-                                            <img src="{{ asset('storage/productPictures/' .$product->product_image) }}" alt="img">
+                                        <img src="{{$product->product_image ? asset('storage/productPictures/' .$product->product_image) : asset('icon/null-image.png') }}" alt="product">
                                             <h4>{{$product->name}}</h4>
                                             <h6>{{$product->category->name}}</h6>
                                         </div>

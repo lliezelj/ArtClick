@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Category;
+use App\Models\Artists;
 use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
@@ -24,6 +25,8 @@ class ProductController extends Controller
             $quantity = $request->input('quantity');
             $size= $request->input('size');
             $category_id = $request->input('category_id');
+            $artist_id = $request->input('artist_id');
+
             if ($request->hasFile('product_image')) {
                 $picture = $request->file('product_image');
                 $ext = $picture->getClientOriginalExtension();
@@ -54,6 +57,7 @@ class ProductController extends Controller
                 'quantity' => $quantity,
                 'size' => $size,
                 'category_id' => $category_id,
+                'artist_id' => $artist_id,
                 'product_image' => $product_image, 
             ];
 
@@ -72,6 +76,57 @@ class ProductController extends Controller
         $product = Products::findOrFail($id);
         return view('AM.am-items-details', compact('product'));
 
+    }
+
+    public function updateProduct(Request $request, String $id){
+        $product = Products::findOrFail($id);
+
+        $name = $request->input('name');
+        $price = $request->input('price');
+        $description = $request->input('description');
+        $quantity = $request->input('quantity');
+        $size = $request->input('size');
+        $category_id = $request->input('category_id');
+        $artist_id = $request->input('artist_id');
+
+        $existingProduct = Products::where('name', $name)
+        ->where('id', '!=', $id)->first();
+        if($existingProduct){
+            return redirect()->back()->with('error', 'Product' . $name. 'already exist');
+        }
+
+        $product->name = $name;
+        if ($request->hasFile('product_image')) {
+            $picture = $request->file('product_image');
+            $ext = $picture->getClientOriginalExtension();
+    
+            if (!in_array($ext, ['jpg', 'png', 'jpeg'])) {
+                return redirect()->back()->with('error', 'Image must be an (jpg, png, jpeg) format');
+            }
+            $product_image = $picture->getClientOriginalName();
+            $picture->move('storage/productPictures', $product_image);
+    
+            $product->product_image = $product_image;
+        }
+
+            $product->price = $price;
+            $product->description = $description;
+            $product->quantity = $quantity;
+            $product->size = $size;
+            $product->category_id = $category_id;
+            $product->artist_id = $artist_id;
+
+
+        $product->save();
+        return redirect()->back()->with('success', 'Product updated successfully');
+
+    }
+
+    public function deleteProduct(String $id){
+        $product = Products::findOrFail($id);
+        $name = $product->name;
+        $product->delete();
+        return redirect()->back()->with('success', 'Item ' . $name . ' deleted successfully!');
     }
 
 }
