@@ -163,8 +163,8 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
                                     Inventory</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-inventory')}}">Inventory list</a></li>
-                                <li><a href="{{route('am-restock')}}">Restocking History</a></li>
+                                <li><a href="{{route('admin.inventory')}}">Inventory list</a></li>
+                                <li><a href="{{route('admin.restock')}}">Restocking History</a></li>
                                 
                             </ul>
                         </li>
@@ -177,7 +177,7 @@
                         </li>
                         <li class="submenu">
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/expense1.svg') }}" alt="img"><span>
-                                    Expense</span> <span class="menu-arrow"></span></a>
+                             Expense</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="{{route('am-expenses')}}">Expense List</a></li>
                             </ul>

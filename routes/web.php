@@ -7,7 +7,18 @@ Route::get('/', function () {
 return view('customer.landingpage');
 });
 Route::group(['middleware' => ['auth', 'verified']], function () {
-Route::get('/homepage',[App\Http\Controllers\HomeController::class, 'index'])->name('homepage');   
+Route::get('/homepage',[App\Http\Controllers\HomeController::class, 'index'])->name('homepage');
+
+//Shop Routes
+Route::get('/customer/shop-category',[App\Http\Controllers\ShopController::class, 'index'])->name('customer.shop');
+Route::get('/customer/categories/{id}/products', [App\Http\Controllers\ShopController::class, 'getProductsByCategory'])->name('customer.getProducts');
+Route::get('/customer/item-details/{id}', [App\Http\Controllers\ShopController::class, 'viewProductDetails'])->name('view.details');
+Route::post('/add-to-cart', [App\Http\Controllers\ShopController::class, 'addToCart'])->name('cart.add');
+
+//Cart Routes
+Route::get('/customer/my-cart',[App\Http\Controllers\CartController::class, 'index'])->name('customer.cart');
+Route::delete('/customer/cart/{id}/delete', [App\Http\Controllers\CartController::class, 'deleteCart'])->name('delete.cart');
+Route::get('/customer/checkout/{id}',[App\Http\Controllers\CartController::class, 'checkOut'])->name('customer.checkOut');
 
 });
 
@@ -36,6 +47,18 @@ Route::group(['middleware' => ['auth','verified','admin']], function () {
     Route::post('/admin/artist-add', [App\Http\Controllers\ArtistController::class, 'storeArtist'])->name('add.artist');
     Route::put('/admin/artist/{id}/update', [App\Http\Controllers\ArtistController::class, 'updateArtist'])->name('update.artist');
     Route::delete('/admin/artist/{id}/delete', [App\Http\Controllers\ArtistController::class, 'deleteArtist'])->name('delete.artist');
+
+    //Inventory routes
+    Route::get('/admin/inventory-list', [App\Http\Controllers\InventoryController::class, 'index'])->name('admin.inventory');
+    Route::post('/admin/add-stock/inventory', [App\Http\Controllers\InventoryController::class, 'addStock'])->name('add.stock');
+    Route::put('/admin/stock-inventory/{id}/update', [App\Http\Controllers\InventoryController::class, 'updateStock'])->name('update.stock');
+    Route::delete('/admin/stock/inventory/{id}/delete', [App\Http\Controllers\InventoryController::class, 'stockDelete'])->name('delete.stock');
+
+    //Restock History routes
+    Route::get('/admin/restock/history', [App\Http\Controllers\RestockController::class, 'index'])->name('admin.restock');
+    Route::get('/am-restock-details/{date}', [App\Http\Controllers\RestockController::class, 'restockDetails'])->name('am-restock-details');
+
+
 });
 
 
@@ -131,9 +154,9 @@ Route::get('/am-restock', function () {
     return view('AM.am-restock');
 })->name('am-restock');
 
-Route::get('/am-restock-details', function () {
-    return view('AM.am-restock-details');
-})->name('am-restock-details');
+// Route::get('/am-restock-details', function () {
+//     return view('AM.am-restock-details');
+// })->name('am-restock-details');
 
 Route::get('/am-orders-dates', function () {
     return view('AM.am-orders-dates');

@@ -82,31 +82,7 @@
                 height="25" />
             </a>
 
-            <nav class="main-nav">
-              <ul class="menu sf-arrows">
-                <li>
-                  <a href="{{ route('homepage') }}" class="sf-with-ul">Home</a>
-                </li>
-                <li class="megamenu-container active">
-                  <a href="{{ route('shop-category') }}" class="sf-with-ul">Shop</a>
-                </li>
-                <li>
-                  <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
-                </li>
-
-                <li>
-                  <a href="{{ route('announcement') }}" class="sf-with-ul">Announcement</a>
-                </li>
-                <li>
-                  <a href="{{ route('about') }}" class="sf-with-ul">About</a>
-                </li>
-                <li>
-                  <a href="{{ route('contact') }}" class="sf-with-ul">Contact</a>
-                </li>
-              </ul>
-
-              <!-- End .menu -->
-            </nav>
+          @include('includes.nav')
             <!-- End .main-nav -->
             <!-- End .main-nav -->
           </div>
@@ -142,7 +118,7 @@
             <!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="{{ route('cart') }}" class="dropdown-toggle" role="button">
+              <a href="{{ route('customer.cart') }}" class="dropdown-toggle" role="button">
                 <i class="icon-shopping-cart"></i>
               </a>
 
@@ -171,33 +147,13 @@
 
       <!--start product category-->
       <section class="category-section">
-        <a href="{{ route('items') }}" class="category-card">
-          <img src="{{ asset('customer/images/items/item4.jpg') }}" alt="Category Image" />
-          <h3>Wooden</h3>
-          <p>Discover a variety of items tailored to this category</p>
-
-        </a>
-        <a href="{{ route('items') }}" class="category-card">
-          <img src="{{ asset('customer/images/items/item2.jpg') }}" alt="Category Image" />
-          <h3>Furnitures</h3>
-          <p>Discover a variety of items tailored to this category</p>
-
-        </a>
-        <a href="{{ route('items') }}" class="category-card">
-          <img src="{{ asset('customer/images/items/item3.jpg') }}" alt="Category Image" />
-          <h3>Decorations</h3>
+        @foreach($categories as $category)
+        <a href="{{ route('customer.getProducts',['id' => $category->id]) }}" class="category-card">
+          <img src="{{$category->image ? asset('storage/categoryPictures/' .$category->image) : asset('icon/null-image.png') }}" alt="Category Image" />
+          <h3>{{$category->name}}</h3>
           <p>Discover a variety of items tailored to this category</p>
         </a>
-        <a href="{{ route('items') }}" class="category-card">
-          <img src="{{ asset('customer/images/items/item2.jpg') }}" alt="Category Image" />
-          <h3>Accessories</h3>
-          <p>Discover a variety of items tailored to this category</p>
-          <a>
-            <a href="{{ route('items') }}" class="category-card">
-              <img src="{{ asset('customer/images/items/item3.jpg') }}" alt="Category Image" />
-              <h3>Turtle Gift</h3>
-              <p>Discover a variety of items tailored to this category</p>
-            </a>
+        @endforeach
       </section>
       <!--end product category-->
 

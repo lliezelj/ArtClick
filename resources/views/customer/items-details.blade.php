@@ -28,10 +28,33 @@
     <link rel="stylesheet" href="{{ asset('customer/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('customer/css/plugins/owl-carousel/owl.carousel.css') }}">
     <link rel="stylesheet" href="{{ asset('customer/css/plugins/magnific-popup/magnific-popup.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{{ asset('customer/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('customer/css/plugins/nouislider/nouislider.css') }}">
 </head>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 
 <body>
     <div class="page-wrapper">
@@ -110,14 +133,14 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-cart-action">
                   <a href="cart.html" class="btn btn-primary">Account</a>
-                  <a href="{{ route('signin') }}" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <a href="" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
             <!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="{{ route('cart') }}" class="dropdown-toggle" role="button">
+              <a href="{{ route('customer.cart') }}" class="dropdown-toggle" role="button">
                 <i class="icon-shopping-cart"></i>
               </a>
 
@@ -145,8 +168,8 @@
                                 <div class="product-gallery product-gallery-vertical">
                                     <div class="row">
                                         <figure class="product-main-image">
-                                            <img id="product-zoom" src="{{ asset('customer/images/products/single/1.jpg') }}"
-                                                data-zoom-image="{{ asset('customer/images/products/single/1-big.jpg') }}"
+                                            <img id="product-zoom" src="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}"
+                                                data-zoom-image="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}"
                                                 alt="product image">
 
                                             <a href="#" id="btn-product-gallery" class="btn-product-gallery">
@@ -156,29 +179,29 @@
 
                                         <div id="product-zoom-gallery" class="product-image-gallery">
                                             <a class="product-gallery-item active" href="#"
-                                                data-image="{{ asset('customer/images/products/single/1.jpg') }}"
-                                                data-zoom-image="{{ asset('customer/images/products/single/1-big.jpg') }}">
-                                                <img src="{{ asset('customer/images/products/single/1-small.jpg') }}" alt="product side">
+                                                data-image="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}"
+                                                data-zoom-image="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}">
+                                                <img src="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}" alt="product side">
                                             </a>
 
                                             <a class="product-gallery-item" href="#"
-                                                data-image="{{ asset('customer/images/products/single/2.jpg') }}"
-                                                data-zoom-image="{{ asset ('customer/images/products/single/2-big.jpg') }}">
-                                                <img src="{{ asset ('customer/images/products/single/2-small.jpg') }}"
+                                                data-image="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}"
+                                                data-zoom-image="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}">
+                                                <img src="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}"
                                                     alt="product cross">
                                             </a>
 
                                             <a class="product-gallery-item" href="#"
-                                                data-image="{{ asset('customer/images/products/single/3.jpg') }}"
-                                                data-zoom-image="{{ asset('customer/images/products/single/3-big.jpg') }}">
-                                                <img src="{{ asset('customer/images/products/single/3-small.jpg') }}"
+                                                data-image="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}"
+                                                data-zoom-image="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}">
+                                                <img src="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}"
                                                     alt="product with model">
                                             </a>
 
                                             <a class="product-gallery-item" href="#"
-                                                data-image="{{ asset('customer/images/products/single/4.jpg') }}"
-                                                data-zoom-image="{{ asset('customer/images/products/single/4-big.jpg') }}">
-                                                <img src="{{ asset('customer/images/products/single/4-small.jpg') }}" alt="product back">
+                                                data-image="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}"
+                                                data-zoom-image="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}">
+                                                <img src="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}" alt="product back">
                                             </a>
                                         </div><!-- End .product-image-gallery -->
                                     </div><!-- End .row -->
@@ -186,52 +209,48 @@
                             </div><!-- End .col-md-6 -->
 
                             <div class="col-md-6">
-                                <div class="product-details"> <br><br>
-                                    <h1 class="product-title">Qwerty</h1><!-- End .product-title -->
+                                <div class="product-details">
+                                    <br><br>
+                                    <h1 class="product-title">{{$viewProductDetails->name}}</h1><!-- End .product-title -->
 
                                     <div class="ratings-container">
                                         <div class="ratings">
                                             <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
                                         </div><!-- End .ratings -->
-                                        <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews
-                                            )</a>
-                                    </div><!-- End .rating-container -->
+                                        <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
+                                    </div><!-- End .ratings-container -->
 
                                     <div class="product-price">
-                                        $84.00
+                                        {{$viewProductDetails->price}}
                                     </div><!-- End .product-price -->
 
                                     <div class="product-content">
-                                        <p>Qwerty sfidgfisdf idfgifgeds fgfisdf dsfsfof efdis fdsigfids fisdfisd fdsifsdif sidfsif sif
-                                        </p>
+                                        <p>{{$viewProductDetails->description}}</p>
                                     </div><!-- End .product-content -->
 
-                                    <div class="details-filter-row details-row-size">
-                                        <label for="size">Size:</label>
-                                        <div class="select-custom">
-                                            <select name="size" id="size" class="form-control">
-                                                <option value="#" selected="selected">Select a size</option>
-                                                <option value="s">Small</option>
-                                                <option value="m">Medium</option>
-                                                <option value="l">Large</option>
-                                            </select>
-                                        </div><!-- End .select-custom -->
-                                    </div><!-- End .details-filter-row -->
+                                    <form action="{{ route('cart.add') }}" method="POST">
+                                        @csrf
+                                        <div class="details-filter-row details-row-size">
+                                            <label for="qty">Qty:</label>
+                                            <div class="product-details-quantity">
+                                                <input type="number" id="qty" name="order_quantity" class="form-control" value="1" min="1" max="10" step="1" required>
+                                            </div><!-- End .product-details-quantity -->
+                                        </div><!-- End .details-filter-row -->
 
-                                    <div class="details-filter-row details-row-size">
-                                        <label for="qty">Qty:</label>
-                                        <div class="product-details-quantity">
-                                            <input type="number" id="qty" class="form-control" value="1" min="1"
-                                                max="10" step="1" data-decimals="0" required>
-                                        </div><!-- End .product-details-quantity -->
-                                    </div><!-- End .details-filter-row -->
+                                        <input type="hidden" name="productId" value="{{$viewProductDetails->id}}">
 
-                                    <div class="details-filter-row details-row-size">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="#" class="size-guide"><i class="btn-product btn-cart"></i>add to
-                                            cart</a>
-                                    </div><!-- End .details-filter-row -->
+                                        <div class="details-filter-row details-row-size">
+                                            <button type="submit" name="submit" class="btn btn-primary btn-sm" style="margin-right: 15px;">
+                                                <i class="icon-cart-plus"></i>Add to cart
+                                            </button>
+                                            <a href="#" class="btn btn-primary btn-sm">
+                                                <i class="icon-shopping-bag"></i>Buy now
+                                            </a>
+                                        </div><!-- End .details-filter-row -->
+                                    </form>
                                 </div><!-- End .product-details -->
                             </div><!-- End .col-md-6 -->
+
                         </div><!-- End .row -->
                     </div><!-- End .product-details-top -->
 
@@ -240,7 +259,7 @@
                             <li class="nav-item">
                                 <a class="nav-link active" id="product-desc-link" data-toggle="tab"
                                     href="#product-desc-tab" role="tab" aria-controls="product-desc-tab"
-                                    aria-selected="true">Description</a>
+                                    aria-selected="true"></a>
                             </li>
 
                         </ul>
@@ -613,6 +632,7 @@
     <script src="{{ asset ('customer/js/jquery.elevateZoom.min.js') }}"></script>
     <script src="{{ asset ('customer/js/bootstrap-input-spinner.js') }}"></script>
     <script src="{{ asset ('customer/js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Main JS File -->
     <script src="{{ asset('customer/js/main.js') }}"></script>
 </body>

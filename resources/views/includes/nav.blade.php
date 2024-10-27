@@ -1,10 +1,10 @@
 <nav class="main-nav">
               <ul class="menu sf-arrows">
-                <li class="megamenu-container active">
+                <li class="megamenu-container {{ request()->routeIs('homepage') ? 'active' : '' }}">
                   <a href="{{ route('homepage') }}" class="sf-with-ul">Home</a>
                 </li>
-                <li>
-                  <a href="{{ route('shop-category') }}" class="sf-with-ul">Shop</a>
+                <li class="megamenu-container {{ request()->routeIs('customer.shop') ||request()->routeIs('customer.getProducts') ? 'active' : '' }}">
+                  <a href="{{ route('customer.shop') }}" class="sf-with-ul">Shop</a>
                 </li>
                 <li>
                   <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>

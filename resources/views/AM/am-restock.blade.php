@@ -131,16 +131,15 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
                                     Items</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-items-category')}}">Items List</a></li>
+                                <li><a href="{{route('admin.category')}}">Items List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
                                     Inventory</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-inventory')}}">Inventory list</a></li>
-                                <li><a href="{{route('am-restock')}}" class="active">Restocking History</a></li>
-                                
+                                <li><a href="{{route('admin.inventory')}}">Inventory list</a></li>
+                                <li><a href="{{route('admin.restock')}}" class="active">Restocking History</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -169,7 +168,7 @@
                         <li class="submenu">
                             <a href="javascript:void(0);"><i data-feather="award"></i><span> Artist </span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-artist')}}" >Artist List </a></li>
+                                <li><a href="{{route('admin.artist')}}" >Artist List </a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -253,30 +252,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>                                        
-                                        <td>October 12, 2024</td>
-                                        <td>300</td>  
-                                        <td>
-                                            <a class="me-3" href="{{route('am-restock-details')}}">
-                                                <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
-                                            </a>
-                                        </td>                                     
-                                    </tr>   
-                                    <tr>                                        
-                                        <td>October 14, 2024</td>
-                                        <td>300</td>                                        
-                                        <td>
-                                            <a class="me-3" href="{{route('am-restock-details')}}">
-                                                <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
-                                            </a>
-                                        </td>
-                                    </tr>
+                                @foreach($restocks as $date => $restockItems)
+                                        <tr>
+                                            <td>{{ \Carbon\Carbon::parse($date)->format('F j, Y') }}</td>
+                                            <td>{{ $restockItems->sum('stock_quantity') }}</td>
+                                            <td>
+                                                <a class="me-3" href="{{ route('am-restock-details', ['date' => $date]) }}">
+                                                    <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

@@ -165,8 +165,8 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
                                     Inventory</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-inventory')}}">Inventory list</a></li>
-                                <li><a href="{{route('am-restock')}}">Restocking History</a></li>
+                                <li><a href="{{route('admin.inventory')}}">Inventory list</a></li>
+                                <li><a href="{{route('admin.restock')}}">Restocking History</a></li>
                                 
                             </ul>
                         </li>
@@ -425,6 +425,7 @@
         <script src="{{ asset('manager/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
         <script src="{{ asset('manager/plugins/sweetalert/sweetalerts.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
         <script src="{{ asset('manager/js/script.js') }}"></script>
 </body>
