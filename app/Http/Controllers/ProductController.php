@@ -22,7 +22,6 @@ class ProductController extends Controller
             $name = $request->input('name');
             $price = $request->input('price');
             $description = $request->input('description');
-            $quantity = $request->input('quantity');
             $size= $request->input('size');
             $category_id = $request->input('category_id');
             $artist_id = $request->input('artist_id');
@@ -37,7 +36,7 @@ class ProductController extends Controller
                 }
 
                 $product_image = time() . '_' . $picture->getClientOriginalName();
-                $image = Image::make($picture->getRealPath())->fit(300, 300);
+                $image = Image::make($picture->getRealPath())->fit(1000, 1000);
                 $image->save(public_path('storage/productPictures/' . $product_image), 100);
 
 
@@ -54,7 +53,6 @@ class ProductController extends Controller
                 'name' => $name,
                 'price' => $price,
                 'description' => $description,
-                'quantity' => $quantity,
                 'size' => $size,
                 'category_id' => $category_id,
                 'artist_id' => $artist_id,
@@ -84,7 +82,6 @@ class ProductController extends Controller
         $name = $request->input('name');
         $price = $request->input('price');
         $description = $request->input('description');
-        $quantity = $request->input('quantity');
         $size = $request->input('size');
         $category_id = $request->input('category_id');
         $artist_id = $request->input('artist_id');
@@ -103,15 +100,15 @@ class ProductController extends Controller
             if (!in_array($ext, ['jpg', 'png', 'jpeg'])) {
                 return redirect()->back()->with('error', 'Image must be an (jpg, png, jpeg) format');
             }
-            $product_image = $picture->getClientOriginalName();
-            $picture->move('storage/productPictures', $product_image);
-    
-            $product->product_image = $product_image;
+              $product_image = time() . '_' . $picture->getClientOriginalName();
+              $image = Image::make($picture->getRealPath())->fit(1000, 1000);
+              $image->save(public_path('storage/productPictures/' . $product_image), 100);
+
+             $product->product_image = $product_image;
         }
 
             $product->price = $price;
             $product->description = $description;
-            $product->quantity = $quantity;
             $product->size = $size;
             $product->category_id = $category_id;
             $product->artist_id = $artist_id;

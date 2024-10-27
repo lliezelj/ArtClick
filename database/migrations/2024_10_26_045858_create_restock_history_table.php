@@ -11,24 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->foreignId('artist_id')
-            ->constrained('artists')
+        Schema::create('restock_history', function (Blueprint $table) {
+            $table->id();
+            $table->string('stock_description');
+            $table->integer('stock_quantity');
+            $table->foreignId('inventory_id')
+            ->constrained('inventory')
             ->onUpdate('cascade')
             ->onDelete('cascade');
+            $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->foreignId('artist_id')
-            ->constrained('artists')
-            ->onUpdate('cascade')
-            ->onDelete('cascade');
-        });
+        Schema::dropIfExists('restock_history');
     }
 };

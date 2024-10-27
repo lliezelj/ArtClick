@@ -63,7 +63,31 @@
     <link rel="stylesheet" href="{{ asset('customer/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('customer/css/skins/skin-demo-2.css') }}" />
     <link rel="stylesheet" href="{{ asset('customer/css/demos/demo-2.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+
   </head>
+  <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 
   <body>
     <div class="page-wrapper">
@@ -348,6 +372,7 @@
       <script src="{{ asset('customer/js/jquery.plugin.min.js') }}"></script>
       <script src="{{ asset('customer/js/jquery.magnific-popup.min.js') }}"></script>
       <script src="{{ asset('customer/js/jquery.countdown.min.js') }}"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <!-- Main JS File -->
       <script src="{{ asset('customer/js/main.js') }}"></script>
       <script src="{{ asset('customer/js/demos/demo-2.js') }}"></script>

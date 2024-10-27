@@ -136,8 +136,8 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
                                     Inventory</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-inventory')}}">Inventory list</a></li>
-                                <li><a href="{{route('am-restock')}}">Restocking History</a></li>
+                                <li><a href="{{route('admin.inventory')}}">Inventory list</a></li>
+                                <li><a href="{{route('admin.restock')}}">Restocking History</a></li>
                                 
                             </ul>
                         </li>
@@ -211,10 +211,6 @@
                                         <li>
                                             <h4>Category</h4>
                                             <h6>{{$product->category->name}}</h6>
-                                        </li>
-                                        <li>
-                                            <h4>Quantity</h4>
-                                            <h6>{{$product->quantity}}</h6>
                                         </li>
                                         <li>
                                             <h4>Price</h4>

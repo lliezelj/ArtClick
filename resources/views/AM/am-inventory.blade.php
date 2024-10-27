@@ -27,10 +27,32 @@
 
     <link rel="stylesheet" href="{{ asset('manager/plugins/fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('manager/plugins/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 
     <link rel="stylesheet" href="{{ asset('manager/css/style.css') }}">
 </head>
-
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 <body>
     <div id="global-loader">
         <div class="whirly-loader"> </div>
@@ -131,15 +153,15 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
                                     Items</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-items-category')}}">Items List</a></li>
+                                <li><a href="{{route('admin.category')}}">Items List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
                                     Inventory</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-inventory')}}"  class="active">Inventory list</a></li>
-                                <li><a href="{{route('am-restock')}}">Restocking History</a></li>
+                                <li><a href="{{route('admin.inventory')}}"  class="active">Inventory list</a></li>
+                                <li><a href="{{route('admin.restock')}}">Restocking History</a></li>
                                 
                             </ul>
                         </li>
@@ -169,7 +191,7 @@
                         <li class="submenu">
                             <a href="javascript:void(0);"><i data-feather="award"></i><span> Artist </span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-artist')}}" >Artist List </a></li>
+                                <li><a href="{{route('admin.artist')}}" >Artist List </a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -219,49 +241,103 @@
                             <table class="table datanew">
                                 <thead>
                                     <tr>
-                                        <th>Product Name</th> 
-                                        <th>Size</th>                
+                                        <th>Product Name</th>              
                                         <th>Quantity</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @foreach($stocks as $stock)
                                     <tr>
                                         <td class="productimgname">
                                             <a class="product-img">
-                                                <img src="{{ asset('manager/img/product/product1.jpg') }}" alt="product">
+                                                <img src="{{$stock->product->product_image ? asset('storage/productPictures/'.$stock->product->product_image) : asset('icon/null-image.png') }}" alt="product">
                                             </a>
-                                            <a href="javascript:void(0);">Necklace</a>
+                                            <a href="javascript:void(0);">{{$stock->product->name}}</a>
                                         </td>
-                                        <td>Small</td>
-                                        <td>32</td>
+                                        <td>{{$stock->quantity}}</td>
                                         <td>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#inventory-edit">
+                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#inventory-edit{{$stock->id}}">
                                                 <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
                                             </a>
-                                            <a class="confirm-text" href="javascript:void(0);">
+                                            <div class="modal fade" id="inventory-edit{{$stock->id}}" tabindex="-1" aria-labelledby="inventory-edit" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Edit Stock</h5>
+                                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true"></span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                        <form method="POST" action="{{route('update.stock', ['id' => $stock->id]) }}">
+                                                        @csrf
+                                                        @method('PUT')
+                                                          <div class="row">
+                                                            <div class="col-lg-6 col-sm-12 col-12">
+                                                                <div class="form-group">
+                                                                    <label>Item Name</label>
+                                                                        <select class="select" name="product_id">
+                                                                            <option selected disabled>{{$stock->product->name}}</option>
+                                                                            @foreach($products as $product)
+                                                                                <option value="{{ $product->id }}" 
+                                                                                    {{ $stock->product_id == $product->id ? 'selected' : '' }}>
+                                                                                    {{ $product->name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-sm-12 col-12">
+                                                                    <div class="form-group">
+                                                                        <label>Quantity</label>
+                                                                        <input class="form-control" type="number" name="quantity" value="{{$stock->quantity}}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <button type="submit" name="submit" class="btn btn-submit me-2">Update</button>
+                                                                <button class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                                                            </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a class="" data-bs-toggle="modal" data-bs-target="#stockdelete{{$stock->id}}">
                                                 <img src="{{ asset('manager/img/icons/delete.svg') }}" alt="img">
                                             </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="productimgname">
-                                            <a class="product-img">
-                                                <img src="{{ asset('manager/img/product/product2.jpg') }}" alt="product">
-                                            </a>
-                                            <a href="javascript:void(0);">Necklace</a>
-                                        </td>
-                                        <td>Medium</td>
-                                        <td>74</td>
-                                        <td>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#inventory-edit">
-                                                <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
-                                            </a>
-                                            <a class="confirm-text" href="javascript:void(0);">
-                                                <img src="{{ asset('manager/img/icons/delete.svg') }}" alt="img">
-                                            </a>
-                                        </td>
-                                    </tr>
+                                             <!-- Product Delete -->
+                                            <form method="POST" action="{{ route('delete.stock',['id' => $stock->id]) }}" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('DELETE')
+                                            <div class="modal fade" id="stockdelete{{$stock->id}}" tabindex="-1" aria-labelledby="artist" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header text-center">
+                                                        <h6 class="modal-title w-100">Delete <span class="text-danger">{{$stock->product->name}}</span> item?</h6>
+                                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <h3>You won't be able to revert this!</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-center">
+                                                        <button type="submit" name="submit" class="btn btn-danger custom-btn-small">Delete</button>
+                                                        <button type="button" class="btn btn-cancel btn-sm" data-bs-dismiss="modal">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                     </form>
+                                    </td>
+                                  </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -282,88 +358,38 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12 col-12">
-                            <div class="form-group">
-                                <label>Item Name</label>
-                                <select class="select">
-                                    <option>Choose Item Name</option>
-                                    <option>Necklace</option>
-                                    <option>bracelet</option>
-                                    <option>Chair</option>
-                                </select>
+                <form method="POST" action="{{ route('add.stock') }}">
+                        @csrf
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12 col-12">
+                                <div class="form-group">
+                                    <label>Item Name</label>
+                                    <select class="select" name="product_id" required>
+                                        <option selected disabled>Choose Item Name</option>
+                                        @foreach ($products as $product)
+                                            <option value="{{$product->id}}">{{$product->name}}</option> <!-- Fixed typo here -->
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 col-12">
+                                <div class="form-group">
+                                    <label>Quantity</label>
+                                    <input class="form-control" type="number" name="quantity" required>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-sm-12 col-12">
-                            <div class="form-group">
-                                <label>Size</label>
-                                <select class="select">
-                                    <option>Select size</option>
-                                    <option>Small</option>
-                                    <option>Medium</option>
-                                    <option>Large</option>
-                                </select>
-                            </div>
+                        <div class="col-lg-12">
+                            <button type="submit" name="submit" class="btn btn-submit me-2">Submit</button>
+                            <a class="btn btn-cancel" data-bs-dismiss="modal">Cancel</a>
                         </div>
-                        <div class="col-lg-6 col-sm-12 col-12">
-                            <div class="form-group">
-                                <label>Quantity</label>
-                                <input type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <a class="btn btn-submit me-2">Submit</a>
-                        <a class="btn btn-cancel" data-bs-dismiss="modal">Cancel</a>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="inventory-edit" tabindex="-1" aria-labelledby="inventory-edit" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Stock</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-6 col-sm-12 col-12">
-                            <div class="form-group">
-                                <label>Item Name</label>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-12 col-12">
-                            <div class="form-group">
-                                <label>Size</label>
-                                <select class="select">
-                                    <option>Select size</option>
-                                    <option>Small</option>
-                                    <option>Medium</option>
-                                    <option>Large</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-12 col-12">
-                            <div class="form-group">
-                                <label>Quantity</label>
-                                <input type="text">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <a class="btn btn-submit me-2">Submit</a>
-                        <a class="btn btn-cancel" data-bs-dismiss="modal">Cancel</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <script src="{{ asset('manager/js/jquery-3.6.0.min.js') }}"></script>
 
@@ -386,6 +412,8 @@
 
     <script src="{{ asset('manager/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('manager/plugins/sweetalert/sweetalerts.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 
     <script src="{{ asset('manager/js/script.js') }}"></script>
 </body>

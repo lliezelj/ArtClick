@@ -163,8 +163,8 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
                                     Inventory</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-inventory')}}">Inventory list</a></li>
-                                <li><a href="{{route('am-restock')}}">Restocking History</a></li>
+                                <li><a href="{{route('admin.inventory')}}">Inventory list</a></li>
+                                <li><a href="{{route('admin.restock')}}">Restocking History</a></li>
                                 
                             </ul>
                         </li>
@@ -259,19 +259,13 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label>Quantity</label>
-                                            <input type="text" name="quantity" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-12 col-12">
+                                    <div class="col-lg-6 col-sm-12 col-12">
                                         <div class="form-group">
                                             <label>Price</label>
                                             <input type="text" name="price" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-sm-12 col-12">
+                                    <div class="col-lg-6 col-sm-12 col-12">
                                         <div class="form-group">
                                             <label>Size</label>
                                             <select class="select" name="size" required>
@@ -340,7 +334,7 @@
                                         <th>Items Name</th> 
                                         <th>Category </th>                                       
                                         <th>Price</th>                                       
-                                        <th>Quantity</th>
+                                        <!-- <th>Quantity</th> -->
                                         <th>Size</th>
                                         <th>Description</th>
                                         <th>Action</th>
@@ -357,7 +351,7 @@
                                         </td>
                                         <td>{{$item->category->name}}</td>
                                         <td>{{$item->price}}</td>                                      
-                                        <td>{{$item->quantity}}</td>
+                                        <!-- <td>{{$item->quantity}}</td> -->
                                         <td>{{$item->size}}</td>
                                         <td>{{$item->description}}</td>
                                         <td>
@@ -403,19 +397,13 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4 col-sm-12 col-12">
-                                                                <div class="form-group">
-                                                                    <label>Quantity</label>
-                                                                    <input type="text" name="quantity" value="{{$item->quantity}}">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-4 col-sm-12 col-12">
+                                                            <div class="col-lg-6 col-sm-12 col-12">
                                                                 <div class="form-group">
                                                                     <label>Price</label>
                                                                     <input type="text" name="price" value="{{$item->price}}">
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4 col-sm-12 col-12">
+                                                            <div class="col-lg-6 col-sm-12 col-12">
                                                                 <div class="form-group">
                                                                     <label>Size</label>
                                                                     <select class="select" name="size">

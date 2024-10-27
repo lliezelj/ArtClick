@@ -99,7 +99,7 @@
                                     data-feather="settings"></i>Settings</a>
                             <hr class="m-0">
                             <a class="dropdown-item logout pb-0" href="signin.html"><img
-                                    src="assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
+                                src="assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
                         </div>
                     </div>
                 </li>
@@ -138,8 +138,8 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
                                     Inventory</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-inventory')}}">Inventory list</a></li>
-                                <li><a href="{{route('am-restock')}}" class="active">Restocking History</a></li>
+                                <li><a href="{{route('admin.inventory')}}">Inventory list</a></li>
+                                <li><a href="{{route('admin.restock')}}" class="active">Restocking History</a></li>
                                 
                             </ul>
                         </li>
@@ -195,7 +195,7 @@
                 <div class="page-header">
                     <div class="page-title">
                         <h4>Restock Details</h4>
-                        <h6>January 12, 2024</h6>
+                        <h6>{{ \Carbon\Carbon::parse($date)->format('F j, Y') }}</h6>
                     </div>
                 </div>
 
@@ -212,35 +212,28 @@
 
 
                         <div class="table-responsive">
-                            <table class="table datanew">
-                                <thead>
-                                    <tr>
-                                        <th>Product Name</th> 
-                                        <th>Size</th>                
-                                        <th>Quantity</th>
-                                    </tr>
+                        <table class="table datanew"> 
+                         <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Time Added</th>                                   
+                                <th>Size</th>
+                                <th>Quantity</th>                                
+                            </tr>
                                 </thead>
-                                <tbody>
+                                @foreach($restocks as $restock)
                                     <tr>
                                         <td class="productimgname">
                                             <a class="product-img">
-                                                <img src="{{ asset('manager/img/product/product1.jpg') }}" alt="product">
+                                                <img src="{{ $restock->inventory->product->product_image ? asset('storage/productPictures/' .$restock->inventory->product->product_image) : asset('icon/null-image.png') }}" alt="product">
                                             </a>
-                                            <a href="javascript:void(0);">Necklace</a>
+                                            <a href="javascript:void(0);">{{ $restock->inventory->product->name }}</a>
                                         </td>
-                                        <td>Small</td>
-                                        <td>32</td>
+                                        <td>{{ $restock->created_at->format('g:i A') }}</td>
+                                        <td>{{ $restock->inventory->product->size }}</td>
+                                        <td>{{ $restock->stock_quantity }}</td>
                                     </tr>
-                                    <tr>
-                                        <td class="productimgname">
-                                            <a class="product-img">
-                                                <img src="{{ asset('manager/img/product/product2.jpg') }}" alt="product">
-                                            </a>
-                                            <a href="javascript:void(0);">Necklace</a>
-                                        </td>
-                                        <td>Medium</td>
-                                        <td>74</td>
-                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>

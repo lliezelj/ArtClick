@@ -61,7 +61,7 @@
                   <a href="{{ route('homepage') }}" class="sf-with-ul">Home</a>
                 </li>
                 <li>
-                  <a href="{{ route('shop-category') }}" class="sf-with-ul">Shop</a>
+                  <a href="{{ route('customer.shop') }}" class="sf-with-ul">Shop</a>
                 </li>
                 <li>
                   <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
@@ -107,7 +107,7 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-cart-action">
                   <a href="cart.html" class="btn btn-primary">Account</a>
-                  <a href="{{ route('signin') }}" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <a href="" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
@@ -153,36 +153,38 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <label>First Name *</label>
-                                            <input type="text" class="form-control" required>
+                                            <input type="text" class="form-control" value="{{ Auth::user()->first_name }}" required>
                                         </div><!-- End .col-sm-6 -->
 
                                         <div class="col-sm-6">
                                             <label>Last Name *</label>
-                                            <input type="text" class="form-control" required>
+                                            <input type="text" value="{{ Auth::user()->last_name }}" class="form-control" required>
                                         </div><!-- End .col-sm-6 -->
                                     </div><!-- End .row -->
 
                                     <label>Street address *</label>
-                                    <input type="text" class="form-control" placeholder="House number and Street name"
+                                    <input type="text" class="form-control" value="{{ Auth::user()->street_address }}"
                                         required>
                                     <input type="text" class="form-control"
-                                        placeholder="Baranggay" required>
+                                        value="{{ Auth::user()->barangay }}" required>
 
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <label>Town / City *</label>
-                                            <input type="text" class="form-control" required>
+                                            <input type="text" class="form-control" value="{{ Auth::user()->town_city }}" required>
                                         </div><!-- End .col-sm-6 -->
 
                                         <div class="col-sm-6">
                                             <label>Phone *</label>
-                                            <input type="text" class="form-control" required>
-                                        </div><!-- End .col-sm-6 -->
+                                            <input type="text" class="form-control" value="{{ Auth::user()->phone_number }}" required>
+                                        </div>
+                                        <div class="col-sm-12" id="gcash-screenshot-form" style="display: none;">
+                                            <label>Gcash Reference Screenshot *</label>
+                                            <input type="file" class="form-control" required>
+                                        </div>
                                     </div><!-- End .row -->
-
-
                                     <label>Order notes (optional)</label>
-                                    <textarea class="form-control" cols="30" rows="4"
+                                    <textarea class="form-control" name="order_notes" cols="30" rows="4"
                                         placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
                                 </div><!-- End .col-lg-9 -->
                                 <aside class="col-lg-3">
@@ -198,68 +200,86 @@
                                             </thead>
 
                                             <tbody>
+                                            
+                                            @foreach ($checkOut as $getCheck)
                                                 <tr>
-                                                    <td><a href="#">Beige knitted elastic runner shoes</a></td>
-                                                    <td>$84.00</td>
+                                                    <td>
+                                                        @if ($getCheck->product)
+                                                            <a href="#">{{ $getCheck->product->name }}</a>
+                                                        @else
+                                                            Product not found
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $getCheck->order_total }}</td>
                                                 </tr>
-
-                                                <tr>
-                                                    <td><a href="#">Blue utility pinafore denimdress</a></td>
-                                                    <td>$76,00</td>
-                                                </tr>
-
-                                                <tr class="summary-shipping">
+                                            @endforeach
+                                                    <tr class="summary-shipping">
                                                     <td><em><b>Subtotal:</b></em></td>
-                                                    <td>$160</td>
+                                                    <td>{{ number_format($sub_total, 2, '.', ',') }}</td>
 
                                                 </tr><!-- End .summary-shipping -->
 
                                                 <tr class="summary-shipping">
                                                     <td><em><b>Delivery Shipping:</b></em></td>
-                                                    <td>$1</td>
+                                                    <td>50</td>
 
                                                 </tr><!-- End .summary-shipping -->
 
 
                                                 <tr class="summary-total">
                                                     <td>Total:</td>
-                                                    <td>$161.00</td>
+                                                    <td>{{ number_format($total_order, 2, '.', ',') }}</td>
                                                 </tr><!-- End .summary-total -->
 
 
                                             </tbody>
                                         </table><!-- End .table table-summary -->
-
                                         <div class="accordion-summary" id="accordion-payment">
-
+                                          <div class="card">
+                                          <div class="card-header" id="heading-2">
+                                            <h2 class="card-title">
+                                                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-2" aria-expanded="false" aria-controls="collapse-2" id="toggle-cash-on-delivery">
+                                                    Cash on delivery
+                                                </a>
+                                            </h2>
+                                        </div>
+                                            <div id="collapse-2" class="collapse" aria-labelledby="heading-2"
+                                                data-parent="#accordion-payment">
+                                                <div class="card-body">
+                                                    note : if COD you will have to pay for additional fee
+                                                </div><!-- End .card-body -->
+                                            </div><!-- End .collapse -->
+                                          </div>
                                             <div class="card">
-                                                <div class="card-header" id="heading-2">
-                                                    <h2 class="card-title">
-                                                        <a class="collapsed" role="button" data-toggle="collapse"
-                                                            href="#collapse-2" aria-expanded="false"
-                                                            aria-controls="collapse-2">
-                                                            Cash on delivery
-                                                        </a>
-                                                    </h2>
-                                                </div><!-- End .card-header -->
-                                                <div id="collapse-2" class="collapse" aria-labelledby="heading-2"
-                                                    data-parent="#accordion-payment">
-                                                    <div class="card-body">
-                                                        note : if COD you will have to pay for additional fee
-                                                    </div><!-- End .card-body -->
-                                                </div><!-- End .collapse -->
-                                            </div><!-- End .card -->
+                                            <div class="card-header" id="heading-3">
+                                                <h2 class="card-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3" id="toggle-gcash">
+                                                        Gcash
+                                                    </a>
+                                                </h2>
+                                            </div>
+                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                <script>
+                                                    $(document).ready(function() {
 
-                                            <div class="card">
-                                                <div class="card-header" id="heading-3">
-                                                    <h2 class="card-title">
-                                                        <a class="collapsed" role="button" data-toggle="collapse"
-                                                            href="#collapse-3" aria-expanded="false"
-                                                            aria-controls="collapse-3">
-                                                            Gcash
-                                                        </a>
-                                                    </h2>
-                                                </div><!-- End .card-header -->
+                                                        $('#gcash-screenshot-form').show(); 
+
+                                                        $('#toggle-cash-on-delivery').on('click', function(e) {
+                                                            e.preventDefault(); // Prevent default anchor behavior
+
+                                                            // Hide the Gcash input form
+                                                            $('#gcash-screenshot-form').hide(); 
+                                                        });
+
+                                                        // Click event for Gcash
+                                                        $('#toggle-gcash').on('click', function(e) {
+                                                            e.preventDefault(); // Prevent default anchor behavior
+
+                                                            // Show the Gcash input form
+                                                            $('#gcash-screenshot-form').show(); 
+                                                        });
+                                                    });
+                                                </script>
                                                 <div id="collapse-3" class="collapse" aria-labelledby="heading-3"
                                                     data-parent="#accordion-payment">
                                                     <div class="card-body">Quisque volutpat mattis eros. Lorem ipsum

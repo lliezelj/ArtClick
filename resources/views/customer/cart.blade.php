@@ -54,9 +54,31 @@
   <!-- Main CSS File -->
   <link rel="stylesheet" href="{{ asset('customer/css/style.css') }}" />
   <link rel="stylesheet" href="{{ asset('customer/css/skins/skin-demo-2.css') }}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
   <link rel="stylesheet" href="{{ asset('customer/css/demos/demo-2.css') }}" />
 </head>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 <body>
   <div class="page-wrapper">
   <header class="header">
@@ -88,7 +110,7 @@
                   <a href="{{ route('homepage') }}" class="sf-with-ul">Home</a>
                 </li>
                 <li>
-                  <a href="{{ route('shop-category') }}" class="sf-with-ul">Shop</a>
+                  <a href="{{ route('customer.shop') }}" class="sf-with-ul">Shop</a>
                 </li>
                 <li>
                   <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
@@ -134,7 +156,7 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-cart-action">
                   <a href="cart.html" class="btn btn-primary">Account</a>
-                  <a href="{{ route('signin') }}" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <a href="" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
@@ -187,62 +209,40 @@
                                     </thead>
 
                                     <tbody>
+                                      @foreach($myCart as $cart)
                                         <tr>
                                             <td class="product-col">
                                                 <div class="product">
                                                     <figure class="product-media">
                                                         <a href="#">
-                                                            <img src="{{ asset('customer/images/products/table/product-1.jpg') }}"
+                                                            <img src="{{$cart->product->product_image ? asset('storage/productPictures/' .$cart->product->product_image) : asset('icon/null-img.pn') }}"
                                                                 alt="Product image">
                                                         </a>
                                                     </figure>
 
                                                     <h3 class="product-title">
-                                                        <a href="#">Beige knitted elastic runner shoes</a>
+                                                        <a href="#">{{$cart->product->name}}</a>
                                                     </h3><!-- End .product-title -->
                                                 </div><!-- End .product -->
                                             </td>
-                                            <td class="price-col">$84.00</td>
+                                            <td class="price-col">{{$cart->product->price}}</td>
                                             <td class="quantity-col">
                                                 <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="10"
+                                                    <input type="number" name="order_quantity" value="{{$cart->order_quantity}}" class="form-control" value="1" min="1" max="10"
                                                         step="1" data-decimals="0" required>
                                                 </div><!-- End .cart-product-quantity -->
                                             </td>
-                                            <td class="total-col">$84.00</td>
-                                            <td class="remove-col"><button class="btn-remove"><i
-                                                        class="icon-close"></i></button></td>
+                                            <td class="total-col">{{$cart->order_total}}</td>
+                                            <form method="POST" action="{{route('delete.cart', ['id' => $cart->id]) }}">
+                                              @csrf
+                                              @method('DELETE')
+                                            <td class="remove-col"><button type="submit" name="submit" class="btn-remove"><i
+                                            class="icon-close"></i></button></td>
+                                            </form>
                                         </tr>
-                                        <tr>
-                                            <td class="product-col">
-                                                <div class="product">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="{{ asset('customer/images/products/table/product-2.jpg') }}"
-                                                                alt="Product image">
-                                                        </a>
-                                                    </figure>
-
-                                                    <h3 class="product-title">
-                                                        <a href="#">Blue utility pinafore denim dress</a>
-                                                    </h3><!-- End .product-title -->
-                                                </div><!-- End .product -->
-                                            </td>
-                                            <td class="price-col">$76.00</td>
-                                            <td class="quantity-col">
-                                                <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="10"
-                                                        step="1" data-decimals="0" required>
-                                                </div><!-- End .cart-product-quantity -->
-                                            </td>
-                                            <td class="total-col">$76.00</td>
-                                            <td class="remove-col"><button class="btn-remove"><i
-                                                        class="icon-close"></i></button></td>
-                                        </tr>
+                                      @endforeach
                                     </tbody>
                                 </table><!-- End .table table-wishlist -->
-
-
                             </div><!-- End .col-lg-9 -->
                             <aside class="col-lg-3">
                                 <div class="summary summary-cart">
@@ -252,12 +252,11 @@
                                         <tbody>
                                             <tr class="summary-total">
                                                 <td>Total:</td>
-                                                <td>$160.00</td>
-                                            </tr><!-- End .summary-total -->
+                                                <td>{{ number_format($myCartTotal, 2, '.', ',') }}</td>
+                                            </tr>
                                         </tbody>
-                                    </table><!-- End .table table-summary -->
-
-                                    <a href="{{ route('checkout') }}"
+                                    </table>
+                                    <a href="{{ route('customer.checkOut',['id' => $cart->id]) }}"
                                         class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
                                 </div><!-- End .summary -->
 
@@ -353,6 +352,7 @@
     <script src="{{ asset('customer/js/jquery.plugin.min.js') }}"></script>
     <script src="{{ asset('customer/js/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ asset('customer/js/jquery.countdown.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Main JS File -->
     <script src="{{ asset('customer/js/main.js') }}"></script>
     <script src="{{ asset('customer/js/demos/demo-2.js') }}"></script>
