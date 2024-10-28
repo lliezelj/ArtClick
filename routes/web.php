@@ -19,6 +19,8 @@ Route::post('/add-to-cart', [App\Http\Controllers\ShopController::class, 'addToC
 Route::get('/customer/my-cart',[App\Http\Controllers\CartController::class, 'index'])->name('customer.cart');
 Route::delete('/customer/cart/{id}/delete', [App\Http\Controllers\CartController::class, 'deleteCart'])->name('delete.cart');
 Route::get('/customer/checkout/{id}',[App\Http\Controllers\CartController::class, 'checkOut'])->name('customer.checkOut');
+Route::post('/customer/add-to-order', [App\Http\Controllers\CartController::class, 'placeOrder'])->name('customer.placeOrder');
+Route::put('/customer/order/{id}/cancelled', [App\Http\Controllers\CartController::class, 'cancelOrder'])->name('customer.cancel');
 
 });
 

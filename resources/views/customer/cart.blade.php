@@ -244,6 +244,7 @@
                                     </tbody>
                                 </table><!-- End .table table-wishlist -->
                             </div><!-- End .col-lg-9 -->
+                           
                             <aside class="col-lg-3">
                                 <div class="summary summary-cart">
                                     <h3 class="summary-title">Cart Total</h3><!-- End .summary-title -->

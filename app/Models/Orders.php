@@ -9,14 +9,10 @@ class Orders extends Model
 {
     protected $table = 'orders'; 
     protected $primaryKey = 'id';
-    protected $fillable = ['userId','product_id', 'status','total_price','order_date'];
+    protected $fillable = ['userId','products', 'status','total_price','order_date','mode_of_payment','gcash_reference'];
 
     public function userOder()
     {
         return $this->belongsTo(User::class, 'userId', 'id');
-    }
-    public function productOrder()
-    {
-        return $this->belongsTo(Products::class, 'product_id', 'id');
     }
 }
