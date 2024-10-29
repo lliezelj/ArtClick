@@ -110,8 +110,11 @@
               </a>
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-cart-action">
-                  <a href="cart.html" class="btn btn-primary">Account</a>
-                  <a href="" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <a href="" class="btn btn-primary">Account</a>
+                  <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" class="btn btn-outline-primary-2"><span>Log Out</span><i class="icon-long-arrow-left"></i></button>
+                </form>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
@@ -146,7 +149,8 @@
       <h3 class="category-subtitle">Explore our wide range of categories</h3>
 
       <!--start product category-->
-      <section class="category-section">
+    <section class="category-section">
+      <div class="row">
         @foreach($categories as $category)
         <a href="{{ route('customer.getProducts',['id' => $category->id]) }}" class="category-card">
           <img src="{{$category->image ? asset('storage/categoryPictures/' .$category->image) : asset('icon/null-image.png') }}" alt="Category Image" />
@@ -154,6 +158,7 @@
           <p>Discover a variety of items tailored to this category</p>
         </a>
         @endforeach
+        </div>
       </section>
       <!--end product category-->
 

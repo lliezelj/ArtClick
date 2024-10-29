@@ -87,11 +87,11 @@
                   <a href="{{ route('customer.shop') }}" class="sf-with-ul">Shop</a>
                 </li>
                 <li>
-                  <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
+                  <a href="{{ route('customer.gallery') }}" class="sf-with-ul">Gallery</a>
                 </li>
 
                 <li>
-                  <a href="{{ route('announcement') }}" class="sf-with-ul">Announcement</a>
+                  <a href="{{ route('announcements') }}" class="sf-with-ul">Announcement</a>
                 </li>
                 <li>
                   <a href="{{ route('about') }}" class="sf-with-ul">About</a>
@@ -130,14 +130,17 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-cart-action">
                   <a href="cart.html" class="btn btn-primary">Account</a>
-                  <a href="" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" class="btn btn-outline-primary-2"><span>Log out</span><i class="icon-long-arrow-left"></i></button>
+                </form>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
             <!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="{{ route('cart') }}" class="dropdown-toggle" role="button">
+              <a href="{{ route('customer.cart') }}" class="dropdown-toggle" role="button">
                 <i class="icon-shopping-cart"></i>
               </a>
 
@@ -178,11 +181,11 @@
                                  
                                     <tr>
                                         <th>Product Name</th>  
-                                        <th>Status</th>  
                                         <th>Total Price</th> 
                                         <th>Order Date</th>  
                                         <th>Mode of Payment</th>  
                                         <th>Gcash Reference Number</th>
+                                        <th>Status</th>  
                                         <th></th>                                 
                                     </tr>
                                 </thead>
@@ -199,6 +202,10 @@
                                             @endforeach
                                         </ul>
                                     </td>
+                                        <td>{{$order->total_price}}</td>
+                                        <td>{{ \Carbon\Carbon::parse($order->order_date)->format('F j, Y') }}</td>
+                                        <td>{{$order->mode_of_payment}}</td>
+                                        <td>{{$order->gcash_reference}}</td>
                                         <td> @if ($order->status === 'Pending')
                                                 <span class="badge bg-warning text-dark">Pending</span>
                                             @elseif ($order->status === 'Shipped')
@@ -211,16 +218,16 @@
                                                 <span class="badge bg-secondary">Unknown Status</span>
                                             @endif
                                         </td>
-                                        <td>{{$order->total_price}}</td>
-                                        <td>{{ \Carbon\Carbon::parse($order->order_date)->format('F j, Y') }}</td>
-                                        <td>{{$order->mode_of_payment}}</td>
-                                        <td>{{$order->gcash_reference}}</td>
+                                        @if ($order->status === 'Pending')
                                         <form method="POST" action="{{route('customer.cancel', ['id' => $order->id]) }}">
                                         @csrf
                                         @method('PUT')
                                         <td class="remove-col"><button type="submit" name="submit" class="btn-remove"><i
                                         class="icon-close"></i></button></td>
                                         </form>
+                                        @else
+                                        <p></p>
+                                        @endif
                                     </tr>
                                     @endforeach
                                 </tbody>

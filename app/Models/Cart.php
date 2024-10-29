@@ -9,7 +9,7 @@ class Cart extends Model
 {
     protected $table = 'add_to_cart'; 
     protected $primaryKey = 'id';
-    protected $fillable = ['user_id','productId', 'order_quantity','order_total'];
+    protected $fillable = ['user_id','productId', 'order_quantity','order_total','cart_status'];
 
 public function user()
 {

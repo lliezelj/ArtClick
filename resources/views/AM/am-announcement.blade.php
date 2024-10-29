@@ -25,9 +25,32 @@
 
     <link rel="stylesheet" href="{{ asset('manager/plugins/fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('manager/plugins/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 
     <link rel="stylesheet" href="{{ asset('manager/css/style.css') }}">
 </head>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 
 <body>
     <div id="global-loader">
@@ -174,12 +197,15 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/purchase1.svg') }}" alt="img"><span>
                                     Announcements</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-announcement')}}"  class="active">Announcement List</a></li>
+                                <li><a href="{{route('admin.announcement')}}"  class="active">Announcement List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/users1.svg') }}" alt="img"><span>
-                                    Users</span> <span class="menu-arrow"></span></a>
+                        <a href="javascript:void(0);">
+                            <img src="{{ asset('manager/img/icons/users1.svg') }}" alt="img">
+                                    <span>Users</span> 
+                                    <span class="menu-arrow"></span>
+                                </a>
                             <ul>
                                 <li><a href="{{route('am-users')}}">Users List</a></li>
                             </ul>
@@ -201,76 +227,7 @@
                 </div>
 
 
-                <div class="modal fade" id="announcement-add" tabindex="-1" aria-labelledby="announcement-add" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Add New Announcement</h5>
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-lg-3 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <label>From</label>
-                                            <div class="input-groupicon">
-                                                <input type="text" placeholder="Choose Date" class="datetimepicker">
-                                                <div class="addonset">
-                                                    <img src="{{ asset('manager/img/icons/calendars.svg') }}" alt="img">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <label>To</label>
-                                            <div class="input-groupicon">
-                                                <input type="text" placeholder="Choose Date" class="datetimepicker">
-                                                <div class="addonset">
-                                                    <img src="{{ asset('manager/img/icons/calendars.svg') }}" alt="img">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label>Title</label>
-                                            <input type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label>Description</label>
-                                            <textarea class="form-control"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            <label>
-                                                Image</label>
-                                            <div class="image-upload">
-                                                <input type="file">
-                                                <div class="image-uploads">
-                                                    <img src="{{ asset('manager/img/icons/upload.svg') }}" alt="img">
-                                                    <h4>Drag and drop a file to upload</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    
-                                </div>
-                                <div class="col-lg-12">
-                                    <a class="btn btn-submit me-2">Submit</a>
-                                    <a class="btn btn-cancel" data-bs-dismiss="modal">Cancel</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                
                 <div class="card">
                     <div class="card-body">
                         <div class="table-top">
@@ -297,19 +254,22 @@
                                         <th>Title</th>
                                         <th>From</th>
                                         <th>To</th>
+                                        <th>Description</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($announcements as $announce)
                                     <tr>
                                         <td>
                                             <a class="product-img">
-                                                <img src="{{ asset('manager/img/brand/adidas.png') }}" alt="product">
+                                                <img src="{{$announce->picture ? asset('storage/announcementPictures/' .$announce->picture) : asset('icon/null-image.png') }}" alt="product">
                                             </a>
                                         </td>
-                                        <td>Adidas</td>
-                                        <td>10-13-2024</td>
-                                        <td>10-15-2024</td>
+                                        <td>{{$announce->title}}</td>
+                                        <td>{{  \Carbon\Carbon::parse($announce->start)->format('F j, Y')}}</td>
+                                        <td>{{  \Carbon\Carbon::parse($announce->end)->format('F j, Y')}}</td>
+                                        <td>{{$announce->description}}</td>
                                         <td>
                                             <a class="me-3" href="{{route('am-announcement-details')}}">
                                                 <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
@@ -322,8 +282,7 @@
                                             </a>
                                         </td>
                                     </tr>
-                                
-                                   
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -333,6 +292,73 @@
             </div>
         </div>
     </div>
+
+    <!-- add modal -->
+    <div class="modal fade" id="announcement-add" tabindex="-1" aria-labelledby="announcement-add" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Announcement</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{route('add.announcement')}}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label>From</label>
+                                <div class="input-groupicon">
+                                    <input name="start" class="form-control" type="date" placeholder="Choose Date" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label>To</label>
+                                <div class="input-groupicon">
+                                <input name="end" class="form-control" type="date" placeholder="Choose Date">                               
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label>Title</label>
+                                <input type="text" name="title">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea name="description" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label>
+                                    Image</label>
+                                <div class="image-upload">
+                                    <input type="file" name="picture">
+                                    <div class="image-uploads">
+                                        <img src="{{ asset('manager/img/icons/upload.svg') }}" alt="img">
+                                        <h4>Drag and drop a file to upload</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="col-lg-12">
+                        <button type="submit" name="submit" class="btn btn-submit me-2">Submit</button>
+                        <button class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 
@@ -423,6 +449,7 @@
 
     <script src="{{ asset('manager/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('manager/plugins/sweetalert/sweetalerts.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="{{ asset('manager/js/script.js') }}"></script>
 </body>

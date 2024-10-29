@@ -65,14 +65,14 @@
                   <a href="{{ route('homepage') }}" class="sf-with-ul">Home</a>
                 </li>
                 <li>
-                  <a href="{{ route('shop-category') }}" class="sf-with-ul">Shop</a>
+                  <a href="{{ route('customer.shop') }}" class="sf-with-ul">Shop</a>
                 </li>
                 <li class="megamenu-container active">
-                  <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
+                  <a href="{{ route('customer.gallery') }}" class="sf-with-ul">Gallery</a>
                 </li>
 
                 <li>
-                  <a href="{{ route('announcement') }}" class="sf-with-ul">Announcement</a>
+                  <a href="{{ route('announcements') }}" class="sf-with-ul">Announcement</a>
                 </li>
                 <li>
                   <a href="{{ route('about') }}" class="sf-with-ul">About</a>
@@ -111,14 +111,17 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-cart-action">
                   <a href="cart.html" class="btn btn-primary">Account</a>
-                  <a href="" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" class="btn btn-outline-primary-2"><span>Log out</span><i class="icon-long-arrow-left"></i></button>
+                </form>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
             <!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="{{ route('cart') }}" class="dropdown-toggle" role="button">
+              <a href="{{ route('customer.cart') }}" class="dropdown-toggle" role="button">
                 <i class="icon-shopping-cart"></i>
               </a>
 
@@ -151,100 +154,29 @@
                         aria-labelledby="new-women-link">
                         <div class="products">
                             <div class="row justify-content-center">
+                                @foreach($artists as $artist)
                                 <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
                                     <div class="product product-7 text-center">
                                         <figure class="product-media">
 
-                                            <a href="elements-product-category.html">
+                                            <a href="{{route('get.items', ['id' => $artist->id]) }}">
                                                 <!-- da direct sa details ng artisan-->
-                                                <img src="{{ asset('customer/images/items/arti1.jpg') }}" alt="Product image" class="product-image">
+                                                <img src="{{$artist->artist_image ? asset('storage/artistPictures/' .$artist->artist_image) : asset('icon/null-image.png')}}" alt="Product image" class="product-image">
                                                 <!-- img ng artisan -->
                                             </a>
 
                                         </figure><!-- End .product-media -->
 
                                         <div class="product-body">
-                                            <h3 class="product-title"><a href="product.html">Luntian Bautista</a></h3>
+                                            <h3 class="product-title"><a href="product.html">{{$artist->lastname}}, {{$artist->firstname}}</a></h3>
                                             <!-- End .product-title -->
                                             <div class="product-price">
-                                                Tagbanua
+                                                {{$artist->tribe}}
                                             </div><!-- End .product-price -->
                                         </div><!-- End .product-body -->
                                     </div><!-- End .product -->
                                 </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
-                                    <div class="product product-7 text-center">
-                                        <figure class="product-media">
-                                            <a href="product.html">
-                                                <img src="{{ asset('customer/images/items/arti1.jpg') }}" alt="Product image" class="product-image">
-                                            </a>
-
-                                        </figure><!-- End .product-media -->
-
-                                        <div class="product-body">
-                                            <h3 class="product-title"><a href="product.html">Laya Mendoza</a></h3>
-                                            <!-- End .product-title -->
-                                            <div class="product-price">
-                                                Batak
-                                            </div><!-- End .product-price -->
-
-                                        </div><!-- End .product-body -->
-                                    </div><!-- End .product -->
-                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
-                                    <div class="product product-7 text-center">
-                                        <figure class="product-media">
-                                            <a href="product.html">
-                                                <img src="{{ asset('customer/images/items/arti1.jpg') }}" alt="Product image" class="product-image">
-                                            </a>
-                                        </figure><!-- End .product-media -->
-
-                                        <div class="product-body">
-                                            <h3 class="product-title"><a href="product.html">Habi Salonga</a></h3>
-                                            <!-- End .product-title -->
-                                            <div class="product-price">
-                                                Palaw'an
-                                            </div><!-- End .product-price -->
-                                        </div><!-- End .product-body -->
-                                    </div><!-- End .product -->
-                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-
-                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
-                                    <div class="product product-7 text-center">
-                                        <figure class="product-media">
-                                            <a href="product.html">
-                                                <img src="{{ asset('customer/images/items/arti1.jpg') }}" alt="Product image" class="product-image">
-                                            </a>
-                                        </figure><!-- End .product-media -->
-
-                                        <div class="product-body">
-                                            <h3 class="product-title"><a href="product.html">Dalisay Ramos</a>
-                                            </h3><!-- End .product-title -->
-                                            <div class="product-price">
-                                                Molbog
-                                            </div><!-- End .product-price -->
-                                        </div><!-- End .product-body -->
-                                    </div><!-- End .product -->
-                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
-
-                                <div class="col-6 col-md-4 col-lg-3 col-xl-5col">
-                                    <div class="product product-7 text-center">
-                                        <figure class="product-media">
-                                            <a href="product.html">
-                                                <img src="{{ asset('customer/images/items/arti1.jpg') }}" alt="Product image" class="product-image">
-
-                                            </a>
-                                        </figure><!-- End .product-media -->
-
-                                        <div class="product-body">
-                                            <h3 class="product-title"><a href="product.html">Dominic</a></h3>
-                                            <!-- End .product-title -->
-                                            <div class="product-price">
-                                                Palaw'an
-                                            </div><!-- End .product-price -->
-                                        </div><!-- End .product-body -->
-                                    </div><!-- End .product -->
-                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                                @endforeach
                             </div><!-- End .row -->
                         </div><!-- End .products -->
                     </div><!-- .End .tab-pane -->
@@ -598,10 +530,10 @@
             <nav class="mobile-nav">
                 <ul class="mobile-menu">
                     <li class="active">
-                        <a href="index-1.html">Home</a>
+                        <a href="{{route('homepage')}}">Home</a>
                     </li>
                     <li>
-                        <a href="category.html">Shop</a>
+                        <a href="{{route('customer.shop')}}">Shop</a>
                     </li>
 
                     <li>

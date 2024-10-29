@@ -14,6 +14,10 @@ class ArtistController extends Controller
         $artists = Artists::withCount('artworks')->get();
         return view('AM.am-artist',compact('artists'));
     }
+    public function gallery(){
+        $artists = Artists::withCount('artworks')->get();
+        return view('customer.gallery',compact('artists'));
+    }
 
     public function getArtworksByArtists($id)
     {
@@ -22,6 +26,15 @@ class ArtistController extends Controller
         $theArtist = Artists::select('lastname', 'firstname')->where('id', $id)->first();
         $categories = Category::all();
         return view('AM.am-artist-artworks',compact('artists','artworks','categories','theArtist'));
+    }
+
+    public function getItemsByArtists($id)
+    {
+        $artworks = Products::with('category')->where('artist_id', $id)->get();
+        $artists = Artists::all();
+        $theArtist = Artists::select('lastname', 'firstname')->where('id', $id)->first();
+        $categories = Category::all();
+        return view('customer.gallery-items',compact('artists','artworks','categories','theArtist'));
     }
 
     public function storeArtist(Request $request){
@@ -41,7 +54,7 @@ class ArtistController extends Controller
                 }
 
                 $artist_image = time() . '_' . $picture->getClientOriginalName();
-                $image = Image::make($picture->getRealPath())->fit(300, 300);
+                $image = Image::make($picture->getRealPath())->fit(540, 560);
                 $image->save(public_path('storage/artistPictures/' . $artist_image), 100);
 
 
@@ -95,8 +108,10 @@ class ArtistController extends Controller
                 if (!in_array($ext, ['jpg', 'png', 'jpeg'])) {
                     return redirect()->back()->with('error', 'Image must be an (jpg, png, jpeg) format');
                 }
-                $artist_image = $picture->getClientOriginalName();
-                $picture->move('storage/artistPictures', $artist_image);
+              
+                $artist_image = time() . '_' . $picture->getClientOriginalName();
+                $image = Image::make($picture->getRealPath())->fit(540, 560);
+                $image->save(public_path('storage/artistPictures/' . $artist_image), 100);
         
                 $artist->artist_image = $artist_image;
             }

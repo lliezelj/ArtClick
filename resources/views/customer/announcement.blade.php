@@ -59,14 +59,14 @@
                   <a href="{{ route('homepage') }}" class="sf-with-ul">Home</a>
                 </li>
                 <li>
-                  <a href="{{ route('shop-category') }}" class="sf-with-ul">Shop</a>
+                  <a href="{{ route('customer.shop') }}" class="sf-with-ul">Shop</a>
                 </li>
                 <li>
-                  <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
+                  <a href="{{ route('customer.gallery') }}" class="sf-with-ul">Gallery</a>
                 </li>
 
                 <li  class="megamenu-container active">
-                  <a href="{{ route('announcement') }}" class="sf-with-ul">Announcent</a>
+                  <a href="{{ route('announcements') }}" class="sf-with-ul">Announcent</a>
                 </li>
                 <li>
                   <a href="{{ route('about') }}" class="sf-with-ul">About</a>
@@ -105,14 +105,17 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-cart-action">
                   <a href="cart.html" class="btn btn-primary">Account</a>
-                  <a href="" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" class="btn btn-outline-primary-2"><span>Log out</span><i class="icon-long-arrow-left"></i></button>
+                </form>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
             <!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="{{ route('cart') }}" class="dropdown-toggle" role="button">
+              <a href="{{ route('customer.cart') }}" class="dropdown-toggle" role="button">
                 <i class="icon-shopping-cart"></i>
               </a>
 
@@ -139,23 +142,13 @@
         <div class="container">
           <section class="announcements">
             <div class="announcement-list">
+              @foreach($announcements as $announce)
               <div class="announcement new-arrivals" data-toggle="modal" data-target="#announcementModal1">
-                <div class="date">Today 03:00</div>
-                <h3>NEW ARRIVAL!</h3>
+                <div class="date">{{\Carbon\Carbon::parse($announce->start)->format('F j, Y')}} - {{\Carbon\Carbon::parse($announce->end)->format('F j, Y')}}</div>
+                <h3>{{ ($announce->title)}}</h3>
                 <p>Click to read more...</p>
               </div>
-
-              <div class="announcement events" data-toggle="modal" data-target="#announcementModal2">
-                <div class="date">Today 03:00</div>
-                <h3>Exhibition</h3>
-                <p>Click to read more...</p>
-              </div>
-
-              <div class="announcement new-arrivals" data-toggle="modal" data-target="#announcementModal3">
-                <div class="date">Today 03:00</div>
-                <h3>New Items Soon!</h3>
-                <p>Click to read more...</p>
-              </div>
+              @endforeach
             </div>
           </section>
         </div>
@@ -245,7 +238,7 @@
           </button>
         </div>
         <div class="modal-body">
-        <img src="{{ asset('customer/images/items/item1.jpg') }} " alt="New Arrival Image" class="announcement-image">
+        <img src="{{ asset('customer/images/items/arti1.jpg') }} " alt="New Arrival Image" class="announcement-image">
           <p>We have officially launched our new collection. Check it out now!</p>
         </div>
       </div>

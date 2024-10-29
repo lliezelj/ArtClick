@@ -85,7 +85,10 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-cart-action">
                   <a href="cart.html" class="btn btn-primary">Account</a>
-                  <a href="" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" class="btn btn-outline-primary-2"><span>Log out</span><i class="icon-long-arrow-left"></i></button>
+                </form>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
@@ -139,9 +142,9 @@
 
                                     <div class="product-body">
                                         <div class="product-cat">
-                                            <a href="#">{{$product->category->name}}</a>
+                                            <a href="{{route('customer.getProducts', ['id' => $product->category->id])}}">{{$product->category->name}}</a>
                                         </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">{{$product->name}}</a></h3><!-- End .product-title -->
+                                        <h3 class="product-title"><a href="{{ route('view.details', ['id' => $product->id]) }}">{{$product->name}}</a></h3><!-- End .product-title -->
                                         <div class="product-price">
                                             {{$product->price}}
                                         </div><!-- End .product-price -->
@@ -542,13 +545,13 @@
                         <a href="index-1.html">Home</a>
                     </li>
                     <li>
-                        <a href="category-fullwidth.html">Shop</a>
+                        <a href="{{route('customer.shop')}}">Shop</a>
                     </li>
                     <li>
-                        <a href="index-7.html" class="sf-with-ul">Gallery</a>
+                        <a href="{{route('customer.gallery')}}" class="sf-with-ul">Gallery</a>
                     </li>
                     <li>
-                        <a href="blog-mask-masonry.html">Announcement</a>
+                        <a href="{{route('announcements')}}">Announcement</a>
                     </li>
                     <li>
                         <a href="about.html">about</a>

@@ -7,11 +7,11 @@
                   <a href="{{ route('customer.shop') }}" class="sf-with-ul">Shop</a>
                 </li>
                 <li>
-                  <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
+                  <a href="{{ route('customer.gallery') }}" class="sf-with-ul">Gallery</a>
                 </li>
 
                 <li>
-                  <a href="{{ route('announcement') }}" class="sf-with-ul">Announcement</a>
+                  <a href="{{ route('announcements') }}" class="sf-with-ul">Announcement</a>
                 </li>
                 <li>
                   <a href="{{ route('about') }}" class="sf-with-ul">About</a>

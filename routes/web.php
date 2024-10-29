@@ -17,11 +17,18 @@ Route::post('/add-to-cart', [App\Http\Controllers\ShopController::class, 'addToC
 
 //Cart Routes
 Route::get('/customer/my-cart',[App\Http\Controllers\CartController::class, 'index'])->name('customer.cart');
-Route::delete('/customer/cart/{id}/delete', [App\Http\Controllers\CartController::class, 'deleteCart'])->name('delete.cart');
+Route::put('/customer/cart/{id}/delete', [App\Http\Controllers\CartController::class, 'deleteCart'])->name('delete.cart');
 Route::get('/customer/checkout/{id}',[App\Http\Controllers\CartController::class, 'checkOut'])->name('customer.checkOut');
 Route::post('/customer/add-to-order', [App\Http\Controllers\CartController::class, 'placeOrder'])->name('customer.placeOrder');
 Route::put('/customer/order/{id}/cancelled', [App\Http\Controllers\CartController::class, 'cancelOrder'])->name('customer.cancel');
 
+//Gallery Routes
+Route::get('/customer/gallery/artists',[App\Http\Controllers\ArtistController::class, 'gallery'])->name('customer.gallery');
+Route::get('/customer/gallery/{id}/artist-items', [App\Http\Controllers\ArtistController::class, 'getItemsByArtists'])->name('get.items');
+
+
+//Announcements Routes
+Route::get('/announcements',[App\Http\Controllers\AnnouncementController::class, 'index'])->name('announcements');
 });
 
 Route::group(['middleware' => ['auth','verified','admin']], function () {
@@ -60,7 +67,9 @@ Route::group(['middleware' => ['auth','verified','admin']], function () {
     Route::get('/admin/restock/history', [App\Http\Controllers\RestockController::class, 'index'])->name('admin.restock');
     Route::get('/am-restock-details/{date}', [App\Http\Controllers\RestockController::class, 'restockDetails'])->name('am-restock-details');
 
-
+    //Announcements
+    Route::get('/admin/announcemets', [App\Http\Controllers\AnnouncementController::class, 'adminIndex'])->name('admin.announcement');
+    Route::post('/admin/create/announcement', [App\Http\Controllers\AnnouncementController::class, 'announcementStore'])->name('add.announcement');
 });
 
 
@@ -165,7 +174,7 @@ Route::get('/am-orders-dates', function () {
 })->name('am-orders-dates');
 
 Route::get('/am-orders-details', function () {
-    return view('AM.am-orders-details');
+    return view('AM.am-orders-list');
 })->name('am-orders-details');
 
 Route::get('/am-expenses', function () {

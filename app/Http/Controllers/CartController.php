@@ -11,19 +11,18 @@ class CartController extends Controller
 {
     public function index(){
         $user_id =  Auth::user()->id; 
-        $myCart = Cart::with('product')->where('user_id', $user_id)->get(); 
-        $myCartTotal = $myCart->sum('order_total');
-        return view('customer.cart', compact('myCart', 'myCartTotal'));
+        $myCart = Cart::with('product')->where('user_id', $user_id)->orderBy('created_at','desc')->get(); 
+        $myCartTotal = $myCart->where('cart_status','In cart')->sum('order_total');
+        $hasItemsInCart = $myCart->contains('cart_status', 'In cart');
+        return view('customer.cart', compact('myCart', 'myCartTotal','hasItemsInCart'));
     }
 
     public function deleteCart(String $id){
         $cart = Cart::with('product')->findOrFail($id);
-        if (is_null($cart)) {
-            return redirect()->back()->with('error', 'No cart item found to delete.');
-        }
-    
+        $cart_status = 'Removed';
+        $cart->cart_status = $cart_status;
         $name = $cart->product->name;
-        $cart->delete();
+        $cart->save();
         return redirect()->back()->with('success', 'Item ' . $name . ' removed from your cart successfully!');
     }
 
@@ -31,7 +30,7 @@ class CartController extends Controller
 {
     
     $user_id = Auth::user()->id;
-    $checkOut = Cart::with('product')->where('user_id', $user_id)->get();
+    $checkOut = Cart::with('product')->where('user_id', $user_id)->where('cart_status', 'In cart')->get();
     $total_order = $checkOut->sum('order_total') + 50;
     $sub_total = $checkOut->sum('order_total');
 
@@ -43,7 +42,7 @@ public function placeOrder(Request $request)
 {
     if($request->has('submit')){
     $user_id = Auth::user()->id;
-    $cartItems = Cart::with('product')->where('user_id', $user_id)->get();
+    $cartItems = Cart::with('product')->where('user_id', $user_id)->where('cart_status', 'In cart')->get();
 
     if ($cartItems->isEmpty()) {
         return redirect()->back()->with('error', 'Cart item not found.');
@@ -69,6 +68,8 @@ public function placeOrder(Request $request)
     ];
     $orders = Orders::create($data);
     if ($orders) {
+        $user_id = Auth::user()->id;
+        Cart::where('user_id', $user_id)->where('cart_status', 'In cart')->update(['cart_status' => 'Ordered']);
         return redirect()->back()->with('success', 'Thank you! Your order has been successfully submitted. You will receive a confirmation email shortly with your order details.');
     } else {
         return redirect()->back()->with('error', ' Sorry unable to process your orders!');

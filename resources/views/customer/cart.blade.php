@@ -113,11 +113,11 @@
                   <a href="{{ route('customer.shop') }}" class="sf-with-ul">Shop</a>
                 </li>
                 <li>
-                  <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
+                  <a href="{{ route('customer.gallery') }}" class="sf-with-ul">Gallery</a>
                 </li>
 
                 <li>
-                  <a href="{{ route('announcement') }}" class="sf-with-ul">Announcement</a>
+                  <a href="{{ route('announcements') }}" class="sf-with-ul">Announcement</a>
                 </li>
                 <li>
                   <a href="{{ route('about') }}" class="sf-with-ul">About</a>
@@ -156,14 +156,17 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-cart-action">
                   <a href="cart.html" class="btn btn-primary">Account</a>
-                  <a href="" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" class="btn btn-outline-primary-2"><span>Log out</span><i class="icon-long-arrow-left"></i></button>
+                </form>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
             <!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="{{ route('cart') }}" class="dropdown-toggle" role="button">
+              <a href="{{ route('customer.cart') }}" class="dropdown-toggle" role="button">
                 <i class="icon-shopping-cart"></i>
               </a>
 
@@ -204,42 +207,75 @@
                                             <th>Price</th>
                                             <th>Quantity</th>
                                             <th>Total</th>
-                                            <th></th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                      @foreach($myCart as $cart)
-                                        <tr>
-                                            <td class="product-col">
-                                                <div class="product">
-                                                    <figure class="product-media">
-                                                        <a href="#">
-                                                            <img src="{{$cart->product->product_image ? asset('storage/productPictures/' .$cart->product->product_image) : asset('icon/null-img.pn') }}"
-                                                                alt="Product image">
-                                                        </a>
-                                                    </figure>
+                                    @foreach($myCart as $cart)
+                                          @if($cart->cart_status !== 'Removed' && $cart->cart_status !== 'Ordered'  )
+                                              <tr>
+                                                  <td class="product-col">
+                                                      <div class="product">
+                                                          <figure class="product-media">
+                                                              <a href="#">
+                                                                  <img src="{{$cart->product->product_image ? asset('storage/productPictures/' .$cart->product->product_image) : asset('icon/null-img.png') }}"
+                                                                      alt="Product image">
+                                                              </a>
+                                                          </figure>
 
-                                                    <h3 class="product-title">
-                                                        <a href="#">{{$cart->product->name}}</a>
-                                                    </h3><!-- End .product-title -->
-                                                </div><!-- End .product -->
-                                            </td>
-                                            <td class="price-col">{{$cart->product->price}}</td>
-                                            <td class="quantity-col">
-                                                <div class="cart-product-quantity">
-                                                    <input type="number" name="order_quantity" value="{{$cart->order_quantity}}" class="form-control" value="1" min="1" max="10"
-                                                        step="1" data-decimals="0" required>
-                                                </div><!-- End .cart-product-quantity -->
-                                            </td>
-                                            <td class="total-col">{{$cart->order_total}}</td>
-                                            <form method="POST" action="{{route('delete.cart', ['id' => $cart->id]) }}">
-                                              @csrf
-                                              @method('DELETE')
-                                            <td class="remove-col"><button type="submit" name="submit" class="btn-remove"><i
-                                            class="icon-close"></i></button></td>
-                                            </form>
-                                        </tr>
+                                                          <h3 class="product-title">
+                                                              <a href="#">{{$cart->product->name}}</a>
+                                                          </h3><!-- End .product-title -->
+                                                      </div><!-- End .product -->
+                                                  </td>
+                                                  <td class="price-col">{{$cart->product->price}}</td>
+                                                  <td class="quantity-col">
+                                                      <div class="cart-product-quantity">
+                                                          <input type="number" name="order_quantity" value="{{$cart->order_quantity}}" class="form-control" min="1" max="10"
+                                                              step="1" data-decimals="0" required>
+                                                      </div><!-- End .cart-product-quantity -->
+                                                  </td>
+                                                  <td class="total-col">{{$cart->order_total}}</td>
+                                                  <td class="text-primary fw-bold">{{$cart->cart_status}}</td>
+                                                  <form method="POST" action="{{route('delete.cart', ['id' => $cart->id]) }}">
+                                                      @csrf
+                                                      @method('PUT')
+                                                      <td class="remove-col"><button type="submit" name="submit" class="btn-remove"><i
+                                                          class="icon-close"></i></button></td>
+                                                  </form>
+                                              </tr>
+                                          @elseif($cart->cart_status === 'Ordered')
+                                          <tr>
+                                                  <td class="product-col">
+                                                      <div class="product">
+                                                          <figure class="product-media">
+                                                              <a href="#">
+                                                                  <img src="{{$cart->product->product_image ? asset('storage/productPictures/' .$cart->product->product_image) : asset('icon/null-img.png') }}"
+                                                                      alt="Product image">
+                                                              </a>
+                                                          </figure>
+
+                                                          <h3 class="product-title">
+                                                              <a href="#">{{$cart->product->name}}</a>
+                                                          </h3><!-- End .product-title -->
+                                                      </div><!-- End .product -->
+                                                  </td>
+                                                  <td class="price-col">{{$cart->product->price}}</td>
+                                                  <td class="quantity-col">
+                                                      <div class="cart-product-quantity">
+                                                          <input type="number" name="order_quantity" value="{{$cart->order_quantity}}" class="form-control" min="1" max="10"
+                                                              step="1" data-decimals="0" required>
+                                                      </div><!-- End .cart-product-quantity -->
+                                                  </td>
+                                                  <td class="total-col">{{$cart->order_total}}</td>
+                                                  <td><span  class="badge btn-primary fw-bold">{{$cart->cart_status}}</span></td> 
+                                                  <td class="text-success"><button class="btn-remove"><i
+                                                  class="icon-check text-success"></i></button></td>
+                                              </tr>
+                                          @else
+                                                <p> </p>
+                                          @endif
                                       @endforeach
                                     </tbody>
                                 </table><!-- End .table table-wishlist -->
@@ -253,12 +289,21 @@
                                         <tbody>
                                             <tr class="summary-total">
                                                 <td>Total:</td>
-                                                <td>{{ number_format($myCartTotal, 2, '.', ',') }}</td>
+                                                @if($hasItemsInCart)
+                                                    <td>{{ number_format($myCartTotal, 2, '.', ',') }}</td>
+                                                @else
+                                                    <td>0</td>
+                                                @endif
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <a href="{{ route('customer.checkOut',['id' => $cart->id]) }}"
-                                        class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
+                                    @if($hasItemsInCart)
+                                        <a href="{{ route('customer.checkOut', ['id' => optional($myCart->first())->id]) }}"
+                                          class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
+                                    @else
+                                        <a disabled href=""
+                                          class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
+                                    @endif
                                 </div><!-- End .summary -->
 
                                 <a href="category-fullwidth.html"

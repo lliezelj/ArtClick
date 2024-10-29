@@ -29,6 +29,7 @@
 
     <link rel="stylesheet" href="{{ asset('manager/css/style.css') }}">
 </head>
+
 <script>
         document.addEventListener('DOMContentLoaded', function () {
             @if(session('success'))
@@ -199,7 +200,7 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/purchase1.svg') }}" alt="img"><span>
                                     Announcements</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-announcement')}}" >Announcement List</a></li>
+                                <li><a href="{{route('admin.announcement')}}" >Announcement List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -445,6 +446,7 @@
     <script src="{{ asset('manager/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('manager/plugins/sweetalert/sweetalerts.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     
     <script src="{{ asset('manager/js/script.js') }}"></script>
 </body>
