@@ -26,9 +26,32 @@
     <meta name="theme-color" content="#ffffff">
     <!-- Plugins CSS File -->
     <link rel="stylesheet" href="{{ asset('customer/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{{ asset('customer/css/style.css') }}">
 </head>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 
 <body>
     <div class="page-wrapper">
@@ -64,11 +87,11 @@
                   <a href="{{ route('customer.shop') }}" class="sf-with-ul">Shop</a>
                 </li>
                 <li>
-                  <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
+                  <a href="{{ route('customer.gallery') }}" class="sf-with-ul">Gallery</a>
                 </li>
 
                 <li>
-                  <a href="{{ route('announcement') }}" class="sf-with-ul">Announcement</a>
+                  <a href="{{ route('announcements') }}" class="sf-with-ul">Announcement</a>
                 </li>
                 <li>
                   <a href="{{ route('about') }}" class="sf-with-ul">About</a>
@@ -107,14 +130,17 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-cart-action">
                   <a href="cart.html" class="btn btn-primary">Account</a>
-                  <a href="" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" class="btn btn-outline-primary-2"><span>Log out</span><i class="icon-long-arrow-left"></i></button>
+                </form>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
             <!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="{{ route('cart') }}" class="dropdown-toggle" role="button">
+              <a href="{{ route('customer.cart') }}" class="dropdown-toggle" role="button">
                 <i class="icon-shopping-cart"></i>
               </a>
 
@@ -146,47 +172,68 @@
             <div class="page-content">
                 <div class="checkout">
                     <div class="container">
-                        <form action="#">
-                            <div class="row">
-                                <div class="col-lg-9">
-                                    <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <label>First Name *</label>
-                                            <input type="text" class="form-control" value="{{ Auth::user()->first_name }}" required>
-                                        </div><!-- End .col-sm-6 -->
-
-                                        <div class="col-sm-6">
-                                            <label>Last Name *</label>
-                                            <input type="text" value="{{ Auth::user()->last_name }}" class="form-control" required>
-                                        </div><!-- End .col-sm-6 -->
-                                    </div><!-- End .row -->
-
-                                    <label>Street address *</label>
-                                    <input type="text" class="form-control" value="{{ Auth::user()->street_address }}"
-                                        required>
-                                    <input type="text" class="form-control"
-                                        value="{{ Auth::user()->barangay }}" required>
-
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <label>Town / City *</label>
-                                            <input type="text" class="form-control" value="{{ Auth::user()->town_city }}" required>
-                                        </div><!-- End .col-sm-6 -->
-
-                                        <div class="col-sm-6">
-                                            <label>Phone *</label>
-                                            <input type="text" class="form-control" value="{{ Auth::user()->phone_number }}" required>
-                                        </div>
-                                        <div class="col-sm-12" id="gcash-screenshot-form" style="display: none;">
-                                            <label>Gcash Reference Screenshot *</label>
-                                            <input type="file" class="form-control" required>
-                                        </div>
-                                    </div><!-- End .row -->
-                                    <label>Order notes (optional)</label>
-                                    <textarea class="form-control" name="order_notes" cols="30" rows="4"
-                                        placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
-                                </div><!-- End .col-lg-9 -->
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <h1>My Orders</h1>
+                            <div class="table-responsive">
+                            <table class="table  datanew">
+                                <thead>
+                                 
+                                    <tr>
+                                        <th>Product Name</th>  
+                                        <th>Total Price</th> 
+                                        <th>Order Date</th>  
+                                        <th>Mode of Payment</th>  
+                                        <th>Gcash Reference Number</th>
+                                        <th>Status</th>  
+                                        <th></th>                                 
+                                    </tr>
+                                </thead>
+                                <tbody> 
+                                @foreach($orders as $order)
+                                    <tr>
+                                    <td class="text-sm" style="font-size: 1.2rem;">
+                                        @php
+                                            $productsArray = explode(',', $order->products); // Split the string into an array
+                                        @endphp
+                                        <ul class="list-unstyled">
+                                            @foreach ($productsArray as $product)
+                                                <li>{{ trim($product) }}</li> <!-- Trim whitespace from each product -->
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                        <td>{{$order->total_price}}</td>
+                                        <td>{{ \Carbon\Carbon::parse($order->order_date)->format('F j, Y') }}</td>
+                                        <td>{{$order->mode_of_payment}}</td>
+                                        <td>{{$order->gcash_reference}}</td>
+                                        <td> @if ($order->status === 'Pending')
+                                                <span class="badge bg-warning text-dark">Pending</span>
+                                            @elseif ($order->status === 'Shipped')
+                                                <span class="badge bg-info text-dark">Shipped</span>
+                                            @elseif ($order->status === 'Cancelled')
+                                                <span class="badge bg-danger">Cancelled</span>
+                                            @elseif ($order->status === 'Delivered')
+                                                <span class="badge bg-success">Delivered</span>
+                                            @else
+                                                <span class="badge bg-secondary">Unknown Status</span>
+                                            @endif
+                                        </td>
+                                        @if ($order->status === 'Pending')
+                                        <form method="POST" action="{{route('customer.cancel', ['id' => $order->id]) }}">
+                                        @csrf
+                                        @method('PUT')
+                                        <td class="remove-col"><button type="submit" name="submit" class="btn-remove"><i
+                                        class="icon-close"></i></button></td>
+                                        </form>
+                                        @else
+                                        <p></p>
+                                        @endif
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                             </div><!-- End .col-lg-9 -->
                                 <aside class="col-lg-3">
                                     <div class="summary">
                                         <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
@@ -234,72 +281,60 @@
 
                                             </tbody>
                                         </table><!-- End .table table-summary -->
-                                        <div class="accordion-summary" id="accordion-payment">
-                                          <div class="card">
-                                          <div class="card-header" id="heading-2">
-                                            <h2 class="card-title">
-                                                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-2" aria-expanded="false" aria-controls="collapse-2" id="toggle-cash-on-delivery">
-                                                    Cash on delivery
-                                                </a>
-                                            </h2>
-                                        </div>
-                                            <div id="collapse-2" class="collapse" aria-labelledby="heading-2"
-                                                data-parent="#accordion-payment">
-                                                <div class="card-body">
-                                                    note : if COD you will have to pay for additional fee
-                                                </div><!-- End .card-body -->
-                                            </div><!-- End .collapse -->
-                                          </div>
-                                            <div class="card">
-                                            <div class="card-header" id="heading-3">
-                                                <h2 class="card-title">
-                                                    <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3" id="toggle-gcash">
-                                                        Gcash
-                                                    </a>
-                                                </h2>
+                                        <form method="POST" action="{{ route('customer.placeOrder') }}">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="mode-of-payment">Mode of Payment *</label>
+                                                <select class="form-control" name="mode_of_payment" id="mode-of-payment">
+                                                    <option value="">Select Payment Method</option>
+                                                    <option value="Cash on Delivery">Cash on Delivery</option>
+                                                    <option value="Gcash">Gcash</option>
+                                                </select>
+                                                @error('mode_of_payment')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
-                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                                                <script>
-                                                    $(document).ready(function() {
+                                            <div class="col-sm-12" id="gcash-screenshot-form" style="display:none;">
+                                                <div class="form-group">
+                                                    <label for="gcash-reference">Gcash Reference *</label>
+                                                    <input type="text" class="form-control" name="gcash_reference" id="gcash-reference" value="{{ old('gcash_reference') }}">
+                                                    @error('gcash_reference')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
 
-                                                        $('#gcash-screenshot-form').show(); 
+                                            <script>
+                                                document.getElementById('mode-of-payment').addEventListener('change', function() {
+                                                    const gcashForm = document.getElementById('gcash-screenshot-form');
+                                                    const gcashReference = document.getElementById('gcash-reference');
 
-                                                        $('#toggle-cash-on-delivery').on('click', function(e) {
-                                                            e.preventDefault(); // Prevent default anchor behavior
+                                                    if (this.value === 'Gcash') {
+                                                        gcashForm.style.display = 'block';
+                                                        gcashReference.setAttribute('required', 'required');
+                                                        
+                                                    } else if(this.value === 'Cash on Delivery') {
+                                                        gcashForm.style.display = 'none';
+                                                        gcashReference.removeAttribute('required');
+                                                        gcashReference.value = '';
+                                                    }
+                                                    else {                     
+                                                        gcashForm.style.display = 'none';
+                                                        gcashReference.removeAttribute('required');
+                                                        gcashReference.value = '';
+                                                    }
+                                                });
+                                            </script>
 
-                                                            // Hide the Gcash input form
-                                                            $('#gcash-screenshot-form').hide(); 
-                                                        });
+                                            <button type="submit" name="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+                                                <span class="btn-text">Place Order</span>
+                                                <span class="btn-hover-text">Proceed to Checkout</span>
+                                            </button>
+                                        </form>
 
-                                                        // Click event for Gcash
-                                                        $('#toggle-gcash').on('click', function(e) {
-                                                            e.preventDefault(); // Prevent default anchor behavior
-
-                                                            // Show the Gcash input form
-                                                            $('#gcash-screenshot-form').show(); 
-                                                        });
-                                                    });
-                                                </script>
-                                                <div id="collapse-3" class="collapse" aria-labelledby="heading-3"
-                                                    data-parent="#accordion-payment">
-                                                    <div class="card-body">Quisque volutpat mattis eros. Lorem ipsum
-                                                        dolor sit amet, consectetuer adipiscing elit. Donec odio.
-                                                        Quisque volutpat mattis eros.
-                                                    </div><!-- End .card-body -->
-                                                </div><!-- End .collapse -->
-                                            </div><!-- End .card -->
-
-
-                                        </div><!-- End .accordion -->
-
-                                        <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
-                                            <span class="btn-text">Place Order</span>
-                                            <span class="btn-hover-text">Proceed to Checkout</span>
-                                        </button>
                                     </div><!-- End .summary -->
                                 </aside><!-- End .col-lg-3 -->
                             </div><!-- End .row -->
-                        </form>
                     </div><!-- End .container -->
                 </div><!-- End .checkout -->
             </div><!-- End .page-content -->
@@ -568,6 +603,7 @@
     <script src="{{ asset('customer/js/jquery.waypoints.min.js') }}"></script>
     <script src="{{ asset('customer/js/superfish.min.js') }}"></script>
     <script src="{{ asset('customer/js/owl.carousel.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Main JS File -->
     <script src="{{ asset('customer/js/main.js') }}"></script>
 </body>

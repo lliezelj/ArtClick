@@ -174,7 +174,7 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/purchase1.svg') }}" alt="img"><span>
                                     Announcements</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-announcement')}}" >Announcement List</a></li>
+                                <li><a href="{{route('admin.announcement')}}" >Announcement List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -247,7 +247,7 @@
                                             <span class="bg-yellow badges">Pending</span>
                                         </td>
                                         <td>
-                                            <a class="me-3" href="order-list.html">
+                                            <a class="me-3" href="">
                                                 <img src="{{asset('manager/img/icons/eye.svg') }}" alt="img">
                                             </a>
                                         </td>
@@ -256,7 +256,7 @@
                                         <td>October 20, 2024</td>
                                         <td>30</td>
                                         <td >
-                                            <span class="bg-green badges">Delivered</span>
+                                            <span class="bg-primary badges">Delivered</span>
                                         </td>
                                         <td>
                                             <a class="me-3" href="order-list.html">

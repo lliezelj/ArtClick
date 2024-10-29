@@ -63,14 +63,14 @@
                   <a href="{{ route('homepage') }}" class="sf-with-ul">Home</a>
                 </li>
                 <li>
-                  <a href="{{ route('shop-category') }}" class="sf-with-ul">Shop</a>
+                  <a href="{{ route('customer.shop') }}" class="sf-with-ul">Shop</a>
                 </li>
                 <li class="megamenu-container active">
                   <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
                 </li>
 
                 <li>
-                  <a href="{{ route('announcement') }}" class="sf-with-ul">Announcement</a>
+                  <a href="{{ route('announcements') }}" class="sf-with-ul">Announcement</a>
                 </li>
                 <li>
                   <a href="{{ route('about') }}" class="sf-with-ul">About</a>
@@ -109,14 +109,17 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-cart-action">
                   <a href="cart.html" class="btn btn-primary">Account</a>
-                  <a href="{{ route('signin') }}" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" class="btn btn-outline-primary-2"><span>Log out</span><i class="icon-long-arrow-left"></i></button>
+                </form>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
             <!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="{{ route('cart') }}" class="dropdown-toggle" role="button">
+              <a href="{{ route('customer.cart') }}" class="dropdown-toggle" role="button">
                 <i class="icon-shopping-cart"></i>
               </a>
 
@@ -138,19 +141,9 @@
             class="page-header text-center" 
             style="background-image: url('customer/images/page-header-bg.jpg')">
         		<div class="container">
-        			<h1 class="page-title">Category <span>Shop</span></h1>
+        			<h1 class="page-title">{{$theArtist->lastname}}, {{$theArtist->firstname}} <span>Gallery</span></h1>
         		</div><!-- End .container -->
         	</div><!-- End .page-header -->
-            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
-                <div class="container">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                        <li class="breadcrumb-item"><a href="#">No Sidebar</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Boxed</li>
-                    </ol>
-                </div><!-- End .container -->
-            </nav><!-- End .breadcrumb-nav -->
 
             <div class="page-content">
                 <div class="container">
@@ -161,21 +154,22 @@
 
                     <div class="products">
                         <div class="row">
+                           @foreach($artworks as $artwork)
                             <div class="col-6 col-md-4 col-lg-4 col-xl-3">
                                 <div class="product">
                                     <figure class="product-media">
-                                        <a href="product.html">
-                                            <img src="items/acce-mirror.jpg" alt="Product image" class="product-image">
+                                        <a href="{{route('view.details',['id' => $artwork->id])}}">
+                                            <img src="{{$artwork->product_image ? asset('storage/productPictures/' .$artwork->product_image) : asset('icon/null-image.png')}}" alt="Product image" class="product-image">
                                         </a>
                                     </figure><!-- End .product-media -->
 
                                     <div class="product-body">
                                         <div class="product-cat">
-                                            <a href="#">Decoration</a>
+                                            <a href="{{route('customer.getProducts', ['id' => $artwork->category->id])}}">{{$artwork->category->name}}</a>
                                         </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">Banaag Mirror</a></h3><!-- End .product-title -->
+                                        <h3 class="product-title"><a href="{{route('view.details',['id' => $artwork->id])}}">{{$artwork->name}}</a></h3><!-- End .product-title -->
                                         <div class="product-price">
-                                            $50.00
+                                        {{$artwork->price}}
                                         </div><!-- End .product-price -->
                                         <div class="ratings-container">
                                             <div class="ratings">
@@ -191,328 +185,7 @@
                                     </div><!-- End .product-body -->
                                 </div><!-- End .product -->
                             </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-
-                            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                <div class="product">
-                                    <figure class="product-media">
-                                        <a href="product.html">
-                                            <img src="items/acce-mirror.jpg" alt="Product image" class="product-image">
-                                        </a>
-                                    </figure><!-- End .product-media -->
-
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <a href="#">Accessories</a>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">Cras ornare tristique</a></h3><!-- End .product-title -->
-                                        <div class="product-price">
-                                            $32.00
-                                        </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 11 Reviews )</span>
-                                        </div><!-- End .rating-container -->
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
-                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-
-                            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                <div class="product">
-                                    <figure class="product-media">
-                                        <a href="product.html">
-                                            <img src="items/acce-mirror.jpg" alt="Product image" class="product-image">
-                                        </a>
-                                    </figure><!-- End .product-media -->
-
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <a href="#">Women</a>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">Aliquam tincidunt mauris</a></h3><!-- End .product-title -->
-                                        <div class="product-price">
-                                            <span class="new-price">$50.00</span>
-                                            <span class="old-price">$84.00</span>
-                                        </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 40%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 4 Reviews )</span>
-                                        </div><!-- End .rating-container -->
-
-                                        <div class="product-nav product-nav-dots">
-                                            <a href="#" class="active" style="background: #cc9966;"><span class="sr-only">Color name</span></a>
-                                            <a href="#" style="background: #7fc5ed;"><span class="sr-only">Color name</span></a>
-                                            <a href="#" style="background: #e8c97a;"><span class="sr-only">Color name</span></a>
-                                        </div><!-- End .product-nav -->
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
-                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-
-                            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                <div class="product">
-                                    <figure class="product-media">
-                                        <a href="product.html">
-                                            <img src="items/acce-mirror.jpg" alt="Product image" class="product-image">
-                                        </a>
-                                    </figure><!-- End .product-media -->
-
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <a href="#">Dresses</a>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">Brown paperbag waist pencil skirt</a></h3><!-- End .product-title -->
-                                        <div class="product-price">
-                                            $60.00
-                                        </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 2 Reviews )</span>
-                                        </div><!-- End .rating-container -->
-
-                                        <div class="product-nav product-nav-dots">
-                                            <a href="#" class="active" style="background: #cc9966;"><span class="sr-only">Color name</span></a>
-                                            <a href="#" style="background: #333333;"><span class="sr-only">Color name</span></a>
-                                            <a href="#" style="background: #7b5d36;"><span class="sr-only">Color name</span></a>
-                                        </div><!-- End .product-nav -->
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
-                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-
-                            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                <div class="product">
-                                    <figure class="product-media">
-                                        <a href="product.html">
-                                            <img src="items/acce-mirror.jpg" alt="Product image" class="product-image">
-                                        </a>
-                                    </figure><!-- End .product-media -->
-
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <a href="#">Dresses</a>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">Dark yellow lace cut out swing dress</a></h3><!-- End .product-title -->
-                                        <div class="product-price">
-                                            $84.00
-                                        </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 0 Reviews )</span>
-                                        </div><!-- End .rating-container -->
-
-                                        <div class="product-nav product-nav-dots">
-                                            <a href="#" style="background: #ebebeb;"><span class="sr-only">Color name</span></a>
-                                            <a href="#" class="active" style="background: #eabc4e;"><span class="sr-only">Color name</span></a>
-                                        </div><!-- End .product-nav -->
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
-                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-
-                            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                <div class="product">
-                                    <figure class="product-media">
-
-                                        <a href="product.html">
-                                            <img src="items/acce-mirror.jpg" alt="Product image" class="product-image">
-                                        </a>
-                                    </figure><!-- End .product-media -->
-
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <a href="#">Jackets</a>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">Khaki utility boiler jumpsuit</a></h3><!-- End .product-title -->
-                                        <div class="product-price">
-                                            <span class="out-price">$120.00</span>
-                                        </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 6 Reviews )</span>
-                                        </div><!-- End .rating-container -->
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
-                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-
-                            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                <div class="product">
-                                    <figure class="product-media">
-                                        <a href="product.html">
-                                            <img src="items/acce-mirror.jpg" alt="Product image" class="product-image">
-                                        </a>
-                                    </figure><!-- End .product-media -->
-
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <a href="#">Jeans</a>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">Blue utility pinafore denim dress</a></h3><!-- End .product-title -->
-                                        <div class="product-price">
-                                            $76.00
-                                        </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 2 Reviews )</span>
-                                        </div><!-- End .rating-container -->
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
-                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-
-                            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                <div class="product">
-                                    <figure class="product-media">
-                                        <a href="product.html">
-                                            <img src="items/acce-mirror.jpg" alt="Product image" class="product-image">
-                                        </a>
-                                    </figure><!-- End .product-media -->
-
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <a href="#">Shoes</a>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">Beige knitted elastic runner shoes</a></h3><!-- End .product-title -->
-                                        <div class="product-price">
-                                            $84.00
-                                        </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 0 Reviews )</span>
-                                        </div><!-- End .rating-container -->
-
-                                        <div class="product-nav product-nav-dots">
-                                            <a href="#" class="active" style="background: #d8c5b0;"><span class="sr-only">Color name</span></a>
-                                            <a href="#" style="background: #333333;"><span class="sr-only">Color name</span></a>
-                                        </div><!-- End .product-nav -->
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
-                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-
-                            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                <div class="product">
-                                    <figure class="product-media">
-                                        <a href="product.html">
-                                            <img src="items/acce-mirror.jpg" alt="Product image" class="product-image">
-                                        </a>
-                                    </figure><!-- End .product-media -->
-
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <a href="#">Bags</a>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">Orange saddle lock front  chain cross body bag</a></h3><!-- End .product-title -->
-                                        <div class="product-price">
-                                            $52.00
-                                        </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 60%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 1 Reviews )</span>
-                                        </div><!-- End .rating-container -->
-
-                                        <div class="product-nav product-nav-dots">
-                                            <a href="#" class="active" style="background: #e07a3d;"><span class="sr-only">Color name</span></a>
-                                            <a href="#" style="background: #7b5d36;"><span class="sr-only">Color name</span></a>
-                                            <a href="#" style="background: #dac1a7;"><span class="sr-only">Color name</span></a>
-                                        </div><!-- End .product-nav -->
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
-                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-
-                            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                <div class="product">
-                                    <figure class="product-media">
-                                        <a href="product.html">
-                                            <img src="items/acce-mirror.jpg" alt="Product image" class="product-image">
-                                        </a>
-                                    </figure><!-- End .product-media -->
-
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <a href="#">Jumpers</a>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">Yellow button front tea top</a></h3><!-- End .product-title -->
-                                        <div class="product-price">
-                                            $56.00
-                                        </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 0 Reviews )</span>
-                                        </div><!-- End .rating-container -->
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
-                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-
-                            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                <div class="product">
-                                    <figure class="product-media">
-                                        <a href="product.html">
-                                            <img src="items/acce-mirror.jpg" alt="Product image" class="product-image">
-                                        </a>
-                                    </figure><!-- End .product-media -->
-
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <a href="#">Shoes</a>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">Light brown studded Wide fit wedges</a></h3><!-- End .product-title -->
-                                        <div class="product-price">
-                                            $110.00
-                                        </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 2 Reviews )</span>
-                                        </div><!-- End .rating-container -->
-
-                                        <div class="product-nav product-nav-dots">
-                                            <a href="#" class="active" style="background: #cc9966;"><span class="sr-only">Color name</span></a>
-                                            <a href="#" style="background: #333333;"><span class="sr-only">Color name</span></a>
-                                            <a href="#" style="background: #dac1a7;"><span class="sr-only">Color name</span></a>
-                                        </div><!-- End .product-nav -->
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
-                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
-
-                            <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                <div class="product">
-                                    <figure class="product-media">
-                                        <a href="product.html">
-                                            <img src="items/acce-mirror.jpg" alt="Product image" class="product-image">
-                                        </a>
-                                    </figure><!-- End .product-media -->
-
-                                    <div class="product-body">
-                                        <div class="product-cat">
-                                            <a href="#">Bags</a>
-                                        </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">Black soft RI weekend travel bag</a></h3><!-- End .product-title -->
-                                        <div class="product-price">
-                                            $68.00
-                                        </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 0 Reviews )</span>
-                                        </div><!-- End .rating-container -->
-                                    </div><!-- End .product-body -->
-                                </div><!-- End .product -->
-                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
+                            @endforeach
                         </div><!-- End .row -->
 
                         <div class="load-more-container text-center">

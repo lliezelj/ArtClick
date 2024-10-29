@@ -87,7 +87,7 @@
                   <a href="{{ route('homepage') }}" class="sf-with-ul">Home</a>
                 </li>
                 <li class="megamenu-container active">
-                  <a href="{{ route('shop-category') }}" class="sf-with-ul">Shop</a>
+                  <a href="{{ route('customer.shop') }}" class="sf-with-ul">Shop</a>
                 </li>
                 <li>
                   <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
@@ -133,7 +133,10 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-cart-action">
                   <a href="cart.html" class="btn btn-primary">Account</a>
-                  <a href="" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" class="btn btn-outline-primary-2"><span>Log out</span><i class="icon-long-arrow-left"></i></button>
+                </form>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
@@ -168,9 +171,11 @@
                                 <div class="product-gallery product-gallery-vertical">
                                     <div class="row">
                                         <figure class="product-main-image">
-                                            <img id="product-zoom" src="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}"
+
+                                        <iframe src="https://zhenjue.sirv.com/Spins/Trainers/Trainers.spin" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+                                            <!-- <img id="product-zoom" src="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}"
                                                 data-zoom-image="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}"
-                                                alt="product image">
+                                                alt="product image"> -->
 
                                             <a href="#" id="btn-product-gallery" class="btn-product-gallery">
                                                 <i class="icon-arrows"></i>
@@ -178,6 +183,7 @@
                                         </figure><!-- End .product-main-image -->
 
                                         <div id="product-zoom-gallery" class="product-image-gallery">
+                                            
                                             <a class="product-gallery-item active" href="#"
                                                 data-image="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}"
                                                 data-zoom-image="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}">
@@ -476,7 +482,7 @@
                         <a href="index-7.html" class="sf-with-ul">Gallery</a>
                     </li>
                     <li>
-                        <a href="announcement.html">Announcements</a>
+                        <a href="{{route('announcements')}}">Announcements</a>
                     </li>
                     <li>
                         <a href="about.html">about</a>
@@ -635,6 +641,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Main JS File -->
     <script src="{{ asset('customer/js/main.js') }}"></script>
+
+    <div class="Sirv" data-src="https://zhenjue.sirv.com/Spins/Trainers/Trainers.spin"></div>
+<script src="https://scripts.sirv.com/sirvjs/v3/sirv.js"></script>
 </body>
 
 

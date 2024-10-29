@@ -54,6 +54,7 @@ class ShopController extends Controller
 
         $existingCartItem = Cart::where('productId', $request->productId)
                                    ->where('user_id', $userId)
+                                   ->where('cart_status', ('In Cart'))
                                    ->first();
         if ($existingCartItem) {
             return redirect()->back()->with('error', 'Item already in cart.');

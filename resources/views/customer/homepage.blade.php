@@ -114,7 +114,31 @@
                 height="25" />
             </a>
 
-            @include('includes.nav')
+            <nav class="main-nav">
+              <ul class="menu sf-arrows">
+                <li class="megamenu-container {{ request()->routeIs('homepage') ? 'active' : '' }}">
+                  <a href="{{ route('homepage') }}" class="sf-with-ul">Home</a>
+                </li>
+                <li class="megamenu-container {{ request()->routeIs('customer.shop') ||request()->routeIs('customer.getProducts') ? 'active' : '' }}">
+                  <a href="{{ route('customer.shop') }}" class="sf-with-ul">Shop</a>
+                </li>
+                <li>
+                  <a href="{{ route('customer.gallery') }}" class="sf-with-ul">Gallery</a>
+                </li>
+
+                <li>
+                  <a href="{{ route('announcements') }}" class="sf-with-ul">Announcement</a>
+                </li>
+                <li>
+                  <a href="{{ route('about') }}" class="sf-with-ul">About</a>
+                </li>
+                <li>
+                  <a href="{{ route('contact') }}" class="sf-with-ul">Contact</a>
+                </li>
+              </ul>
+
+              <!-- End .menu -->
+            </nav>
             <!-- End .main-nav -->
           </div>
           <!-- End .header-left -->
@@ -152,7 +176,7 @@
             <!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="{{ route('cart') }}" class="dropdown-toggle" role="button">
+              <a href="{{ route('customer.cart') }}" class="dropdown-toggle" role="button">
                 <i class="icon-shopping-cart"></i>
               </a>
 
@@ -289,6 +313,7 @@
         <div class="mb-5"></div>
         <!-- End .mb-5 -->
       </main> 
+      
       <!-- End .main -->
       <footer class="footer">
             <div class="footer-middle">
@@ -303,6 +328,7 @@
                                     by skills artisan, showcasing authentic, high-quality
                                     products that blend traditon and creativity.
                                 </p>
+                                
 
                                 <div class="social-icons">
                                     <a href="#" class="social-icon" target="_blank" title="Facebook"><i
@@ -362,6 +388,55 @@
 
 
         </footer>
+      </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    <div class="mobile-menu-container">
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+            <form action="#" method="get" class="mobile-search">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search"
+                    placeholder="Search in..." required>
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+            </form>
+
+            <nav class="mobile-nav">
+                <ul class="mobile-menu">
+                    <li class="active">
+                        <a href="{{route('homepage')}}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{route('customer.shop')}}">Shop</a>
+                    </li>
+
+                    <li>
+                        <a href="index-7.html">Gallery</a>
+                    </li>
+
+                    <li>
+                        <a href="elements-list.html">About</a>
+
+                    </li>
+                    <li>
+                        <a href="elements-list.html">Contact</a>
+
+                    </li>
+                </ul>
+            </nav><!-- End .mobile-nav -->
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
+    </div><!-- End .mobile-menu-container -->
       <!-- Plugins JS File -->
       <script src="{{ asset('customer/js/jquery.min.js') }}"></script>
       <script src="{{ asset('customer/js/bootstrap.bundle.min.js') }}"></script>
