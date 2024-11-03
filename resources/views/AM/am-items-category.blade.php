@@ -174,7 +174,7 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/sales1.svg') }}" alt="img"><span>
                                     Orders</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="productlist-category.html">Orders List</a></li>
+                                <li><a href="{{route('admin.orders')}}">Orders List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">

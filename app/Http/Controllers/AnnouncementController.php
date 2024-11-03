@@ -10,7 +10,7 @@ use Intervention\Image\Facades\Image;
 class AnnouncementController extends Controller
 {
    public function index(){
-    $announcements = Announcement::all();
+    $announcements = Announcement::orderBy('created_at', 'asc')->get();
     return view('customer.announcement',compact('announcements'));
    }
 
@@ -64,6 +64,35 @@ class AnnouncementController extends Controller
         }
     }
     return redirect()->back()->with('error', 'Form submission error!');
-
 }
+
+    public function editAnnouncement(Request $request, String $id){
+
+    $announcement = Announcement::findOrFail($id);
+    $title = $request->input('title');
+    $start = $request->input('start');
+    $end = $request->input('end');
+    $description = $request->input('description');
+
+    if($request->hasFile('picture')){
+    $picture = $request->file('picture');
+    $ext = $picture->getClientOriginalExtension();
+    
+    // Validate file extension
+    if (!in_array($ext, ['jpg', 'png', 'jpeg'])) {
+        return redirect()->back()->with('error', 'Picture must be an image (jpg, png, jpeg).');
+    }
+    $announcement_image = $picture->getClientOriginalName();
+    $picture->move('storage/announcementPictures', $announcement_image);    
+
+    $announcement->picture = $announcement_image;
+    }
+    $announcement->title = $title;
+    $announcement->start = $start;
+    $announcement->end = $end;
+    $announcement->description = $description;
+    $announcement->save();
+
+    return redirect()->back()->with('success', 'Announcement Updated Successfully!');
+    }
 }

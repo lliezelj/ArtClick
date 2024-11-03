@@ -25,6 +25,7 @@ class ProductController extends Controller
             $size= $request->input('size');
             $category_id = $request->input('category_id');
             $artist_id = $request->input('artist_id');
+            $frame = $request->input('frame');
 
             if ($request->hasFile('product_image')) {
                 $picture = $request->file('product_image');
@@ -56,6 +57,7 @@ class ProductController extends Controller
                 'size' => $size,
                 'category_id' => $category_id,
                 'artist_id' => $artist_id,
+                'frame' => $frame,
                 'product_image' => $product_image, 
             ];
 
@@ -85,6 +87,7 @@ class ProductController extends Controller
         $size = $request->input('size');
         $category_id = $request->input('category_id');
         $artist_id = $request->input('artist_id');
+        $frame = $request->input('frame');
 
         $existingProduct = Products::where('name', $name)
         ->where('id', '!=', $id)->first();
@@ -112,6 +115,7 @@ class ProductController extends Controller
             $product->size = $size;
             $product->category_id = $category_id;
             $product->artist_id = $artist_id;
+            $product->frame = $frame;
 
 
         $product->save();
