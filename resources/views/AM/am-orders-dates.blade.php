@@ -116,7 +116,6 @@
 
         </div>
 
-
         <div class="sidebar" id="sidebar">
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
@@ -145,7 +144,10 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/sales1.svg') }}" alt="img"><span>
                                     Orders</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('am-orders-dates')}}"  class="active">Orders List</a></li>
+                                <li><a href="{{route('admin.orderDateIndex')}}"  class="{{ request()->routeIs('admin.orderDateIndex') ? 'active' : '' }}">Orders Dates</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="{{route('admin.orders')}}"  class="{{ request()->routeIs('admin.orders') ? 'active' : '' }}">Orders List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -235,47 +237,25 @@
                                     <tr>
                                         <th>Order Date</th>
                                         <th>Number of Orders</th>
-                                        <th>Status</th>
+                                        <!-- <th>Status</th> -->
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($orders as $order)
                                     <tr>
-                                        <td>October 19, 2024</td>
-                                        <td>20</td>
-                                        <td>
+                                        <td>{{\Carbon\Carbon::parse($order->order_date)->format('F j, Y') }}</td>
+                                        <td>{{$order->order_count}}</td>
+                                        <!-- <td>
                                             <span class="bg-yellow badges">Pending</span>
-                                        </td>
+                                        </td> -->
                                         <td>
-                                            <a class="me-3" href="">
+                                            <a class="me-3" href="{{route('orders.byDate', ['date' => $order->order_date])}}">
                                                 <img src="{{asset('manager/img/icons/eye.svg') }}" alt="img">
                                             </a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>October 20, 2024</td>
-                                        <td>30</td>
-                                        <td >
-                                            <span class="bg-primary badges">Delivered</span>
-                                        </td>
-                                        <td>
-                                            <a class="me-3" href="order-list.html">
-                                                <img src="{{asset('manager/img/icons/eye.svg') }}" alt="img">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>October 21, 2024</td>
-                                        <td>30</td>
-                                        <td >
-                                            <span class="bg-blue badges">Confirmed/Processing</span>
-                                        </td>
-                                        <td>
-                                            <a class="me-3" href="order-list.html">
-                                                <img src="{{asset('manager/img/icons/eye.svg') }}" alt="img">
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

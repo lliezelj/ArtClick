@@ -91,7 +91,7 @@
                             <div class="searchinputs">
                                 <input type="text" placeholder="Search Here ...">
                                 <div class="search-addon">
-                                    <span><img src="{{ asset('manager/img/icons/closes.svg') }}" alt="img"></span>
+                                    <span><img src="{{ asset('manager/img/icons/closes.svg')}}" alt="img"></span>
                                 </div>
                             </div>
                             <a class="btn" id="searchdiv"><img src="{{ asset('manager/img/icons/search.svg') }}" alt="img"></a>
@@ -120,7 +120,7 @@
                                     data-feather="settings"></i>Settings</a>
                             <hr class="m-0">
                             <a class="dropdown-item logout pb-0" href="signin.html"><img
-                                    src="{{ asset('manager/img/icons/log-out.svg')}}" class="me-2" alt="img">Logout</a>
+                                    src="{{ asset('manager/img/icons/log-out.svg') }}" class="me-2" alt="img">Logout</a>
                         </div>
                     </div>
                 </li>
@@ -139,7 +139,6 @@
 
         </div>
 
-
         <div class="sidebar" id="sidebar">
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
@@ -152,15 +151,15 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
                                     Items</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('admin.category')}}">Items List</a></li>
+                                <li><a href="{{route('am-items-category')}}">Items List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
                                     Inventory</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('admin.inventory')}}">Inventory list</a></li>
-                                <li><a href="{{route('admin.restock')}}">Restocking History</a></li>
+                                <li><a href="{{route('am-inventory')}}">Inventory list</a></li>
+                                <li><a href="{{route('am-restock')}}">Restocking History</a></li>
                                 
                             </ul>
                         </li>
@@ -168,7 +167,10 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/sales1.svg') }}" alt="img"><span>
                                     Orders</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('admin.orders')}}">Orders List</a></li>
+                                <li><a href="{{route('admin.orderDateIndex')}}"  class="{{ request()->routeIs('admin.orderDateIndex') ? 'active' : '' }}">Orders Dates</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="{{route('admin.orders')}}"  class="{{ request()->routeIs('admin.orders') ? 'active' : '' }}">Orders List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -190,22 +192,19 @@
                         <li class="submenu">
                             <a href="javascript:void(0);"><i data-feather="award"></i><span> Artist </span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('admin.artist')}}" >Artist List </a></li>
+                                <li><a href="{{route('am-artist')}}" >Artist List </a></li>
                             </ul>
                         </li>
                         <li class="submenu">
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/purchase1.svg') }}" alt="img"><span>
                                     Announcements</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{route('admin.announcement')}}"  class="active">Announcement List</a></li>
+                                <li><a href="{{route('admin.announcement')}}" >Announcement List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
-                        <a href="javascript:void(0);">
-                            <img src="{{ asset('manager/img/icons/users1.svg') }}" alt="img">
-                                    <span>Users</span> 
-                                    <span class="menu-arrow"></span>
-                                </a>
+                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/users1.svg') }}" alt="img"><span>
+                                    Users</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="{{route('am-users')}}">Users List</a></li>
                             </ul>
@@ -218,140 +217,160 @@
             <div class="content">
                 <div class="page-header">
                     <div class="page-title">
-                        <h4>Announcement List</h4>
-                    </div>
-                    <div class="page-btn">
-                        <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#announcement-add">
-                            <img src="{{ asset('manager/img/icons/plus.svg') }}" alt="img" class="me-1">Add New Announcement</a>
+                        <h4>Order List</h4>
                     </div>
                 </div>
 
-
-                
                 <div class="card">
                     <div class="card-body">
                         <div class="table-top">
                             <div class="search-set">
-                                <div class="search-path">
-                                    <a class="btn btn-filter">
-                                        <img src="{{ asset('manager/img/icons/filter.svg') }}" alt="img">
-                                    </a>
-                                </div>
                                 <div class="search-input">
-                                    <a class="btn btn-searchset"><img src="{{ asset('manager/img/icons/search-white.svg') }}"
+                                    <a class="btn btn-searchset"><img src="{{ asset('manager/img/icons/search-white.svg')}}"
                                             alt="img"></a>
                                 </div>
                             </div>
+                            <div class="wordset">
+                                <ul>
+                                    <!-- Status Legend with Icons -->
+                                    
+                                    <li>
+                                        <i class="ion-record" style="color: #F4D06F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Pending"></i> Pending
+                                    </li>
+                                    <li>
+                                        <i class="ion-record" style="color: #82A6FF;" data-bs-toggle="tooltip" data-bs-placement="top" title="Confirmed/Processing"></i> Confirmed/Processing
+                                    </li>
+                                    <li>
+                                        <i class="ion-record" style="color: #556B2F;" data-bs-toggle="tooltip" data-bs-placement="top" title="Out for Delivery"></i> Out for Delivery
+                                    </li>
+                                    <li>
+                                        <i class="ion-record" style="color: #B3E283;" data-bs-toggle="tooltip" data-bs-placement="top" title="Delivered"></i> Delivered
+                                    </li>
+                                </ul>
+                            </div>                            
                         </div>
-
-
-
                         <div class="table-responsive">
                             <table class="table datanew">
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>Title</th>
-                                        <th>From</th>
-                                        <th>To</th>
-                                        <th>Description</th>
+                                        <th>Order Id</th>
+                                        <th>Customer Name</th>
+                                        <th>Total Amount</th>
+                                        <th>Product Name</th>
+                                        <th>Status</th>
+                                        <th>Estimated Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($announcements as $announce)
-                                    <tr>
-                                        <td>
-                                            <a class="product-img">
-                                                <img src="{{$announce->picture ? asset('storage/announcementPictures/' .$announce->picture) : asset('icon/null-image.png') }}" alt="product">
-                                            </a>
-                                        </td>
-                                        <td>{{$announce->title}}</td>
-                                        <td>{{  \Carbon\Carbon::parse($announce->start)->format('F j, Y')}}</td>
-                                        <td>{{  \Carbon\Carbon::parse($announce->end)->format('F j, Y')}}</td>
-                                        <td>{{$announce->description}}</td>
-                                        <td>
-                                            <a class="me-3" href="{{route('am-announcement-details')}}">
-                                                <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
-                                            </a>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#announcement-edit{{$announce->id}}">
-                                                <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
-                                            </a>
+                                @foreach($orders as $order)
+                            <tr>
+                                <td>{{ $order->id }}</td>
+                                <td>{{ $order->user->last_name }}, {{ $order->user->first_name }}</td>
+                                <td>{{ $order->total_price }}</td>
+                                <td>{{ $order->products}}</td>
+                                <td>
+                                @php
+                                    $statusClasses = [
+                                        'Pending' => 'bg-warning',
+                                        'Processing' => 'bg-primary',
+                                        'Out for Delivery' => 'bg-secondary',
+                                        'Delivered' => 'bg-success',
+                                        'Cancelled' => 'text-white bg-danger',
+                                    ];
+                                    $statusClass = $statusClasses[$order->status] ?? 'bg-danger';
+                                @endphp
 
-                                            <!-- Edit Modal -->
-                                            <div class="modal fade" id="announcement-edit{{$announce->id}}" tabindex="-1" aria-labelledby="announcement-edit" aria-hidden="true">
-                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                <span class="{{ $statusClass }} badges">{{ $order->status }}</span>
+                                </td>
+                                <td>
+                                {{ $order->estimated_date ? \Carbon\Carbon::parse($order->estimated_date)->format('F j, Y') : '' }}
+                                </td>
+                                <td>
+                                    <a class="me-3" data-bs-toggle="modal" data-bs-target="#order-details{{$order->id}}">
+                                        <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
+                                    </a>
+
+                                    <!-- order details modal -->
+                                    <div class="modal fade" id="order-details{{$order->id}}" tabindex="-1" aria-labelledby="artist" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered sm" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">Edit Announcement</h5>
+                                                            <h5 class="modal-title">Order Details</h5>
                                                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">×</span>
+                                                                <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <form method="POST" action="{{route('edit.announcement', ['id' => $announce->id]) }}" enctype="multipart/form-data">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <div class="row">
-                                                                <div class="col-lg-3 col-sm-6 col-12">
-                                                                    <div class="form-group">
-                                                                        <label>From</label>
-                                                                        <div class="input-groupicon">
-                                                                            <input class="form-control" value="{{ \Carbon\Carbon::parse($announce->start)->format('Y-m-d') }}" type="date" placeholder="Choose Date" >
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-3 col-sm-6 col-12">
-                                                                    <div class="form-group">
-                                                                        <label>To</label>
-                                                                        <div class="input-groupicon">
-                                                                        <input class="form-control" value="{{ \Carbon\Carbon::parse($announce->end)->format('Y-m-d') }}" type="date" placeholder="Choose Date">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-sm-12 col-12">
-                                                                    <div class="form-group">
-                                                                        <label>Title</label>
-                                                                        <input type="text" name="title" value="{{$announce->title}}">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-sm-12 col-12">
-                                                                    <div class="form-group">
-                                                                        <label>Description</label>
-                                                                        <textarea name="description" class="form-control">{{$announce->description}}</textarea>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-6 col-sm-12 col-12">
-                                                                    <div class="form-group">
-                                                                        <label>
-                                                                            Image</label>
-                                                                        <div class="image-upload">
-                                                                            <input type="file" value="{{$announce->picture}}" name="picture">
-                                                                            <div class="image-uploads">
-                                                                                <img src="{{ asset('manager/img/icons/upload.svg') }}" alt="img">
-                                                                                <h4>Drag and drop a file to upload</h4>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                                
+                                                        <div class="row" style="line-height: 0.5">
+                                                            <p><span class="fw-bold">Order Id:</span> <span>{{$order->id}} </span></p>
+                                                            <p><span class="fw-bold">Order Name:</span> <span>{{ $order->user->last_name }}, {{ $order->user->first_name }}</span></p>
+                                                            <p><span class="fw-bold">Location:</span> <span>{{ $order->user->street_address }} {{ $order->user->barangay }}, {{$order->user->town_city}}</span></p>
+                                                            <p><span class="fw-bold">Contact:</span> <span>{{$order->user->phone_number}} </span></p>
+                                                            <p><span class="fw-bold">Amount:</span> <span>{{$order->total_price}} </span></p>
+                                                            <p><span class="fw-bold">Product Name:</span> <span>{{$order->products}} </span></p>
+                                                            <p><span class="fw-bold">Status:</span><span> {{$order->status}}</span></p>
+                                                            <p><span class="fw-bold">Estimated Date to Deliver:</span> <span>{{ $order->estimated_date ? \Carbon\Carbon::parse($order->estimated_date)->format('F j, Y') : '' }}</span></p>
                                                             </div>
-                                                            <div class="col-lg-12">
-                                                                <button type="submit" name="submit" class="btn btn-submit me-2">Save</button>
-                                                                <a class="btn btn-cancel" data-bs-dismiss="modal">Cancel</a>
-                                                            </div>
-                                                        </form>
                                                         </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" name="submit" class="btn btn-submit">Update</button>
+                                                            <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a class="me-3 confirm-text" href="javascript:void(0);">
-                                                <img src="{{ asset('manager/img/icons/delete.svg')}}" alt="img">
-                                            </a>
+                                    <a class="me-3" data-bs-toggle="modal" data-bs-target="#order-edit{{$order->id}}">
+                                        <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
+                                    </a>
+                                    <!-- order edit modal -->
+                                    <div class="modal fade" id="order-edit{{$order->id}}" tabindex="-1" aria-labelledby="artist" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Edit Order</h5>
+                                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                        <form method="POST" action="{{route('update.orderStatus', ['id' => $order->id]) }}" enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('PUT')
+                                                            <div class="row">
+                                                                <div class="col-6 col-sm-6 col-12">
+                                                                    <div class="form-group">
+                                                                        <label>Update Status</label>
+                                                                        <select class="form-control" name="update_status">
+                                                                        <option selected disabled>{{$order->status}}</option>
+                                                                        <option value="Pending" {{ $order->status == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                                                        <option value="Processing" {{ $order->status == 'Processing' ? 'selected' : '' }}>Processing</option>
+                                                                        <option value="Out for Delivery" {{ $order->status == 'Out for Delivery' ? 'selected' : '' }}>Out for Delivery</option>
+                                                                        <option value="Delivered" {{ $order->status == 'Delivered' ? 'selected' : '' }}>Delivered</option>
+                                                                        <option value="Cancelled" {{ $order->status == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                                                    </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 col-sm-6 col-12">
+                                                                <div class="form-group">
+                                                                    <label>Estimated date</label>
+                                                                    <input type="date" class="form-control" value="{{$order->estimated_date}}" name="estimated_date">
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" name="submit" class="btn btn-submit">Update</button>
+                                                            <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
-                                    @endforeach
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -362,73 +381,7 @@
         </div>
     </div>
 
-    <!-- add modal -->
-    <div class="modal fade" id="announcement-add" tabindex="-1" aria-labelledby="announcement-add" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add New Announcement</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="{{route('add.announcement')}}" enctype="multipart/form-data">
-                    @csrf
-                    <div class="row">
-                        <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label>From</label>
-                                <div class="input-groupicon">
-                                    <input name="start" class="form-control" type="date" placeholder="Choose Date" >
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label>To</label>
-                                <div class="input-groupicon">
-                                <input name="end" class="form-control" type="date" placeholder="Choose Date">                               
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-12 col-12">
-                            <div class="form-group">
-                                <label>Title</label>
-                                <input type="text" name="title">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-12 col-12">
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea name="description" class="form-control"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-12 col-12">
-                            <div class="form-group">
-                                <label>
-                                    Image</label>
-                                <div class="image-upload">
-                                    <input type="file" name="picture">
-                                    <div class="image-uploads">
-                                        <img src="{{ asset('manager/img/icons/upload.svg') }}" alt="img">
-                                        <h4>Drag and drop a file to upload</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>  
-                    </div>
-                    <div class="col-lg-12">
-                        <button type="submit" name="submit" class="btn btn-submit me-2">Submit</button>
-                        <button class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
 
     <script src="{{ asset('manager/js/jquery-3.6.0.min.js') }}"></script>
 
@@ -440,6 +393,7 @@
     <script src="{{ asset('manager/js/dataTables.bootstrap4.min.js') }}"></script>
 
     <script src="{{ asset('manager/js/bootstrap.bundle.min.js') }}"></script>
+
     <script src="{{ asset('manager/plugins/select2/js/select2.min.js') }}"></script>
 
     <script src="{{ asset('manager/js/moment.min.js') }}"></script>
@@ -447,7 +401,7 @@
 
     <script src="{{ asset('manager/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('manager/plugins/sweetalert/sweetalerts.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 
     <script src="{{ asset('manager/js/script.js') }}"></script>
 </body>

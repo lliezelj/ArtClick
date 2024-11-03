@@ -70,7 +70,15 @@ Route::group(['middleware' => ['auth','verified','admin']], function () {
     //Announcements
     Route::get('/admin/announcemets', [App\Http\Controllers\AnnouncementController::class, 'adminIndex'])->name('admin.announcement');
     Route::post('/admin/create/announcement', [App\Http\Controllers\AnnouncementController::class, 'announcementStore'])->name('add.announcement');
-});
+    Route::put('/admin/edit/announcement/{id}', [App\Http\Controllers\AnnouncementController::class, 'editAnnouncement'])->name('edit.announcement');
+
+    // orders routes
+    Route::get('/admin/orders-list', [App\Http\Controllers\OrdersController::class, 'index'])->name('admin.orders');
+    Route::put('/admin/status/edit/{id}', [App\Http\Controllers\OrdersController::class, 'updateOrderStatus'])->name('update.orderStatus');
+    Route::get('/admin/orders-dates', [App\Http\Controllers\OrdersController::class, 'orderDateIndex'])->name('admin.orderDateIndex');
+    Route::get('/orders/date/{date}', [App\Http\Controllers\OrdersController::class, 'showOrdersByDate'])->name('orders.byDate');
+
+}); 
 
 
 

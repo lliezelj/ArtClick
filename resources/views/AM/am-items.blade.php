@@ -172,7 +172,7 @@
                             <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/sales1.svg') }}" alt="img"><span>
                                     Orders</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="productlist-category.html">Orders List</a></li>
+                                <li><a href="{{route('admin.orders')}}">Orders List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -259,13 +259,13 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-sm-12 col-12">
+                                    <div class="col-lg-4 col-sm-12 col-12">
                                         <div class="form-group">
                                             <label>Price</label>
                                             <input type="text" name="price" required>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-sm-12 col-12">
+                                    <div class="col-lg-4 col-sm-12 col-12">
                                         <div class="form-group">
                                             <label>Size</label>
                                             <select class="select" name="size" required>
@@ -273,6 +273,17 @@
                                                 <option value="small">Small</option>
                                                 <option value="medium">Medium</option>
                                                 <option value="large">Large</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <label>Artists</label>
+                                            <select class="select" name="artist_id">
+                                                <option selected disabled>Choose Artist</option>
+                                                @foreach($artists as $artist)
+                                                <option value="{{ $artist->id }}">{{ $artist->lastname}}, {{ $artist->firstname}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -284,13 +295,8 @@
                                     </div>
                                     <div class="col-lg-6 col-sm-12 col-12">
                                         <div class="form-group">
-                                            <label>Artists</label>
-                                            <select class="select" name="artist_id">
-                                                <option selected disabled>Choose Artist</option>
-                                                @foreach($artists as $artist)
-                                                <option value="{{ $artist->id }}">{{ $artist->lastname}}, {{ $artist->firstname}}</option>
-                                                @endforeach
-                                            </select>
+                                            <label>Frame</label>
+                                            <input type="text" name="frame">
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -397,13 +403,13 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6 col-sm-12 col-12">
+                                                            <div class="col-lg-4 col-sm-12 col-12">
                                                                 <div class="form-group">
                                                                     <label>Price</label>
                                                                     <input type="text" name="price" value="{{$item->price}}">
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6 col-sm-12 col-12">
+                                                            <div class="col-lg-4 col-sm-12 col-12">
                                                                 <div class="form-group">
                                                                     <label>Size</label>
                                                                     <select class="select" name="size">
@@ -414,13 +420,7 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-6 col-sm-12 col-12">
-                                                                <div class="form-group">
-                                                                    <label>Description</label>
-                                                                    <input type="text" name="description" value="{{$item->description}}">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-sm-12 col-12">
+                                                            <div class="col-lg-4 col-sm-12 col-12">
                                                                 <div class="form-group">
                                                                     <label>Artist</label>
                                                                     <select class="select" name="artist_id">
@@ -437,6 +437,18 @@
                                                                             </option>
                                                                         @endforeach
                                                                     </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-sm-12 col-12">
+                                                                <div class="form-group">
+                                                                    <label>Description</label>
+                                                                    <input type="text" name="description" value="{{$item->description}}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-sm-12 col-12">
+                                                                <div class="form-group">
+                                                                    <label>Frame</label>
+                                                                    <input type="text" name="frame" value="{{$item->frame}}">
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-12">

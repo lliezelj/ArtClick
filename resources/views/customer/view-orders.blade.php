@@ -208,13 +208,13 @@
                                         <td>Gcash</td>
                                         @endif
                                         <td> @if ($order->status === 'Pending')
-                                                <span class="badge bg-warning">{{$order->status}}</span>
+                                                <span class="badge bg-warning">Pending</span>
                                             @elseif ($order->status === 'Processing')
-                                                <span class="badge bg-info">{{$order->status}}</span>
+                                                <span class="badge bg-info">Processing</span>
                                             @elseif ($order->status === 'Cancelled')
-                                                <span class="badge bg-danger">{{$order->status}}</span>
+                                                <span class="badge bg-danger">Cancelled</span>
                                             @elseif ($order->status === 'Delivered')
-                                                <span class="badge bg-success">{{$order->status}}</span>
+                                                <span class="badge bg-success">Delivered</span>
                                             @else
                                                 <span class="badge bg-secondary">Unknown Status</span>
                                             @endif

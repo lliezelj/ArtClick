@@ -171,12 +171,13 @@
                                 <div class="product-gallery product-gallery-vertical">
                                     <div class="row">
                                         <figure class="product-main-image">
-
-                                        <iframe src="https://zhenjue.sirv.com/Spins/Trainers/Trainers.spin" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
-                                            <!-- <img id="product-zoom" src="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}"
-                                                data-zoom-image="{{$viewProductDetails->product_image ? asset('storage/productPictures/' .$viewProductDetails->product_image) : asset('icon/null-image.png') }}"
-                                                alt="product image"> -->
-
+                                        @if(!empty($viewProductDetails->frame))
+                                        {!! $viewProductDetails->frame !!}
+                                        @else
+                                            <img id="product-zoom" src="{{ $viewProductDetails->product_image ? asset('storage/productPictures/' . $viewProductDetails->product_image) : asset('icon/null-image.png') }}"
+                                                data-zoom-image="{{ $viewProductDetails->product_image ? asset('storage/productPictures/' . $viewProductDetails->product_image) : asset('icon/null-image.png') }}"
+                                                alt="product image">
+                                        @endif
                                             <a href="#" id="btn-product-gallery" class="btn-product-gallery">
                                                 <i class="icon-arrows"></i>
                                             </a>
@@ -642,8 +643,8 @@
     <!-- Main JS File -->
     <script src="{{ asset('customer/js/main.js') }}"></script>
 
-    <div class="Sirv" data-src="https://zhenjue.sirv.com/Spins/Trainers/Trainers.spin"></div>
-<script src="https://scripts.sirv.com/sirvjs/v3/sirv.js"></script>
+    <div class="Sirv" data-src="https://aasianoshop.sirv.com/woven%20bird%20basket/Woven%20Bird%20Basket.spin"></div>
+    <script src="https://scripts.sirv.com/sirvjs/v3/sirv.js"></script>
 </body>
 
 

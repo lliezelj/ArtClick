@@ -143,10 +143,28 @@
           <section class="announcements">
             <div class="announcement-list">
               @foreach($announcements as $announce)
-              <div class="announcement new-arrivals" data-toggle="modal" data-target="#announcementModal1">
+              <div class="announcement new-arrivals" data-toggle="modal" data-target="#announcementModal1{{$announce->id}}">
                 <div class="date">{{\Carbon\Carbon::parse($announce->start)->format('F j, Y')}} - {{\Carbon\Carbon::parse($announce->end)->format('F j, Y')}}</div>
                 <h3>{{ ($announce->title)}}</h3>
                 <p>Click to read more...</p>
+              </div>
+               <!-- Modals -->
+              <div class="modal fade" id="announcementModal1{{$announce->id}}" tabindex="-1" role="dialog" aria-labelledby="announcementModalLabel1"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="announcementModalLabel1">{{$announce->title}}</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                    <img src="{{$announce->picture ? asset('storage/announcementPictures/' .$announce->picture) : asset('icon/null-image.png') }} " alt="New Arrival Image" class="announcement-image">
+                      <p>{{$announce->description}}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
               @endforeach
             </div>
@@ -226,58 +244,7 @@
     <i class="icon-arrow-up"></i>
   </button>
 
-  <!-- Modals -->
-  <div class="modal fade" id="announcementModal1" tabindex="-1" role="dialog" aria-labelledby="announcementModalLabel1"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="announcementModalLabel1">NEW ARRIVAL!</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-        <img src="{{ asset('customer/images/items/arti1.jpg') }} " alt="New Arrival Image" class="announcement-image">
-          <p>We have officially launched our new collection. Check it out now!</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="modal fade" id="announcementModal2" tabindex="-1" role="dialog" aria-labelledby="announcementModalLabel2"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="announcementModalLabel2">Exhibition</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Join us for an exclusive exhibition of our latest artworks.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="announcementModal3" tabindex="-1" role="dialog" aria-labelledby="announcementModalLabel3"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="announcementModalLabel3">New Items Soon!</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Stay tuned for our upcoming collection of unique items.</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <script src="{{ asset('customer/js/jquery.min.js') }}"></script>
   <script src="{{ asset('customer/js/bootstrap.bundle.min.js') }}"></script>
