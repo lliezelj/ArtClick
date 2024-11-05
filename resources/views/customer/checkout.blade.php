@@ -174,68 +174,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-9">
-                                <h1>My Orders</h1>
-                            <div class="table-responsive">
-                            <table class="table  datanew">
-                                <thead>
-                                 
-                                    <tr>
-                                        <th>Product Name</th>  
-                                        <th>Total Price</th> 
-                                        <th>Mode of Payment</th>  
-                                        <th>Status</th>  
-                                        <th></th>                                 
-                                    </tr>
-                                </thead>
-                                <tbody> 
-                                @foreach($orders as $order)
-                                    <tr>
-                                        <a href="">
-                                    <td class="text-sm" style="font-size: 1.2rem;">
-                                        @php
-                                            $productsArray = explode(',', $order->products); // Split the string into an array
-                                        @endphp
-                                        <ul class="list-unstyled">
-                                            @foreach ($productsArray as $product)
-                                                <li>{{ trim($product) }}</li> <!-- Trim whitespace from each product -->
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                        <td>{{$order->total_price}}</td>
-                                        @if($order->mode_of_payment === 'Cash on Delivery')
-                                        <td>COD</td>
-                                        @else
-                                        <td>Gcash</td>
-                                        @endif
-                                        <td> @if ($order->status === 'Pending')
-                                                <span class="badge bg-warning">{{$order->status}}</span>
-                                            @elseif ($order->status === 'Processing')
-                                                <span class="badge bg-info">{{$order->status}}</span>
-                                            @elseif ($order->status === 'Cancelled')
-                                                <span class="badge bg-danger">{{$order->status}}</span>
-                                            @elseif ($order->status === 'Delivered')
-                                                <span class="badge bg-success">{{$order->status}}</span>
-                                            @else
-                                                <span class="badge bg-secondary">Unknown Status</span>
-                                            @endif
-                                        </td>
-                                        @if ($order->status === 'Pending')
-                                        <form method="POST" action="{{route('customer.cancel', ['id' => $order->id]) }}">
-                                        @csrf
-                                        @method('PUT')
-                                        <td class="remove-col"><button type="submit" name="submit" class="btn-remove"><i
-                                        class="icon-close"></i></button></td>
-                                        </form>
-                                        @else
-                                        <p></p>
-                                        @endif
-                                        </a>
-                                    </tr>
-
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                <img src="{{asset('customer/images/items/Artclick.png')}}" alt="">
                              </div><!-- End .col-lg-9 -->
                                 <aside class="col-lg-3">
                                     <div class="summary">

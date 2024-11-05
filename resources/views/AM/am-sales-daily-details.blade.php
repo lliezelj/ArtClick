@@ -117,83 +117,14 @@
         </div>
 
 
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-inner slimscroll">
-                <div id="sidebar-menu" class="sidebar-menu">
-                    <ul>
-                        <li>
-                            <a href="index.html"><img src="{{ asset('manager/img/icons/dashboard.svg') }}" alt="img"><span>
-                                    Dashboard</span> </a>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
-                                    Items</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-items-category')}}">Items List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
-                                    Inventory</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-inventory')}}">Inventory list</a></li>
-                                <li><a href="{{route('am-restock')}}">Restocking History</a></li>
-                                
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/sales1.svg') }}" alt="img"><span>
-                                    Orders</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="productlist-category.html">Orders List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/expense1.svg') }}" alt="img"><span>
-                                    Expense</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-expenses')}}">Expense List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/time.svg') }}" alt="img"><span>
-                                    Sales</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-sales-daily')}}" class="active">Daily Sales</a></li>
-                                <li><a href="{{route('am-sales-monthly')}}">Monthly Sales </a></li>
-                                <li><a href="{{route('am-sales-annually')}}">Annually Sales</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><i data-feather="award"></i><span> Artist </span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-artist')}}" >Artist List </a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/purchase1.svg') }}" alt="img"><span>
-                                    Announcements</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('admin.announcement')}}" >Announcement List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/users1.svg') }}" alt="img"><span>
-                                    Users</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-users')}}">Users List</a></li>
-                            </ul>
-                        </li>
-                </div>
-            </div>
-        </div>
+        @include('includes.sidebar')
 
         <div class="page-wrapper">
             <div class="content">
                 <div class="page-header">
                     <div class="page-title">
                         <h4>Daily Sales</h4>
-                        <h6>List of Sales for June 12, 2024</h6>
+                        <h6>List of Sales for {{\Carbon\Carbon::parse($date)->format('F j, Y')}}</h6>
                     </div>
                 </div>
 
@@ -222,43 +153,21 @@
                             <table class="table  datanew">
                                 <thead>
                                     <tr>
-                                        <th>Product Name</th> 
-                                        <th>Quantity</th>                                                                              
+                                        <th>Order ID</th>
+                                        <th>Product Name</th>
+                                        <th>Customer Name</th>                                                                            
                                         <th>Total Sales</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($orders as $sales)
                                     <tr>
-                                        <td class="productimgname">
-                                            <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/product1.jpg') }}" alt="product">
-                                            </a>
-                                            <a href="javascript:void(0);">Macbook pro</a>
-                                        </td>
-                                        <td>150</td>
-                                        <td>₱1500.00</td>                                      
+                                        <td>{{$sales->id}}</td>
+                                        <td >{{$sales->products}}</td>
+                                        <td>{{$sales->user->last_name}}, {{$sales->user->first_name}}</td>
+                                        <td>{{$sales->total_price}}</td>                                  
                                     </tr>
-                                    <tr>
-                                        <td class="productimgname">
-                                            <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/product2.jpg') }}" alt="product">
-                                            </a>
-                                            <a href="javascript:void(0);">Orange</a>
-                                        </td>
-                                        <td>160</td>                                       
-                                        <td>₱110.00</td>                                       
-                                    </tr>
-                                    <tr>
-                                        <td class="productimgname">
-                                            <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/product7.jpg') }}" alt="product">
-                                            </a>
-                                            <a href="javascript:void(0);">Apple Earpods</a>
-                                        </td>
-                                        <td>300</td>  
-                                        <td>₱102.00</td>
-                                    </tr>
-                                    
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

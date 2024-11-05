@@ -95,4 +95,9 @@ class AnnouncementController extends Controller
 
     return redirect()->back()->with('success', 'Announcement Updated Successfully!');
     }
+
+    public function viewAnnouncement(String $id){
+        $announcement = Announcement::findOrFail($id);
+        return view('AM.am-announcement-details', compact('announcement'));
+    }
 }
