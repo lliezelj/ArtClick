@@ -117,76 +117,7 @@
 
         </div>
 
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-inner slimscroll">
-                <div id="sidebar-menu" class="sidebar-menu">
-                    <ul>
-                        <li>
-                            <a href="index.html"><img src="{{ asset('manager/img/icons/dashboard.svg') }}" alt="img"><span>
-                                    Dashboard</span> </a>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
-                                    Items</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-items-category')}}">Items List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
-                                    Inventory</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-inventory')}}">Inventory list</a></li>
-                                <li><a href="{{route('am-restock')}}">Restocking History</a></li>
-                                
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/sales1.svg') }}" alt="img"><span>
-                                    Orders</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="productlist-category.html">Orders List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/expense1.svg') }}" alt="img"><span>
-                                    Expense</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-expenses')}}">Expense List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/time.svg') }}" alt="img"><span>
-                                    Sales</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-sales-daily')}}">Daily Sales</a></li>
-                                <li><a href="{{route('am-sales-monthly')}}" class="active">Monthly Sales </a></li>
-                                <li><a href="{{route('am-sales-annually')}}">Annually Sales</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><i data-feather="award"></i><span> Artist </span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-artist')}}" >Artist List </a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/purchase1.svg') }}" alt="img"><span>
-                                    Announcements</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('admin.announcement')}}" >Announcement List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/users1.svg') }}" alt="img"><span>
-                                    Users</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-users')}}">Users List</a></li>
-                            </ul>
-                        </li>
-                </div>
-            </div>
-        </div>
+        @include('includes.sidebar')
 
         <div class="page-wrapper">
             <div class="content">
@@ -207,45 +138,39 @@
                                 </div>
                             </div>
                         </div>
-                            
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr class="table-warning">
                                         <th>Revenue</th>
-                                        <th></th> 
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Total Sales</td>  
-                                        <td>₱5000</td>                                    
+                                        <td>Total Sales</td>
+                                        <td>₱{{ number_format($totalSales, 2) }}</td>
                                     </tr>
                                 </tbody>
-                                
-                                        <tr  class="table-danger">
-                                            <th>Expenses</th>
-                                            <th></th> 
-                                            
-                                        </tr>
-                                        <tr>
-                                            <td>Total COGS</td>
-                                            <td>₱4300</td>                                     
-                                        </tr>                                        
-                                        <tr>
-                                            <td>Total Operating Expenses</td>
-                                            <td>₱4300</td>                                     
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2"></td> <!-- Empty row -->
-                                            
-                                        </tr>
-                                        <tr  class="table-success">
-                                            <th>Net Income Profit</th>
-                                            <th>₱4300</th> 
-                                            
-                                        </tr>
-                                    </tbody>
+                                <thead>
+                                    <tr class="table-danger">
+                                        <th>Expenses</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Total Operating Expenses</td>
+                                        <td>₱{{ number_format($totalExpenses, 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"></td> <!-- Empty row -->
+                                    </tr>
+                                    <tr class="table-success">
+                                        <th>Net Income Profit</th>
+                                        <th>₱{{ number_format($netIncomeProfit, 2) }}</th>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>

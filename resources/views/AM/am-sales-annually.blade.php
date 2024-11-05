@@ -117,76 +117,7 @@
         </div>
 
 
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-inner slimscroll">
-                <div id="sidebar-menu" class="sidebar-menu">
-                    <ul>
-                        <li>
-                            <a href="index.html"><img src="{{ asset('manager/img/icons/dashboard.svg') }}" alt="img"><span>
-                                    Dashboard</span> </a>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
-                                    Items</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-items-category')}}">Items List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
-                                    Inventory</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-inventory')}}">Inventory list</a></li>
-                                <li><a href="{{route('am-restock')}}">Restocking History</a></li>
-                                
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/sales1.svg') }}" alt="img"><span>
-                                    Orders</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="productlist-category.html">Orders List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/expense1.svg') }}" alt="img"><span>
-                                    Expense</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-expenses')}}">Expense List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/time.svg') }}" alt="img"><span>
-                                    Sales</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-sales-daily')}}">Daily Sales</a></li>
-                                <li><a href="{{route('am-sales-monthly')}}">Monthly Sales </a></li>
-                                <li><a href="{{route('am-sales-annually')}}" class="active">Annually Sales</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><i data-feather="award"></i><span> Artist </span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-artist')}}" >Artist List </a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/purchase1.svg') }}" alt="img"><span>
-                                    Announcements</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('admin.announcement')}}" >Announcement List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/users1.svg') }}" alt="img"><span>
-                                    Users</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-users')}}">Users List</a></li>
-                            </ul>
-                        </li>
-                </div>
-            </div>
-        </div>
+        @include('includes.sidebar')
 
         <div class="page-wrapper">
             <div class="content">
@@ -209,7 +140,7 @@
                             <div class="wordset">
                                 <ul>
                                     <li>
-                                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
+                                        <a href="{{ route('annualSales.pdf')}}" data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img
                                                 src="{{ asset('manager/img/icons/pdf.svg') }}" alt="img"></a>
                                     </li>
                                 </ul>
@@ -230,20 +161,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @foreach ($annualData as $data)
                                     <tr>
-                                        <td>2024</td>
-                                        <td>100</td>
-                                        <td>₱20,000</td>
-                                        <td>₱30000</td>
-                                        <td>2424</td>
+                                        <td>{{ \Carbon\Carbon::create($data['year'])->format('Y') }}</td>
+                                        <td>{{ $data['total_orders'] ?? 0 }}</td>
+                                        <td>₱{{ number_format($data['total_sales'], 2) }}</td>
+                                        <td>₱{{ number_format($data['total_expense'], 2) }}</td>
+                                        <td>₱{{ number_format($data['total_sales'] - $data['total_expense'], 2) }}</td>
                                     </tr>
-                                    <tr>
-                                        <td>2023</td>
-                                        <td>100</td>
-                                        <td>₱20,000</td>
-                                        <td>₱30000</td>
-                                        <td>2424</td>
-                                    </tr>
+                                 @endforeach
                                 </tbody>
                             </table>
                         </div>

@@ -9,6 +9,7 @@ return view('customer.landingpage');
 Route::group(['middleware' => ['auth', 'verified']], function () {
 Route::get('/homepage',[App\Http\Controllers\HomeController::class, 'index'])->name('homepage');
 
+
 //Shop Routes
 Route::get('/customer/shop-category',[App\Http\Controllers\ShopController::class, 'index'])->name('customer.shop');
 Route::get('/customer/categories/{id}/products', [App\Http\Controllers\ShopController::class, 'getProductsByCategory'])->name('customer.getProducts');
@@ -21,7 +22,7 @@ Route::put('/customer/cart/{id}/delete', [App\Http\Controllers\CartController::c
 Route::get('/customer/checkout/{id}',[App\Http\Controllers\CartController::class, 'checkOut'])->name('customer.checkOut');
 Route::post('/customer/add-to-order', [App\Http\Controllers\CartController::class, 'placeOrder'])->name('customer.placeOrder');
 Route::put('/customer/order/{id}/cancelled', [App\Http\Controllers\CartController::class, 'cancelOrder'])->name('customer.cancel');
-
+Route::get('/customer/view-orders', [App\Http\Controllers\CartController::class, 'viewOrders'])->name('view.orders');
 //Gallery Routes
 Route::get('/customer/gallery/artists',[App\Http\Controllers\ArtistController::class, 'gallery'])->name('customer.gallery');
 Route::get('/customer/gallery/{id}/artist-items', [App\Http\Controllers\ArtistController::class, 'getItemsByArtists'])->name('get.items');
@@ -32,8 +33,9 @@ Route::get('/announcements',[App\Http\Controllers\AnnouncementController::class,
 });
 
 Route::group(['middleware' => ['auth','verified','admin']], function () {
+
     // Admin routes here
-    Route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('admin.dashboard');
 
     //category routes
     Route::get('/admin/category-list', [App\Http\Controllers\CategoryController::class, 'index'])->name('admin.category');
@@ -71,12 +73,34 @@ Route::group(['middleware' => ['auth','verified','admin']], function () {
     Route::get('/admin/announcemets', [App\Http\Controllers\AnnouncementController::class, 'adminIndex'])->name('admin.announcement');
     Route::post('/admin/create/announcement', [App\Http\Controllers\AnnouncementController::class, 'announcementStore'])->name('add.announcement');
     Route::put('/admin/edit/announcement/{id}', [App\Http\Controllers\AnnouncementController::class, 'editAnnouncement'])->name('edit.announcement');
+    Route::get('/admin/view/announcemet/details/{id}', [App\Http\Controllers\AnnouncementController::class, 'viewAnnouncement'])->name('view.announcement');
 
     // orders routes
     Route::get('/admin/orders-list', [App\Http\Controllers\OrdersController::class, 'index'])->name('admin.orders');
     Route::put('/admin/status/edit/{id}', [App\Http\Controllers\OrdersController::class, 'updateOrderStatus'])->name('update.orderStatus');
     Route::get('/admin/orders-dates', [App\Http\Controllers\OrdersController::class, 'orderDateIndex'])->name('admin.orderDateIndex');
     Route::get('/orders/date/{date}', [App\Http\Controllers\OrdersController::class, 'showOrdersByDate'])->name('orders.byDate');
+
+    //Expenses routes
+    Route::get('/admin/expenses-list', [App\Http\Controllers\ExpensesController::class, 'index'])->name('admin.expenses');
+    Route::post('/admin/add/expense', [App\Http\Controllers\ExpensesController::class, 'addExpense'])->name('add.expense');
+    Route::get('/expenses/{year}/{month}', [App\Http\Controllers\ExpensesController::class, 'showExpenseByYearMonth'])->name('expense.details');
+    Route::put('/admin/edit/expense/{id}', [App\Http\Controllers\ExpensesController::class, 'editExpense'])->name('edit.expense');
+    Route::delete('/admin/expense/{id}/delete', [App\Http\Controllers\ExpensesController::class, 'deleteExpense'])->name('delete.expense');
+
+
+    // Sales Routes
+    Route::get('/admin/daily-sales', [App\Http\Controllers\SalesController::class, 'dailySales'])->name('admin.dailySales');
+    Route::get('/admin/sales/{date}', [App\Http\Controllers\SalesController::class, 'getOrdersByDate'])->name('sales.byDate');
+    Route::get('/admin/monthly-sales', [App\Http\Controllers\SalesController::class, 'showMonthlySales'])->name('monthly.sales');
+    Route::get('/sales/monthly-details', [App\Http\Controllers\SalesController::class, 'showMonthlyDetails'])->name('monthly.details');
+    Route::get('/admin/annual-sales', [App\Http\Controllers\SalesController::class, 'showAnnualSales'])->name('annual.sales');
+    Route::get('/generate-pdf', [App\Http\Controllers\SalesController::class, 'generatePdf'])->name('generate.pdf');
+    Route::get('/generate-pdf/daily-sales', [App\Http\Controllers\SalesController::class, 'generatePdfDailySales'])->name('dailySales.pdf');
+    Route::get('/generate-pdf/annual-sales', [App\Http\Controllers\SalesController::class, 'generatePdfAnnualSales'])->name('annualSales.pdf');
+
+    // Users Routes
+    Route::get('/view/users', [App\Http\Controllers\UsersController::class, 'index'])->name('view.users');
 
 }); 
 

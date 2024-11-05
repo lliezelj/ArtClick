@@ -36,7 +36,6 @@ class ShopController extends Controller
 
     public function addToCart(Request $request)
     {
-        // Validate the request input
         $request->validate([
             'productId' => 'required|integer',
             'order_quantity' => 'required|integer|min:1',

@@ -25,9 +25,32 @@
 
     <link rel="stylesheet" href="{{ asset('manager/plugins/fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('manager/plugins/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 
     <link rel="stylesheet" href="{{ asset('manager/css/style.css') }}">
 </head>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 
 <body>
     <div id="global-loader">
@@ -116,77 +139,8 @@
 
         </div>
 
-
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-inner slimscroll">
-                <div id="sidebar-menu" class="sidebar-menu">
-                    <ul>
-                        <li>
-                            <a href="index.html"><img src="{{ asset('manager/img/icons/dashboard.svg') }}" alt="img"><span>
-                                    Dashboard</span> </a>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
-                                    Items</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-items-category')}}">Items List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
-                                    Inventory</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-inventory')}}">Inventory list</a></li>
-                                <li><a href="{{route('am-restock')}}">Restocking History</a></li>
-                                
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/sales1.svg') }}" alt="img"><span>
-                                    Orders</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="productlist-category.html">Orders List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/expense1.svg') }}" alt="img"><span>
-                                    Expense</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-expenses')}}" class="active">Expense List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/time.svg') }}" alt="img"><span>
-                                    Sales</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-sales-daily')}}">Daily Sales</a></li>
-                                <li><a href="{{route('am-sales-monthly')}}">Monthly Sales </a></li>
-                                <li><a href="{{route('am-sales-annually')}}">Annually Sales</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><i data-feather="award"></i><span> Artist </span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-artist')}}" >Artist List </a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/purchase1.svg') }}" alt="img"><span>
-                                    Announcements</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-announcement')}}" >Announcement List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/users1.svg') }}" alt="img"><span>
-                                    Users</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-users')}}">Users List</a></li>
-                            </ul>
-                        </li>
-                </div>
-            </div>
-        </div>
+        @include('includes.sidebar')
+        
 
         <div class="page-wrapper">
             <div class="content">
@@ -210,47 +164,33 @@
                                 </button>
                             </div>
                             <div class="modal-body">
+                                <form method="POST" action="{{route('add.expense')}}" enctype="multipart/form-data">
+                                @csrf
                                 <div class="row">
-                                    <div class="col-lg-3 col-sm-6 col-12">
+                                    <div class="col-lg-4 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label>Year</label>
-                                            <div class="input-groupicon">
-                                                <input type="text" placeholder="Choose Date" class="datetimepicker">
-                                                <div class="addonset">
-                                                    <img src="{{ asset('manager/img/icons/calendars.svg') }}" alt="img">
-                                                </div>
-                                            </div>
+                                            <label>Date</label>   
+                                            <input class="form-control" type="date" name="date" placeholder="Choose Date">
                                         </div>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            <label>Month</label>
-                                            <div class="input-groupicon">
-                                                <input type="text" placeholder="Choose Date" class="datetimepicker">
-                                                <div class="addonset">
-                                                    <img src="{{ asset('manager/img/icons/calendars.svg') }}" alt="img">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-sm-12 col-12">
+                                      </div>
+                                    <div class="col-lg-4 col-sm-12 col-12">
                                         <div class="form-group">
                                             <label>Amount</label>
-                                            <input type="text">
+                                            <input class="form-control" type="number" name="amount">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-sm-12 col-12">
+                                    <div class="col-lg-4 col-sm-12 col-12">
                                         <div class="form-group">
                                             <label>Expense Name</label>
-                                            <input type="text">
+                                            <input type="text" name="expense_name">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-sm-12 col-12">
+                                    <div class="col-lg-12 col-sm-12 col-12">
                                         <div class="form-group">
                                             <label>
                                                 Expense Image</label>
                                             <div class="image-upload">
-                                                <input type="file">
+                                                <input type="file" name="expense_image">
                                                 <div class="image-uploads">
                                                     <img src="{{ asset('manager/img/icons/upload.svg') }}" alt="img">
                                                     <h4>Drag and drop a file to upload</h4>
@@ -259,12 +199,12 @@
                                         </div>
                                     </div>
                                     
-                                    
                                 </div>
                                 <div class="col-lg-12">
-                                    <a class="btn btn-submit me-2">Submit</a>
-                                    <a class="btn btn-cancel" data-bs-dismiss="modal">Cancel</a>
+                                    <button type="submit" name="submit" class="btn btn-submit me-2">Submit</button>
+                                    <button class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
                                 </div>
+                            </form>
                             </div>
                         </div>
                     </div>
@@ -299,18 +239,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @foreach($expenses as $expense)
                                     <tr>
-                                        <td>2024</td>
-                                        <td>January</td>
-                                        <td>30000</td>
+                                        <td>{{$expense->expense_year}}</td>
+                                        <td>{{ \Carbon\Carbon::create()->month($expense->expense_month)->format('F') }}</td>
+                                        <td>{{$expense->expense_amount}}</td>
                                         <td>
-                                            <a class="me-3" href="{{route('am-expenses-details')}}">
-                                                <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
-                                            </a>
+                                        <a class="me-3" href="{{ route('expense.details', ['year' => $expense->expense_year, 'month' => $expense->expense_month]) }}">
+                                            <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="View Details">
+                                        </a>
                                         </td>
                                     </tr>
-
-
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -341,6 +281,7 @@
 
     <script src="{{ asset('manager/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('manager/plugins/sweetalert/sweetalerts.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="{{ asset('manager/js/script.js') }}"></script>
 </body>

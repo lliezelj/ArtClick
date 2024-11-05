@@ -25,9 +25,32 @@
 
     <link rel="stylesheet" href="{{ asset('manager/plugins/fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('manager/plugins/fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 
     <link rel="stylesheet" href="{{ asset('manager/css/style.css') }}">
 </head>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 
 <body>
     <div id="global-loader">
@@ -116,84 +139,14 @@
 
         </div>
 
-
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-inner slimscroll">
-                <div id="sidebar-menu" class="sidebar-menu">
-                    <ul>
-                        <li>
-                            <a href="index.html"><img src="{{ asset('manager/img/icons/dashboard.svg') }}" alt="img"><span>
-                                    Dashboard</span> </a>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
-                                    Items</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-items-category')}}">Items List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
-                                    Inventory</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-inventory')}}">Inventory list</a></li>
-                                <li><a href="{{route('am-restock')}}">Restocking History</a></li>
-                                
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/sales1.svg') }}" alt="img"><span>
-                                    Orders</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="productlist-category.html">Orders List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/expense1.svg') }}" alt="img"><span>
-                                    Expense</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-expenses')}}" class="active">Expense List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/time.svg') }}" alt="img"><span>
-                                    Sales</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-sales-daily')}}" >Daily Sales</a></li>
-                                <li><a href="{{route('am-sales-monthly')}}">Monthly Sales </a></li>
-                                <li><a href="{{route('am-sales-annually')}}">Annually Sales</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><i data-feather="award"></i><span> Artist </span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-artist')}}" >Artist List </a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/purchase1.svg') }}" alt="img"><span>
-                                    Announcements</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-announcement')}}" >Announcement List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/users1.svg') }}" alt="img"><span>
-                                    Users</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-users')}}">Users List</a></li>
-                            </ul>
-                        </li>
-                </div>
-            </div>
-        </div>
-
+        @include('includes.sidebar')
+        
         <div class="page-wrapper">
             <div class="content">
                 <div class="page-header">
                     <div class="page-title">
                         <h4>Expenses Details</h4>
-                        <h6>View the Full Details of January 2024 Expenses</h6>
+                        <h6>View the Full Details of {{ \Carbon\Carbon::create($year, $month)->format('F Y') }} Expenses</h6>
                     </div>
                 </div>
 
@@ -227,19 +180,104 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                @foreach($myExpenses as $expense)
                                     <tr>
-                                        <td>Electric Bill</td>
-                                        <td>30000</td>
+                                        <td>{{$expense->expense_name}}</td>
+                                        <td>{{ number_format($expense->amount, 2) }}</td>
                                         <td>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#expenses-edit">
+                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#expenses-edit{{$expense->id}}">
                                                 <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
                                             </a>
-                                            <a class="me-3" href="expenses-details.html">
+
+                                            <!-- Expense edit -->
+                                                <div class="modal fade" id="expenses-edit{{$expense->id}}" tabindex="-1" aria-labelledby="expenses-edit" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Edit Expenses</h5>
+                                                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                             <form method="POST" action="{{route('edit.expense', ['id' => $expense->id])}}" enctype="multipart/form-data">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <div class="row">
+                                                                    <div class="col-lg-4 col-sm-6 col-12">
+                                                                        <div class="form-group">
+                                                                            <label>Date</label>
+                                                                                <input class="form-control" name="date" value="{{$expense->date}}" type="date" placeholder="Choose Date">
+                                                                            </div>
+                                                                        </div>
+                                                                    <div class="col-lg-4 col-sm-12 col-12">
+                                                                        <div class="form-group">
+                                                                            <label>Amount</label>
+                                                                            <input type="number" class="form-control" name="amount" value="{{$expense->amount}}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-4 col-sm-12 col-12">
+                                                                        <div class="form-group">
+                                                                            <label>Expense Name</label>
+                                                                            <input type="text" name="expense_name" value="{{$expense->expense_name}}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-12 col-sm-12 col-12">
+                                                                        <div class="form-group">
+                                                                            <label>
+                                                                                Expense Image</label>
+                                                                            <div class="image-upload">
+                                                                                <input type="file" name="expense_image" value="{{$expense->expense_image}}">
+                                                                                <div class="image-uploads">
+                                                                                    <img src="{{ asset('manager/img/icons/upload.svg') }}" alt="img">
+                                                                                    <h4>Drag and drop a file to upload</h4>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>                                                           
+                                                                </div>
+                                                                <div class="col-lg-12">
+                                                                    <button type="submit" name="submit" class="btn btn-submit me-2">Submit</button>
+                                                                    <button class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                                                                </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#expense-delete{{$expense->id}}">
                                                 <img src="{{ asset('manager/img/icons/delete.svg') }}" alt="img">
                                             </a>
+                                            <form method="POST" action="{{route('delete.expense', ['id' => $expense->id]) }}" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('DELETE')
+                                            <div class="modal fade" id="expense-delete{{$expense->id}}" tabindex="-1" aria-labelledby="expense" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header text-center">
+                                                            <h6 class="modal-title w-100">Delete this  <span class="text-danger">{{$expense->expense_name}}</span> expense?</h6>
+                                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <h3>You won't be able to revert this!</h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer justify-content-center">
+                                                            <button type="submit" name="submit" class="btn btn-danger custom-btn-small">Delete</button>
+                                                            <button type="button" class="btn btn-cancel btn-sm" data-bs-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                             </div>
+                                          </form>
                                         </td>
                                     </tr>
-
+                                @endforeach
 
                                 </tbody>
                             </table>
@@ -251,75 +289,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="expenses-edit" tabindex="-1" aria-labelledby="expenses-edit" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Expenses</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label>Year</label>
-                                <div class="input-groupicon">
-                                    <input type="text" placeholder="Choose Date" class="datetimepicker">
-                                    <div class="addonset">
-                                        <img src="{{ asset('manager/img/icons/calendars.svg') }}" alt="img">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label>Month</label>
-                                <div class="input-groupicon">
-                                    <input type="text" placeholder="Choose Date" class="datetimepicker">
-                                    <div class="addonset">
-                                        <img src="{{ asset('manager/img/icons/calendars.svg') }}" alt="img">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-12 col-12">
-                            <div class="form-group">
-                                <label>Amount</label>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-12 col-12">
-                            <div class="form-group">
-                                <label>Expense Name</label>
-                                <input type="text">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-12 col-12">
-                            <div class="form-group">
-                                <label>
-                                    Expense Image</label>
-                                <div class="image-upload">
-                                    <input type="file">
-                                    <div class="image-uploads">
-                                        <img src="{{ asset('manager/img/icons/upload.svg') }}" alt="img">
-                                        <h4>Drag and drop a file to upload</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="col-lg-12">
-                        <a class="btn btn-submit me-2">Submit</a>
-                        <a class="btn btn-cancel" data-bs-dismiss="modal">Cancel</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <script src="{{ asset('manager/js/jquery-3.6.0.min.js') }}"></script>
 
@@ -338,6 +308,7 @@
 
     <script src="{{ asset('manager/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
     <script src="{{ asset('manager/plugins/sweetalert/sweetalerts.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="{{ asset('manager/js/script.js') }}"></script>
 </body>

@@ -36,7 +36,7 @@
 
             <div class="header-left active">
                 <a href="index.html" class="logo">
-                    <img src="assets/img/logo.png" alt="">
+                    <img src="{{ asset('manager/img/logo.png') }}" alt="">
                 </a>
                 <a href="index.html" class="logo-small">
                     <img src="assets/img/logo-small.png" alt="">
@@ -237,76 +237,7 @@
 
         </div>
 
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-inner slimscroll">
-                <div id="sidebar-menu" class="sidebar-menu">
-                    <ul>
-                        <li>
-                            <a href="index.html"><img src="{{ asset('manager/img/icons/dashboard.svg') }}" alt="img"><span>
-                                    Dashboard</span> </a>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
-                                    Items</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('admin.category')}}" class="active">Items List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
-                                    Inventory</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('admin.inventory')}}">Inventory list</a></li>
-                                <li><a href="{{route('admin.restock')}}">Restocking History</a></li>
-                                
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/sales1.svg') }}" alt="img"><span>
-                                    Orders</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('admin.orders')}}">Orders List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/expense1.svg') }}" alt="img"><span>
-                                    Expense</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-expenses')}}">Expense List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/time.svg') }}" alt="img"><span>
-                                    Sales</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-sales-daily')}}">Daily Sales</a></li>
-                                <li><a href="{{route('am-sales-monthly')}}">Monthly Sales </a></li>
-                                <li><a href="{{route('am-sales-annually')}}">Annually Sales</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><i data-feather="award"></i><span> Artist </span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('admin.artist')}}" >Artist List </a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/purchase1.svg') }}" alt="img"><span>
-                                    Announcements</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('admin.announcement')}}" >Announcement List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/users1.svg') }}" alt="img"><span>
-                                    Users</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-users')}}">Users List</a></li>
-                            </ul>
-                        </li>
-                </div>
-            </div>
-        </div>
+        @include('includes.sidebar')
         
         <div class="page-wrapper">
             <div class="content">
@@ -416,56 +347,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        @foreach($topProducts as $product)
                                             <tr>
-                                                <td>1</td>
+                                                <td>{{ $product->productId }}</td>
                                                 <td class="productimgname">
                                                     <a href="productlist.html" class="product-img">
-                                                        <img src="assets/img/product/product22.jpg" alt="product">
+                                                        <img src="{{$product->product_image ? asset('storage/productPictures/' .$product->product_image) : asset('icon/null-image.png') }}" alt="product">
                                                     </a>
-                                                    <a href="productlist.html">Apple Earpods</a>
+                                                    <a href="productlist.html">{{ $product->name }}</a>
                                                 </td>
-                                                <td>30</td>
+                                                <td>{{ $product->total_quantity }}</td>
                                             </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td class="productimgname">
-                                                    <a href="productlist.html" class="product-img">
-                                                        <img src="assets/img/product/product23.jpg" alt="product">
-                                                    </a>
-                                                    <a href="productlist.html">iPhone 11</a>
-                                                </td>
-                                                <td>23</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td class="productimgname">
-                                                    <a href="productlist.html" class="product-img">
-                                                        <img src="assets/img/product/product24.jpg" alt="product">
-                                                    </a>
-                                                    <a href="productlist.html">samsung</a>
-                                                </td>
-                                                <td>21</td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td class="productimgname">
-                                                    <a href="productlist.html" class="product-img">
-                                                        <img src="assets/img/product/product6.jpg" alt="product">
-                                                    </a>
-                                                    <a href="productlist.html">Macbook Pro</a>
-                                                </td>
-                                                <td>19</td>
-                                            </tr>
-                                            <tr>
-                                                <td>5</td>
-                                                <td class="productimgname">
-                                                    <a href="productlist.html" class="product-img">
-                                                        <img src="assets/img/product/product6.jpg" alt="product">
-                                                    </a>
-                                                    <a href="productlist.html">Macbook Pro</a>
-                                                </td>
-                                                <td>16</td>
-                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -542,54 +435,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($lowStockItems as $item)
                                     <tr>
-                                        <td><a href="javascript:void(0);">IT0001</a></td>
+                                        <td><a href="javascript:void(0);">{{$item->id}}</a></td>
                                         <td class="productimgname">
                                             <a class="product-img" href="productlist.html">
-                                                <img src="assets/img/product/product2.jpg" alt="product">
+                                                <img src="{{$item->product_image ? asset('storage/productPictures/' .$item->product_image) : asset('icon/null-image.png')}}" alt="product">
                                             </a>
-                                            <a href="productlist.html">Orange</a>
+                                            <a href="productlist.html">{{$item->name}}</a>
                                         </td>
-                                        <td>Wave</td>
-                                        <td>12-12-2022</td>
-                                        <td>0</td>
+                                        <td>{{$item->categoryName}}</td>
+                                        <td>{{\Carbon\Carbon::parse($item->updated_at)->format('F j, Y')}}</td>
+                                        <td>{{$item->quantity}}</td>
                                     </tr>
-                                    <tr>
-                                        <td><a href="javascript:void(0);">IT0002</a></td>
-                                        <td class="productimgname">
-                                            <a class="product-img" href="productlist.html">
-                                                <img src="assets/img/product/product3.jpg" alt="product">
-                                            </a>
-                                            <a href="productlist.html">Pineapple</a>
-                                        </td>
-                                        <td>Wave</td>
-                                        <td>25-11-2022</td>
-                                        <td>1</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="javascript:void(0);">IT0003</a></td>
-                                        <td class="productimgname">
-                                            <a class="product-img" href="productlist.html">
-                                                <img src="assets/img/product/product4.jpg" alt="product">
-                                            </a>
-                                            <a href="productlist.html">Stawberry</a>
-                                        </td>
-                                        <td>Wave</td>
-                                        <td>19-11-2022</td>
-                                        <td>1</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="javascript:void(0);">IT0004</a></td>
-                                        <td class="productimgname">
-                                            <a class="product-img" href="productlist.html">
-                                                <img src="assets/img/product/product5.jpg" alt="product">
-                                            </a>
-                                            <a href="productlist.html">Avocat</a>
-                                        </td>
-                                        <td>Wave</td>
-                                        <td>20-11-2022</td>
-                                        <td>2</td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

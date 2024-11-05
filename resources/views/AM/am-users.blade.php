@@ -116,77 +116,7 @@
 
         </div>
 
-
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-inner slimscroll">
-                <div id="sidebar-menu" class="sidebar-menu">
-                    <ul>
-                        <li>
-                            <a href="index.html"><img src="{{ asset('manager/img/icons/dashboard.svg') }}" alt="img"><span>
-                                    Dashboard</span> </a>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/product.svg') }}" alt="img"><span>
-                                    Items</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-items-category')}}">Items List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/quotation1.svg') }}" alt="img"><span>
-                                    Inventory</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-inventory')}}">Inventory list</a></li>
-                                <li><a href="{{route('am-restock')}}">Restocking History</a></li>
-                                
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/sales1.svg') }}" alt="img"><span>
-                                    Orders</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="productlist-category.html">Orders List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/expense1.svg') }}" alt="img"><span>
-                                    Expense</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-expenses')}}">Expense List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/time.svg') }}" alt="img"><span>
-                                    Sales</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-sales-daily')}}">Daily Sales</a></li>
-                                <li><a href="{{route('am-sales-monthly')}}">Monthly Sales </a></li>
-                                <li><a href="{{route('am-sales-annually')}}">Annually Sales</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><i data-feather="award"></i><span> Artist </span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-artist')}}" >Artist List </a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/purchase1.svg') }}" alt="img"><span>
-                                    Announcements</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('admin.announcement')}}" >Announcement List</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><img src="{{ asset('manager/img/icons/users1.svg') }}" alt="img"><span>
-                                    Users</span> <span class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a href="{{route('am-users')}}"  class="active">Users List</a></li>
-                            </ul>
-                        </li>
-                </div>
-            </div>
-        </div>
+        @include('includes.sidebar')
 
         <div class="page-wrapper">
             <div class="content">
@@ -303,16 +233,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    @foreach ($users as $user)
                                     <tr>
                                         <td class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
                                                 <img src="{{ asset('manager/img/product/product1.jpg') }}" alt="product">
                                             </a>
-                                            <a href="javascript:void(0);">Rochelle Matillano</a>
+                                            <a href="javascript:void(0);">{{$user->last_name}}, {{$user->first_name}}</a>
                                         </td>
-                                        <td>joe@gmail.com</td>
-                                        <td>Manager </td>
+                                        <td>{{$user->email}}</td>
+                                        <td>{{$user->role}} </td>
                                         <td>
                                             <a class="me-3" data-bs-toggle="modal" data-bs-target="#user-edit">
                                                 <img src="{{ asset('manager/img/icons/edit.svg')}}" alt="img">
@@ -322,42 +252,7 @@
                                             </a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="productimgname">
-                                            <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/product1.jpg') }}" alt="product">
-                                            </a>
-                                            <a href="javascript:void(0);">Francis Pilarmeo</a>
-                                        </td>
-                                        <td>joe@gmail.com</td>
-                                        <td>Manager </td>
-                                        <td>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#user-edit">
-                                                <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
-                                            </a>
-                                            <a class="me-3 confirm-text" href="javascript:void(0);">
-                                                <img src="{{ asset('manager/img/icons/delete.svg') }}" alt="img">
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="productimgname">
-                                            <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/product1.jpg') }}" alt="product">
-                                            </a>
-                                            <a href="javascript:void(0);">Liezel Jay Diong</a>
-                                        </td>
-                                        <td>joe@gmail.com</td>
-                                        <td>Manager</td>
-                                        <td>
-                                            <a class="me-3" data-bs-toggle="modal" data-bs-target="#user-edit">
-                                                <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
-                                            </a>
-                                            <a class="me-3 confirm-text" href="javascript:void(0);">
-                                                <img src="{{ asset('manager/img/icons/delete.svg') }}" alt="img">
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\models\Cart;
 use App\models\Orders;
+use App\models\Inventory;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -48,14 +49,29 @@ public function placeOrder(Request $request)
         return redirect()->back()->with('error', 'Cart item not found.');
     }
 
-    $productNames = $cartItems->pluck('product.name')->toArray();
-    $products = implode(', ', $productNames); // Convert array to a comma-separated string
+    foreach ($cartItems as $item) {
+        $inventory = Inventory::where('product_id', $item->productId)->first();
+
+        if (!$inventory) {
+            return redirect()->back()->with('error', 'Inventory record not found for product: ' . $item->product->name);
+        }
+
+        if ($inventory->quantity < 5) {
+            return redirect()->back()->with('error', 'Sorry, the product ' . $item->product->name . ' has insufficient stock and is currently unavailable.');
+        }
+    }
+
+    $productNames = $cartItems->map(function ($item) {
+        return $item->product->name . ' (' . $item->order_quantity . ')';
+    })->toArray();
+    
+    $products = implode(', ', $productNames);
+    $totalQuantity = $cartItems->sum('order_quantity');
 
     $total_order = $cartItems->sum('order_total') + 50;
     $status = 'Pending';
     $mode_of_payment = $request->input('mode_of_payment');
     $gcash_reference = $request->input('gcash_reference');
-
 
     $data = [
         'userId' => $user_id,
@@ -63,13 +79,24 @@ public function placeOrder(Request $request)
         'status' => $status,
         'total_price' => $total_order,
         'order_date' => now(),
+        'totalOrderQuantities' => $totalQuantity,
         'mode_of_payment' => $mode_of_payment,
         'gcash_reference' => $gcash_reference,
     ];
     $orders = Orders::create($data);
     if ($orders) {
+        foreach ($cartItems as $item) {
+            $inventory = Inventory::where('product_id', $item->productId)->first();
+            if ($inventory) {
+                $inventory->quantity -= $item->order_quantity;
+                $inventory->save();
+            } else {
+                return redirect()->back()->with('error', 'Inventory record not found for product: ' . $item->product->name);
+            }
+        }
         $user_id = Auth::user()->id;
         Cart::where('user_id', $user_id)->where('cart_status', 'In cart')->update(['cart_status' => 'Ordered']);
+
         return redirect()->back()->with('success', 'Thank you! Your order has been successfully submitted. You will receive a confirmation email shortly with your order details.');
     } else {
         return redirect()->back()->with('error', ' Sorry unable to process your orders!');
@@ -84,5 +111,12 @@ public function cancelOrder(String $id){
     $order->status = 'Cancelled';
     $order->save();
     return redirect()->back()->with('success', ' Order Cancelled Successfully'); 
+}
+
+public function viewOrders(){
+    $orders = Orders::where('status', '!=', 'Cancelled')
+    ->orderBy('created_at', 'desc')
+    ->get();
+    return view('customer.view-orders', compact('orders'));
 }
 }

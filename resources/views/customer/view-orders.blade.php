@@ -162,7 +162,7 @@
             class="page-header text-center" 
             style="background-image: url('customer/images/page-header-bg.jpg')">
                 <div class="container">
-                    <h1 class="page-title">Checkout<span>Shop</span></h1>
+                    <h1 class="page-title">Orders History<span>Shop</span></h1>
                 </div><!-- End .container -->
             </div><!-- End .page-header -->
             <nav aria-label="breadcrumb" class="breadcrumb-nav">
@@ -173,7 +173,7 @@
                 <div class="checkout">
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-9">
+                            <div class="col-lg-12">
                                 <h1>My Orders</h1>
                             <div class="table-responsive">
                             <table class="table  datanew">
@@ -183,7 +183,8 @@
                                         <th>Product Name</th>  
                                         <th>Total Price</th> 
                                         <th>Mode of Payment</th>  
-                                        <th>Status</th>  
+                                        <th>Status</th>
+                                        <th>Estimated Date</th>  
                                         <th></th>                                 
                                     </tr>
                                 </thead>
@@ -215,10 +216,13 @@
                                                 <span class="badge bg-danger">Cancelled</span>
                                             @elseif ($order->status === 'Delivered')
                                                 <span class="badge bg-success">Delivered</span>
+                                            @elseif($order->status === 'Out for Delivery')
+                                                <span class="badge bg-secondary">Out for Delivery</span>
                                             @else
-                                                <span class="badge bg-secondary">Unknown Status</span>
+                                            <span class="badge bg-danger">Cancelled</span>
                                             @endif
                                         </td>
+                                        <td>{{ $order->estimated_date ? \Carbon\Carbon::parse($order->estimated_date)->format('F j, Y') : $order->estimated_date = ''}}</td>
                                         @if ($order->status === 'Pending')
                                         <form method="POST" action="{{route('customer.cancel', ['id' => $order->id]) }}">
                                         @csrf
@@ -237,106 +241,6 @@
                             </table>
                         </div>
                              </div><!-- End .col-lg-9 -->
-                                <aside class="col-lg-3">
-                                    <div class="summary">
-                                        <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
-
-                                        <table class="table table-summary">
-                                            <thead>
-                                                <tr>
-                                                    <th>Product</th>
-                                                    <th>Total</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-                                            
-                                            @foreach ($checkOut as $getCheck)
-                                                <tr>
-                                                    <td>
-                                                        @if ($getCheck->product)
-                                                            <a href="#">{{ $getCheck->product->name }}</a>
-                                                        @else
-                                                            Product not found
-                                                        @endif
-                                                    </td>
-                                                    <td>{{ $getCheck->order_total }}</td>
-                                                </tr>
-                                            @endforeach
-                                                    <tr class="summary-shipping">
-                                                    <td><em><b>Subtotal:</b></em></td>
-                                                    <td>{{ number_format($sub_total, 2, '.', ',') }}</td>
-
-                                                </tr><!-- End .summary-shipping -->
-
-                                                <tr class="summary-shipping">
-                                                    <td><em><b>Delivery Shipping:</b></em></td>
-                                                    <td>50</td>
-
-                                                </tr><!-- End .summary-shipping -->
-
-
-                                                <tr class="summary-total">
-                                                    <td>Total:</td>
-                                                    <td>{{ number_format($total_order, 2, '.', ',') }}</td>
-                                                </tr><!-- End .summary-total -->
-
-
-                                            </tbody>
-                                        </table><!-- End .table table-summary -->
-                                        <form method="POST" action="{{ route('customer.placeOrder') }}">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="mode-of-payment">Mode of Payment *</label>
-                                                <select class="form-control" name="mode_of_payment" id="mode-of-payment">
-                                                    <option value="">Select Payment Method</option>
-                                                    <option value="Cash on Delivery">Cash on Delivery</option>
-                                                    <option value="Gcash">Gcash</option>
-                                                </select>
-                                                @error('mode_of_payment')
-                                                    <div class="text-danger">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                            <div class="col-sm-12" id="gcash-screenshot-form" style="display:none;">
-                                                <div class="form-group">
-                                                    <label for="gcash-reference">Gcash Reference *</label>
-                                                    <input type="text" class="form-control" name="gcash_reference" id="gcash-reference" value="{{ old('gcash_reference') }}">
-                                                    @error('gcash_reference')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-
-                                            <script>
-                                                document.getElementById('mode-of-payment').addEventListener('change', function() {
-                                                    const gcashForm = document.getElementById('gcash-screenshot-form');
-                                                    const gcashReference = document.getElementById('gcash-reference');
-
-                                                    if (this.value === 'Gcash') {
-                                                        gcashForm.style.display = 'block';
-                                                        gcashReference.setAttribute('required', 'required');
-                                                        
-                                                    } else if(this.value === 'Cash on Delivery') {
-                                                        gcashForm.style.display = 'none';
-                                                        gcashReference.removeAttribute('required');
-                                                        gcashReference.value = '';
-                                                    }
-                                                    else {                     
-                                                        gcashForm.style.display = 'none';
-                                                        gcashReference.removeAttribute('required');
-                                                        gcashReference.value = '';
-                                                    }
-                                                });
-                                            </script>
-
-                                            <button type="submit" name="submit" class="btn btn-outline-primary-2 btn-order btn-block">
-                                                <span class="btn-text">Place Order</span>
-                                                <span class="btn-hover-text">Proceed to Checkout</span>
-                                            </button>
-                                        </form>
-
-                                    </div><!-- End .summary -->
-                                </aside><!-- End .col-lg-3 -->
                             </div><!-- End .row -->
                     </div><!-- End .container -->
                 </div><!-- End .checkout -->
