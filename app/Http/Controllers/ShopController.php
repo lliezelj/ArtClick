@@ -67,7 +67,5 @@ class ShopController extends Controller
     
         return redirect()->back()->with('success', 'Product ' .$product->name. ' added to cart successfully!');
     }
-    
-
 
 }

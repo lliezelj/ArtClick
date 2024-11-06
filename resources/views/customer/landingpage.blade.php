@@ -21,7 +21,7 @@
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="{{ asset('customer/images/icons/favicon-32x32.png') }}"
+      href="{{ asset('customer/images/icons/favicon.png') }}"
     />
     <link
       rel="icon"
@@ -35,7 +35,7 @@
       href="{{ asset('customer/images/icons/safari-pinned-tab.svg') }}"
       color="#666666"
     />
-    <link rel="shortcut icon" href="{{ asset('customer/images/icons/favicon.ico') }}" />
+    <link rel="shortcut icon" href="{{ asset('customer/images/icons/favicon.png') }}" />
     <meta name="apple-mobile-web-app-title" content="Molla" />
     <meta name="application-name" content="Molla" />
     <meta name="msapplication-TileColor" content="#cc9966" />
@@ -143,16 +143,16 @@
       <!-- End .header -->
 
       <main class="main">
-        <div class="intro-slider-container">
+        <div class="intro-slider-container" >
           <div
             class="owl-carousel owl-simple owl-light owl-nav-inside"
             data-toggle="owl"
             data-owl-options='{"nav": false}'
+            
           >
             <div
-              class="intro-slide"
-            >
-              <div class="container intro-content">
+              class="intro-slide" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{{ asset('customer/images/items/asiano.png') }}'); background-size: cover; background-position: center;">
+              <div class="container intro-content" >
                 <p class="intro-subtitle">Express your art with handmade art</p>
                 <!-- End .h3 intro-subtitle -->
                 <h4 class="intro-title">
@@ -263,78 +263,9 @@
         <!-- End .mb-5 -->
       </main> 
       <!-- End .main -->
-      <footer class="footer">
-            <div class="footer-middle">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget widget-about">
-                                <img src="assets/images/logo.png" class="footer-logo" alt="Footer Logo" width="105"
-                                    height="25" />
-                                <p>
-                                    Asiano's Arts and Crafts offers handmade creations
-                                    by skills artisan, showcasing authentic, high-quality
-                                    products that blend traditon and creativity.
-                                </p>
-
-                                <div class="social-icons">
-                                    <a href="#" class="social-icon" target="_blank" title="Facebook"><i
-                                            class="icon-facebook-f"></i></a>
-                                    <a href="#" class="social-icon" target="_blank" title="Twitter"><i
-                                            class="icon-twitter"></i></a>
-                                    <a href="#" class="social-icon" target="_blank" title="Instagram"><i
-                                            class="icon-instagram"></i></a>
-                                    <a href="#" class="social-icon" target="_blank" title="Youtube"><i
-                                            class="icon-youtube"></i></a>
-                                </div>
-                                <!-- End .soial-icons -->
-                            </div>
-                            <!-- End .widget about-widget -->
-                        </div>
-                        <!-- End .col-sm-6 col-lg-3 -->
-
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget">
-                                <h4 class="widget-title">Useful Links</h4>
-                                <!-- End .widget-title -->
-
-                                <ul class="widget-list">
-                                    <li><a href="about.html">About Asiano</a></li> <!-- wala pang html ito-->
-                                    <li><a href="faq.html">FAQ</a></li>
-                                    <li><a href="contact.html">Contact us</a></li>
-                                    <li><a href="login.html">Register</a></li>
-                                </ul>
-                                <!-- End .widget-list -->
-                            </div>
-                            <!-- End .widget -->
-                        </div>
-                        <!-- End .col-sm-6 col-lg-3 -->
-
-
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="widget">
-                                <h4 class="widget-title">My Account</h4>
-                                <!-- End .widget-title -->
-
-                                <ul class="widget-list">
-                                    <li><a href="login.html">Sign In</a></li>
-                                    <li><a href="login.html">Account</a></li>
-                                    <li><a href="cart.html">View Cart</a></li>
-                                </ul>
-                                <!-- End .widget-list -->
-                            </div>
-                            <!-- End .widget -->
-                        </div>
-                        <!-- End .col-sm-6 col-lg-3 -->
-                    </div>
-                    <!-- End .row -->
-                </div>
-                <!-- End .container -->
-            </div>
-            <!-- End .footer-middle -->
-
-
-        </footer>
+     @include('includes.footer')
+</div>
+@include('includes.mobile-nav')
       <!-- Plugins JS File -->
       <script src="{{ asset('customer/js/jquery.min.js') }}"></script>
       <script src="{{ asset('customer/js/bootstrap.bundle.min.js') }}"></script>
