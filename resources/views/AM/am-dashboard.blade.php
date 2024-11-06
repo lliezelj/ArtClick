@@ -248,7 +248,7 @@
                                 <span><img src="{{ asset('manager/img/icons/dash1.svg') }}" alt="img"></span>
                             </div>
                             <div class="dash-widgetcontent">
-                                <h5><span class="counters" data-count="219">219</span></h5>
+                                <h5>₱<span class="counters" data-count="{{ $totalPurchased }}">{{ $totalPurchased }}</span></h5>
                                 <h6>Total Purchase Items</h6>
                             </div>
                         </div>

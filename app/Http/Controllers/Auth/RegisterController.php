@@ -30,6 +30,10 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:5120'],
             'phone_number' => ['required', 'string', 'regex:/^[0-9]{10,15}$/'],
+            'street_address' => ['required', 'string'],
+            'barangay' => ['required', 'string'],
+            'town_city' => ['required', 'string'],
+
         ]);
     }
 
@@ -50,8 +54,11 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'profile_image' => $profileImagePath,
             'phone_number' => $data['phone_number'],
+            'street_address' => $data['street_address'],
+            'barangay' => $data['barangay'],
+            'town_city' => $data['town_city'],
         ]);
-
+        
         $user->sendEmailVerificationNotification(); 
         return $user;
     }

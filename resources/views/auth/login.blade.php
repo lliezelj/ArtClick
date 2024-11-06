@@ -31,7 +31,30 @@
     <link rel="stylesheet" href="{{ asset('customer/css/bootstrap.min.css') }}">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{{ asset('customer/css/style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 </head>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 
 <body>
     <div class="page-wrapper">
@@ -58,31 +81,7 @@
                 height="25" />
             </a>
 
-            <nav class="main-nav">
-              <ul class="menu sf-arrows">
-                <li>
-                  <a href="{{ route('homepage') }}" class="sf-with-ul">Home</a>
-                </li>
-                <li>
-                  <a href="{{ route('shop-category') }}" class="sf-with-ul">Shop</a>
-                </li>
-                <li>
-                  <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
-                </li>
-
-                <li>
-                  <a href="{{ route('announcement') }}" class="sf-with-ul">Announcement</a>
-                </li>
-                <li>
-                  <a href="{{ route('about') }}" class="sf-with-ul">About</a>
-                </li>
-                <li>
-                  <a href="{{ route('contact') }}" class="sf-with-ul">Contact</a>
-                </li>
-              </ul>
-
-              <!-- End .menu -->
-            </nav>
+            @include('includes.nav')
             <!-- End .main-nav -->
           </div>
           <!-- End .header-left -->
@@ -117,7 +116,7 @@
             <!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="{{ route('cart') }}" class="dropdown-toggle" role="button">
+              <a href="{{ route('customer.cart') }}" class="dropdown-toggle" role="button">
                 <i class="icon-shopping-cart"></i>
               </a>
 
@@ -236,6 +235,42 @@
                                             <label for="email">Your email address *</label>
                                             <input type="email" id="email"  class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
                                             @error('email')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                        <label for="street_address">Street Address *</label>
+                                            <input type="text" class="form-control @error('street_address') is-invalid @enderror" name="street_address" value="{{ old('street_address') }}" id="street_address" required>
+                                            @error('street_address')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                        <label for="barangay">Barangay *</label>
+                                            <input type="text" class="form-control @error('barangay') is-invalid @enderror" name="barangay" value="{{ old('barangay') }}" id="barangay" required>
+                                            @error('barangay')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                        <label for="town_city">Town City *</label>
+                                            <input type="text" class="form-control @error('town_city') is-invalid @enderror" name="town_city" value="{{ old('town_city') }}" id="town_city" required>
+                                            @error('town_city')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                        <label for="profile_image">Profile Image *</label>
+                                            <input type="file" class="form-control @error('profile_image') is-invalid @enderror" name="profile_image" value="{{ old('profile_image') }}" id="profile_image" required>
+                                            @error('profile_image')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -671,6 +706,7 @@
 
     <!-- Main JS File -->
     <script src="{{ asset('customer/js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 

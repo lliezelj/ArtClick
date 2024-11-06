@@ -55,31 +55,7 @@
                 height="25" />
             </a>
 
-            <nav class="main-nav">
-              <ul class="menu sf-arrows">
-                <li>
-                  <a href="{{ route('homepage') }}" class="sf-with-ul">Home</a>
-                </li>
-                <li>
-                  <a href="{{ route('shop-category') }}" class="sf-with-ul">Shop</a>
-                </li>
-                <li>
-                  <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
-                </li>
-
-                <li>
-                  <a href="{{ route('announcement') }}" class="sf-with-ul">Announcement</a>
-                </li>
-                <li class="megamenu-container active">
-                  <a href="{{ route('about') }}" class="sf-with-ul">About</a>
-                </li>
-                <li>
-                  <a href="{{ route('contact') }}" class="sf-with-ul">Contact</a>
-                </li>
-              </ul>
-
-              <!-- End .menu -->
-            </nav>
+            @include('includes.nav')
             <!-- End .main-nav -->
           </div>
           <!-- End .header-left -->
@@ -114,7 +90,7 @@
             <!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="{{ route('cart') }}" class="dropdown-toggle" role="button">
+              <a href="{{ route('customer.cart') }}" class="dropdown-toggle" role="button">
                 <i class="icon-shopping-cart"></i>
               </a>
 
@@ -144,7 +120,7 @@
             <div class="container">
 	        	<div 
                 class="page-header page-header-big text-center" 
-                style="background-image: url('customer/images/items/item5.gif')">
+                style="background: linear-gradient(rgba(0,0,0,0.7),rgba(0, 0, 0, 0.7)), url('customer/images/items/asiano.png')">
         			<h1 class="page-title text-white">About us<span class="text-white">Who we are</span></h1>
 	        	</div><!-- End .page-header -->
             </div><!-- End .container -->

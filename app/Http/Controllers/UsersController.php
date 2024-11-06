@@ -12,4 +12,6 @@ class UsersController extends Controller
         $users = User::all();
         return view('AM.am-users', compact('users'));
     }
+
+    
 }

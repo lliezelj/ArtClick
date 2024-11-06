@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cart;
+use App\Models\Orders;
 use App\Models\Inventory;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,7 @@ class DashboardController extends Controller
 {
     public function index(){
 
+        $totalPurchased = Orders::where('status', 'Delivered')->sum('totalOrderQuantities');
        
         $lowStockItems = DB::table('inventory')
         ->join('products', 'inventory.product_id', '=', 'products.id')
@@ -21,8 +23,6 @@ class DashboardController extends Controller
         ->orderBy('inventory.quantity', 'asc')
         ->limit(5)
         ->get();
-    
-
 
 
         $topProducts = Cart::select(
@@ -39,6 +39,6 @@ class DashboardController extends Controller
         ->get();
     
 
-        return view('AM.am-dashboard', compact('topProducts','lowStockItems'));
+        return view('AM.am-dashboard', compact('topProducts','lowStockItems','totalPurchased'));
     }
 }

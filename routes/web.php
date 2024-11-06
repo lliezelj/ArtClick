@@ -6,30 +6,45 @@ Auth::routes(['verify' => true]);
 Route::get('/', function () {
 return view('customer.landingpage');
 });
+
+Route::get('/about', function () {
+    return view('customer.about');
+})->name('about');
+
+//outside Routes to access without authentication
+Route::get('/customer/shop-category',[App\Http\Controllers\ShopController::class, 'index'])->name('customer.shop');
+Route::get('/customer/my-cart',[App\Http\Controllers\CartController::class, 'index'])->name('customer.cart');
+Route::get('/customer/gallery/artists',[App\Http\Controllers\ArtistController::class, 'gallery'])->name('customer.gallery');
+Route::get('/announcements',[App\Http\Controllers\AnnouncementController::class, 'index'])->name('announcements');
+Route::get('/contact', [App\Http\Controllers\ContactController::class, 'contact'])->name('contact');
+Route::post('/question/create', [App\Http\Controllers\ContactController::class, 'question'])->name('create.question');
+Route::get('/customer/categories/{id}/products', [App\Http\Controllers\ShopController::class, 'getProductsByCategory'])->name('customer.getProducts');
+Route::get('/customer/item-details/{id}', [App\Http\Controllers\ShopController::class, 'viewProductDetails'])->name('view.details');
+
+
 Route::group(['middleware' => ['auth', 'verified']], function () {
 Route::get('/homepage',[App\Http\Controllers\HomeController::class, 'index'])->name('homepage');
 
 
 //Shop Routes
-Route::get('/customer/shop-category',[App\Http\Controllers\ShopController::class, 'index'])->name('customer.shop');
-Route::get('/customer/categories/{id}/products', [App\Http\Controllers\ShopController::class, 'getProductsByCategory'])->name('customer.getProducts');
-Route::get('/customer/item-details/{id}', [App\Http\Controllers\ShopController::class, 'viewProductDetails'])->name('view.details');
 Route::post('/add-to-cart', [App\Http\Controllers\ShopController::class, 'addToCart'])->name('cart.add');
 
 //Cart Routes
-Route::get('/customer/my-cart',[App\Http\Controllers\CartController::class, 'index'])->name('customer.cart');
+
 Route::put('/customer/cart/{id}/delete', [App\Http\Controllers\CartController::class, 'deleteCart'])->name('delete.cart');
 Route::get('/customer/checkout/{id}',[App\Http\Controllers\CartController::class, 'checkOut'])->name('customer.checkOut');
 Route::post('/customer/add-to-order', [App\Http\Controllers\CartController::class, 'placeOrder'])->name('customer.placeOrder');
 Route::put('/customer/order/{id}/cancelled', [App\Http\Controllers\CartController::class, 'cancelOrder'])->name('customer.cancel');
 Route::get('/customer/view-orders', [App\Http\Controllers\CartController::class, 'viewOrders'])->name('view.orders');
 //Gallery Routes
-Route::get('/customer/gallery/artists',[App\Http\Controllers\ArtistController::class, 'gallery'])->name('customer.gallery');
+
 Route::get('/customer/gallery/{id}/artist-items', [App\Http\Controllers\ArtistController::class, 'getItemsByArtists'])->name('get.items');
 
-
 //Announcements Routes
-Route::get('/announcements',[App\Http\Controllers\AnnouncementController::class, 'index'])->name('announcements');
+
+
+//Contact user-controller
+
 });
 
 Route::group(['middleware' => ['auth','verified','admin']], function () {
@@ -101,7 +116,7 @@ Route::group(['middleware' => ['auth','verified','admin']], function () {
 
     // Users Routes
     Route::get('/view/users', [App\Http\Controllers\UsersController::class, 'index'])->name('view.users');
-
+    
 }); 
 
 
@@ -129,9 +144,9 @@ Route::get('/announcement', function () {
     return view('customer.announcement');
 })->name('announcement');
 
-Route::get('/contact', function () {
-    return view('customer.contact');
-})->name('contact');
+// Route::get('/contact', function () {
+//     return view('customer.contact');
+// })->name('contact');
 
 Route::get('/shop-category', function () {
     return view('customer.shop-category');
@@ -157,9 +172,6 @@ Route::get('/gallery-items', function () {
     return view('customer.gallery-items');
 })->name('gallery-items');
 
-Route::get('/about', function () {
-    return view('customer.about');
-})->name('about');
 
 Route::get('/cart', function () {
     return view('customer.cart');
