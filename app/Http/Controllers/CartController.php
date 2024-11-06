@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Auth;
 class CartController extends Controller
 {
     public function index(){
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must log in first before you can view your cart.');
+        }
         $user_id =  Auth::user()->id; 
         $myCart = Cart::with('product')->where('user_id', $user_id)->orderBy('created_at','desc')->get(); 
         $myCartTotal = $myCart->where('cart_status','In cart')->sum('order_total');
@@ -114,7 +117,9 @@ public function cancelOrder(String $id){
 }
 
 public function viewOrders(){
+    $user = Auth::user()->id;
     $orders = Orders::where('status', '!=', 'Cancelled')
+    ->where('userId', $user)
     ->orderBy('created_at', 'desc')
     ->get();
     return view('customer.view-orders', compact('orders'));

@@ -57,5 +57,5 @@ public function showOrdersByDate($date)
     $orders = Orders::with('user')->whereDate('order_date', $date)->get();
     return view('AM.am-orders-list-byDate', compact('orders', 'date'));
 }
-
+  
 }

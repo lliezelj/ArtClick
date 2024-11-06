@@ -56,31 +56,7 @@
                 height="25" />
             </a>
 
-            <nav class="main-nav">
-              <ul class="menu sf-arrows">
-                <li>
-                  <a href="{{ route('homepage') }}" class="sf-with-ul">Home</a>
-                </li>
-                <li>
-                  <a href="{{ route('shop-category') }}" class="sf-with-ul">Shop</a>
-                </li>
-                <li>
-                  <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
-                </li>
-
-                <li>
-                  <a href="{{ route('announcement') }}" class="sf-with-ul">Announcement</a>
-                </li>
-                <li>
-                  <a href="{{ route('about') }}" class="sf-with-ul">About</a>
-                </li>
-                <li>
-                  <a href="{{ route('contact') }}" class="sf-with-ul">Contact</a>
-                </li>
-              </ul>
-
-              <!-- End .menu -->
-            </nav>
+            @include('includes.nav')
             <!-- End .main-nav -->
           </div>
           <!-- End .header-left -->
@@ -115,7 +91,7 @@
             <!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="{{ route('cart') }}" class="dropdown-toggle" role="button">
+              <a href="{{ route('customer.cart') }}" class="dropdown-toggle" role="button">
                 <i class="icon-shopping-cart"></i>
               </a>
 

@@ -44,7 +44,30 @@
   <link rel="stylesheet" href="{{ asset('customer/css/bootstrap.min.css') }}" />
   <!-- Main CSS File -->
   <link rel="stylesheet" href="{{ asset('customer/css/style.css') }}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 </head>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 
 <body>
   <div class="page-wrapper">
@@ -71,31 +94,7 @@
                 height="25" />
             </a>
 
-            <nav class="main-nav">
-              <ul class="menu sf-arrows">
-                <li>
-                  <a href="{{ route('homepage') }}" class="sf-with-ul">Home</a>
-                </li>
-                <li>
-                  <a href="{{ route('shop-category') }}" class="sf-with-ul">Shop</a>
-                </li>
-                <li>
-                  <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
-                </li>
-
-                <li>
-                  <a href="{{ route('announcement') }}" class="sf-with-ul">Announcement</a>
-                </li>
-                <li>
-                  <a href="{{ route('about') }}" class="sf-with-ul">About</a>
-                </li>
-                <li class="megamenu-container active">
-                  <a href="{{ route('contact') }}" class="sf-with-ul">Contact</a>
-                </li>
-              </ul>
-
-              <!-- End .menu -->
-            </nav>
+            @include('includes.nav')
             <!-- End .main-nav -->
           </div>
           <!-- End .header-left -->
@@ -130,7 +129,7 @@
             <!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="{{ route('cart') }}" class="dropdown-toggle" role="button">
+              <a href="{{ route('customer.cart') }}" class="dropdown-toggle" role="button">
                 <i class="icon-shopping-cart"></i>
               </a>
 
@@ -219,11 +218,13 @@
                 Use the form below to get in touch with the sales team
               </p>
 
-              <form action="#" class="contact-form mb-3">
+              <form method="POST" action="{{route('create.question')}}" class="contact-form mb-3">
+                @csrf
                 <div class="row">
                   <div class="col-sm-6">
                     <label for="cname" class="sr-only">Name</label>
                     <input
+                      name="name"
                       type="text"
                       class="form-control"
                       id="cname"
@@ -235,6 +236,7 @@
                   <div class="col-sm-6">
                     <label for="cemail" class="sr-only">Email</label>
                     <input
+                     name="email"
                       type="email"
                       class="form-control"
                       id="cemail"
@@ -249,6 +251,7 @@
                   <div class="col-sm-6">
                     <label for="cphone" class="sr-only">Phone</label>
                     <input
+                     name="phone"
                       type="tel"
                       class="form-control"
                       id="cphone"
@@ -259,6 +262,7 @@
                   <div class="col-sm-6">
                     <label for="csubject" class="sr-only">Subject</label>
                     <input
+                       name="subject"
                       type="text"
                       class="form-control"
                       id="csubject"
@@ -270,6 +274,7 @@
 
                 <label for="cmessage" class="sr-only">Message</label>
                 <textarea
+                 name="message"
                   class="form-control"
                   cols="30"
                   rows="4"
@@ -278,7 +283,7 @@
                   placeholder="Message *"></textarea>
 
                 <button
-                  type="submit"
+                  type="submit" name="submit"
                   class="btn btn-outline-primary-2 btn-minwidth-sm">
                   <span>SUBMIT</span>
                   <i class="icon-long-arrow-right"></i>
@@ -907,6 +912,7 @@
     <script src="{{ asset('customer/js/owl.carousel.min.js') }}"></script>
     <!-- Main JS File -->
     <script src="{{ asset('customer/js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

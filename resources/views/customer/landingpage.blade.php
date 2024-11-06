@@ -125,7 +125,7 @@
             <!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="{{ route('cart') }}" class="dropdown-toggle" role="button">
+              <a href="{{ route('customer.cart') }}" class="dropdown-toggle" role="button">
                 <i class="icon-shopping-cart"></i>
               </a>
 
