@@ -29,7 +29,30 @@
     <link rel="stylesheet" href="{{ asset('customer/css/bootstrap.min.css') }}">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{{ asset('customer/css/style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 </head>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 
 <body>
     <div class="page-wrapper">
@@ -561,6 +584,7 @@
 
     <!-- Main JS File -->
     <script src="{{ asset('customer/js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 

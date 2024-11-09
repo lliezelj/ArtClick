@@ -55,6 +55,30 @@
             @endif
         });
     </script>
+<style>
+    .review-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin: 10px;
+}
+    .modal-dialog {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 1rem);
+    }
+
+    .modal-content {
+      width: 80%;
+      /* Adjust the width as needed */
+      max-width: 600px;
+      /* Maximum width */
+      margin: auto;
+      box-sizing: border-box;
+      /* Apply box-sizing */
+    }
+</style>
 
 <body>
     <div class="page-wrapper">
@@ -198,11 +222,47 @@
 
                                     <div class="ratings-container">
                                         <div class="ratings">
-                                            <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                            <div class="ratings-val" style="width: {{$reviewsValue}}%;"></div><!-- End .ratings-val -->
                                         </div><!-- End .ratings -->
-                                        <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
+                                        <a class="ratings-text" href="#product-review-link" id="review-link">( {{ $reviews }} reviews )</a>
+                                        <a class="ratings-text" href="#" data-toggle="modal" data-target="#reviewModal1">Add Review</a>
+                                    
                                     </div><!-- End .ratings-container -->
+                                    <div class="modal fade" id="reviewModal1" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel1"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h5 class="modal-title" id="reviewModalLabel1">Add review for product <span class="text-success">{{$viewProductDetails->name}}</span></h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                <form method="POST" action="{{route('add.review')}}">
+                                                    @csrf
+                                                    <label for="rating_percentage">Rate:</label>
+                                                    <span id="rangeValue">50</span>
+                                                    <input style="width:100%" type="range" id="rating_percentage" name="rating_percentage" min="0" max="100"  oninput="displayValue(this.value)">
+                                                    <label for="comment">Comment:</label>
+                                                    <textarea style="width:100%" rows="1" class="form-control" id="comment" name="comment"></textarea>
+                                                    <input type="hidden" id="product_id" name="product_id" value="{{ $viewProductDetails->id }}">
+                                                    <input type="hidden" id="user_id" name="user_id" value="{{ Auth::check() ? Auth::user()->id : '' }}">
+                                                    <div style="margin-top: 10px;">
+                                                        <button class="btn btn-primary btn-sm" type="submit" name="submit">Submit</button>
+                                                    </div>
+                                                </form>
 
+                                                <script>
+                                                    function displayValue(value) {
+                                                        document.getElementById('rangeValue').textContent = value;
+                                                    }
+                                                </script>
+
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
                                     <div class="product-price">
                                         {{$viewProductDetails->price}}
                                     </div><!-- End .product-price -->
@@ -250,19 +310,7 @@
                             <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel"
                                 aria-labelledby="product-desc-link">
                                 <div class="product-desc-content">
-                                    <h3>Product Information</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque
-                                        volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra
-                                        non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis
-                                        fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque
-                                        felis. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer
-                                        ligula vulputate sem tristique cursus. </p>
-                                    <ul>
-                                        <li>Nunc nec porttitor turpis. In eu risus enim. In vitae mollis elit. </li>
-                                        <li>Vivamus finibus vel mauris ut vehicula.</li>
-                                        <li>Nullam a magna porttitor, dictum risus nec, faucibus sapien.</li>
-                                    </ul>
-
+                                    <h3>Product Review</h3>
                                     <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque
                                         volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra
                                         non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis
@@ -276,6 +324,48 @@
                                
                             </div><!-- .End .tab-pane -->
                         </div><!-- End .tab-content -->
+
+                        
+                    </div><!-- End .product-details-tab -->
+
+                    <div class="product-details-tab">
+                        <ul class="nav nav-pills justify-content-center" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="product-desc-link" data-toggle="tab"
+                                    href="#product-desc-tab" role="tab" aria-controls="product-desc-tab"
+                                    aria-selected="true"></a>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel"
+                                aria-labelledby="product-desc-link">
+                                <h6>Product Reviews</h6>
+                                @foreach ($productReviews as $review)
+                                <div class="product-desc-content">
+                                    
+                                    <div class="ratings-container">
+                                    <a href="javascript:void(0);" class="product-img">
+                                        <img src="{{ $review->user->profile_image ? asset('storage/pictures/' .$review->user->profile_image) : asset('storage/pictures/null-profile.png') }}" alt="product" class="review-image">
+                                    </a>
+                                        <div class="ratings">
+                                            <div class="ratings-val" style="width: {{$review->rating_percentage}}%;"></div>
+                                          
+                                        </div><!-- End .ratings -->
+                                        <a class="ratings-text" href="#product-review-link" id="review-link"></a>
+                                        
+                                    </div>
+                                    <p>{{$review->comment}}</p>
+                                </div><!-- End .product-desc-content -->
+                                @endforeach
+                            </div><!-- .End .tab-pane -->
+                            <div class="tab-pane fade" id="product-shipping-tab" role="tabpanel"
+                                aria-labelledby="product-shipping-link">
+                               
+                            </div><!-- .End .tab-pane -->
+                        </div><!-- End .tab-content -->
+
+                        
                     </div><!-- End .product-details-tab -->
 
 
@@ -455,8 +545,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Main JS File -->
     <script src="{{ asset('customer/js/main.js') }}"></script>
-
-    <div class="Sirv" data-src="https://aasianoshop.sirv.com/woven%20bird%20basket/Woven%20Bird%20Basket.spin"></div>
     <script src="https://scripts.sirv.com/sirvjs/v3/sirv.js"></script>
 </body>
 

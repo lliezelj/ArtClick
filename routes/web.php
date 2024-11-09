@@ -20,7 +20,7 @@ Route::get('/contact', [App\Http\Controllers\ContactController::class, 'contact'
 Route::post('/question/create', [App\Http\Controllers\ContactController::class, 'question'])->name('create.question');
 Route::get('/customer/categories/{id}/products', [App\Http\Controllers\ShopController::class, 'getProductsByCategory'])->name('customer.getProducts');
 Route::get('/customer/item-details/{id}', [App\Http\Controllers\ShopController::class, 'viewProductDetails'])->name('view.details');
-
+Route::get('/sendSms', [App\Http\Controllers\SmsController::class, 'sendSms']);
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
 Route::get('/homepage',[App\Http\Controllers\HomeController::class, 'index'])->name('homepage');
@@ -44,6 +44,10 @@ Route::get('/customer/gallery/{id}/artist-items', [App\Http\Controllers\ArtistCo
 
 
 //Contact user-controller
+
+
+//Review Controller
+Route::post('/add-review', [App\Http\Controllers\ReviewsController::class, 'addToReview'])->name('add.review');
 
 });
 
@@ -116,8 +120,9 @@ Route::group(['middleware' => ['auth','verified','admin']], function () {
 
     // Users Routes
     Route::get('/view/users', [App\Http\Controllers\UsersController::class, 'index'])->name('view.users');
-    
-}); 
+    Route::post('/admin/add/admin-user', [App\Http\Controllers\UsersController::class, 'addAdmin'])->name('add.admin');
+
+});    
 
 
 

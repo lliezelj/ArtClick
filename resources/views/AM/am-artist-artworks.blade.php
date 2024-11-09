@@ -155,7 +155,6 @@
                     <div class="page-btn">
                                 <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#productadd">
                                     <img src="{{ asset('manager/img/icons/plus.svg') }}" alt="img" class="me-1">Add New artwork</a>
-
                     </div>
                 </div>
 
