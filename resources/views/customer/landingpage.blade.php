@@ -118,7 +118,7 @@
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-cart-action">
                   <a href="cart.html" class="btn btn-primary">Account</a>
-                  <a href="" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <a href="{{route('login')}}" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
@@ -162,7 +162,7 @@
                 </h4>
                 <!-- End .intro-title -->
 
-                <a href="login.html" class="btn btn-primary">
+                <a href="{{route('login')}}" class="btn btn-primary">
                   <span>Sign Up</span>
                   <i class="icon-long-arrow-right"></i>
                 </a>

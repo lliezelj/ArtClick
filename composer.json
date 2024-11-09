@@ -7,12 +7,15 @@
     "require": {
         "php": "^8.1",
         "barryvdh/laravel-dompdf": "^3.0",
-        "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "2.7.*",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "laravel/ui": "^4.5"
+        "laravel/ui": "^4.5",
+        "laravel/vonage-notification-channel": "^3.3",
+        "telerivet/telerivet-php-client": "^1.7",
+        "twilio/sdk": "^8.3",
+        "vonage/client": "^4.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

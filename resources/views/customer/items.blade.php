@@ -150,9 +150,9 @@
                                         </div><!-- End .product-price -->
                                         <div class="ratings-container">
                                             <div class="ratings">
-                                                <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
+                                                <div class="ratings-val" style="width: {{$reviewsData[$product->id]['average']}}%;"></div><!-- End .ratings-val -->
                                             </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 0 Reviews )</span>
+                                            <span class="ratings-text">( {{ $reviewsData[$product->id]['count']}} Reviews )</span>
                                         </div><!-- End .rating-container -->
 
                                     </div><!-- End .product-body -->

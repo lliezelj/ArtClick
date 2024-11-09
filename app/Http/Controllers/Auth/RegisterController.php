@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Intervention\Image\Facades\Image;
 
 class RegisterController extends Controller
 {
@@ -40,20 +41,39 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $profileImagePath = null;
-
+    
         if (isset($data['profile_image']) && $data['profile_image'] instanceof UploadedFile) {
             $profileImage = $data['profile_image'];
-            $imageName = time() . '.' . $profileImage->getClientOriginalExtension();
-            $profileImagePath = $profileImage->storeAs('pictures', $imageName, 'public');
+    
+            $ext = $profileImage->getClientOriginalExtension();
+            if (!in_array($ext, ['jpg', 'png', 'jpeg'])) {
+                return redirect()->back()->with('error', ' image must be an image (jpg, png, jpeg).');
+            }
+            
+            // Create a unique file name with a timestamp and the original file name
+            $profile_image = time() . '_' . $profileImage->getClientOriginalName();
+            
+            // Resize and save the image
+            $image = Image::make($profileImage->getRealPath())->fit(300, 300);
+            $image->save(public_path('storage/pictures/' . $profile_image), 100);
+    
+            // Set the path for storing in the database
+            $profileImagePath = $profile_image;
         }
 
+        $phone_number = $data['phone_number'];
+
+        if (substr($phone_number, 0, 3) !== '+63') {
+            $phone_number = '+63' . substr($phone_number, 1); // Remove leading 0 and add +63
+        }
+    
         $user = User::create([
             'last_name' => $data['last_name'],
             'first_name' => $data['first_name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'profile_image' => $profileImagePath,
-            'phone_number' => $data['phone_number'],
+            'profile_image' => $profileImagePath, // Save the same path in the database
+            'phone_number' => $phone_number,
             'street_address' => $data['street_address'],
             'barangay' => $data['barangay'],
             'town_city' => $data['town_city'],
@@ -62,4 +82,8 @@ class RegisterController extends Controller
         $user->sendEmailVerificationNotification(); 
         return $user;
     }
+
+    
+
+
 }
