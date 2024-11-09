@@ -266,7 +266,7 @@
                                         </div>
                                         <div class="form-group">
                                         <label for="profile_image">Profile Image *</label>
-                                            <input type="file" class="form-control @error('profile_image') is-invalid @enderror" name="profile_image" value="{{ old('profile_image') }}" id="profile_image" required>
+                                            <input type="file" class="form-control @error('profile_image') is-invalid @enderror" name="profile_image" value="{{ old('profile_image') }}" id="profile_image" >
                                             @error('profile_image')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
