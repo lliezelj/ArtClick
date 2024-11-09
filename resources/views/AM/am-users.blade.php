@@ -149,7 +149,7 @@
                     </div>
                     <div class="page-btn">
                         <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#users-add">
-                            <img src="{{ asset('manager/img/icons/plus.svg') }}" alt="img" class="me-1">Add New User</a>
+                            <img src="{{ asset('manager/img/icons/plus.svg') }}" alt="img" class="me-1">Add Admin</a>
                     </div>
                 </div>
 
@@ -277,7 +277,7 @@
                                     <tr>
                                         <td class="productimgname">
                                             <a href="javascript:void(0);" class="product-img">
-                                                <img src="{{ asset('manager/img/product/product1.jpg') }}" alt="product">
+                                                <img src="{{$user->profile_image ? asset('storage/pictures/' .$user->profile_image) : asset('storage/pictures/null-profile.png') }}" alt="product">
                                             </a>
                                             <a href="javascript:void(0);">{{$user->last_name}}, {{$user->first_name}}</a>
                                         </td>
