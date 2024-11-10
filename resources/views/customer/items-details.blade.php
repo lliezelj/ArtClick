@@ -242,8 +242,16 @@
                                                 <form method="POST" action="{{route('add.review')}}">
                                                     @csrf
                                                     <label for="rating_percentage">Rate:</label>
-                                                    <span id="rangeValue">50</span>
-                                                    <input style="width:100%" type="range" id="rating_percentage" name="rating_percentage" min="0" max="100"  oninput="displayValue(this.value)">
+                                                    <!-- <span id="rangeValue">50</span>
+                                                    <input style="width:100%" type="range" id="rating_percentage" name="rating_percentage" min="0" max="100"  oninput="displayValue(this.value)">-->
+                                                    <select class="form-control" name="rating_percentage" id="">  
+                                                        <option value="" selected disabled>Choose Rate</option>             
+                                                        <option style="color:#FFD300; font-size:20px;" value="20">★</option>
+                                                        <option style="color:#FFD300; font-size:20px;" value="40">★★</option>
+                                                        <option style="color:#FFD300; font-size:20px;" value="60">★★★</option>
+                                                        <option style="color:#FFD300; font-size:20px;" value="80">★★★★</option>
+                                                        <option style="color:#FFD300; font-size:20px;" value="100">★★★★★</option>
+                                                    </select>
                                                     <label for="comment">Comment:</label>
                                                     <textarea style="width:100%" rows="1" class="form-control" id="comment" name="comment"></textarea>
                                                     <input type="hidden" id="product_id" name="product_id" value="{{ $viewProductDetails->id }}">
