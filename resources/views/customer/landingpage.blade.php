@@ -143,7 +143,7 @@
       <!-- End .header -->
 
       <main class="main">
-        <div class="intro-slider-container" >
+        <div class="intro-slider-container">
           <div
             class="owl-carousel owl-simple owl-light owl-nav-inside"
             data-toggle="owl"
@@ -151,7 +151,7 @@
             
           >
             <div
-              class="intro-slide" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{{ asset('customer/images/items/asiano.png') }}'); background-size: cover; background-position: center;">
+              class="intro-slide" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('customer/images/backgrounds/homepage.jpg') }}'); background-size: cover; background-position: center;">
               <div class="container intro-content" >
                 <p class="intro-subtitle">Express your art with handmade art</p>
                 <!-- End .h3 intro-subtitle -->

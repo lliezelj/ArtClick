@@ -161,7 +161,7 @@
       <div class="container">
         <div
           class="page-header page-header-big text-center"
-          style="background-image: url('customer/images/items/item5.gif')">
+          style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('customer/images/backgrounds/contact.jpg') }}'); background-size: cover; background-position: center;">
           <!-- background pic ng asiano-->
           <h1 class="page-title text-white">
             Contact us<span class="text-white">keep in touch with us</span>

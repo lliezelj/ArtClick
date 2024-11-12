@@ -120,7 +120,7 @@
             <div class="container">
 	        	<div 
                 class="page-header page-header-big text-center" 
-                style="background: linear-gradient(rgba(0,0,0,0.7),rgba(0, 0, 0, 0.7)), url('customer/images/items/asiano.png')">
+                style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('customer/images/backgrounds/about.jpg') }}'); background-size: cover; background-position: center;">
         			<h1 class="page-title text-white">About us<span class="text-white">Who we are</span></h1>
 	        	</div><!-- End .page-header -->
             </div><!-- End .container -->
