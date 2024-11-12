@@ -177,8 +177,7 @@
             data-owl-options='{"nav": false}'
           >
             <div
-              class="intro-slide"
-            >
+              class="intro-slide" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('customer/images/backgrounds/homepage.jpg') }}'); background-size: cover; background-position: center;">
               <div class="container intro-content">
                 <p class="intro-subtitle">Express your art with handmade art</p>
                 <!-- End .h3 intro-subtitle -->
