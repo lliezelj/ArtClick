@@ -51,23 +51,22 @@ class DashboardController extends Controller
         ->groupBy(DB::raw('MONTH(date), YEAR(date)'))
         ->get();
 
-    // Get the monthly sales data for 'Delivered' orders
+
     $monthlySales = Orders::selectRaw('YEAR(updated_at) as year, MONTH(updated_at) as month, SUM(total_price) as total_sales')
         ->where('status', 'Delivered')
         ->groupBy(DB::raw('MONTH(updated_at), YEAR(updated_at)'))
         ->get();
 
-    // Combine sales and expenses data
+
     $monthlyData = collect();
 
-    // Add expenses data to the collection
     foreach ($expenses as $expense) {
         $monthlyData->push([
             'year' => $expense->year,
             'month' => $expense->month,
             'total_expense' => $expense->total_expense,
-            'total_sales' => 0, // Default sales to 0
-            'net_income' => -$expense->total_expense // Net income starts as negative of expense
+            'total_sales' => 0, 
+            'net_income' => -$expense->total_expense 
         ]);
     }
 
