@@ -145,7 +145,7 @@
             </nav><!-- End .breadcrumb-nav -->
 
             <div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17"
-                style="background-image: url('assets/images/backgrounds/login-bg.jpg')">
+            style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('customer/images/backgrounds/homepage.jpg') }}'); background-size: cover; background-position: center;">
                 <div class="container">
                     <div class="form-box">
                         <div class="form-tab">
