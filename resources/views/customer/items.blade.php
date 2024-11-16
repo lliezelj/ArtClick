@@ -28,9 +28,32 @@
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{{ asset('customer/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('customer/css/plugins/owl-carousel/owl.carousel.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <link rel="stylesheet" href="{{ asset('customer/css/plugins/magnific-popup/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('customer/css/plugins/nouislider/nouislider.css') }}">
 </head>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 
 <body>
     <div class="page-wrapper">
@@ -63,13 +86,13 @@
           <!-- End .header-left -->
 
           <div class="header-right">
-            <div class="header-search">
-              <a href="#" class="search-toggle" role="button" title="Search"><i
+          <div class="header-search">
+            <form action="{{route('search')}}" method="get">
+              <a href="#" type="submit" name="submit" class="search-toggle" role="button" title="Search"><i
                   class="icon-search"></i></a>
-              <form action="#" method="get">
                 <div class="header-search-wrapper">
                   <label for="q" class="sr-only">Search</label>
-                  <input type="search" class="form-control" name="q" id="q" placeholder="Search in..."
+                  <input type="search" class="form-control" name="search" id="q" placeholder="Search in..."
                     required />
                 </div>
                 <!-- End .header-search-wrapper -->
@@ -158,7 +181,7 @@
                                             </div><!-- End .ratings -->
                                             <span class="ratings-text">( {{ $reviewsData[$product->id]['count']}} Reviews )</span>
                                         </div><!-- End .rating-container -->
-
+                                        <p>Designed by: <span><a href="{{route('get.items',['id' => $product->artist->id]) }}">{{$product->artist->lastname}}, {{$product->artist->firstname}}</a></span></p>
                                     </div><!-- End .product-body -->
                                 </div><!-- End .product -->
                             </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
@@ -553,6 +576,7 @@
     <script src="{{ asset('customer/js/bootstrap-input-spinner.js') }}"></script>
     <script src="{{ asset('customer/js/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ asset('customer/js/nouislider.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Main JS File -->
     <script src="{{ asset('customer/js/main.js') }}"></script>
 </body>
