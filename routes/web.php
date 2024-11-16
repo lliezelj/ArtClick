@@ -4,8 +4,9 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['verify' => true]);
 Route::get('/', function () {
-return view('customer.landingpage');
-});
+    return view('customer.landingpage');
+})->name('customer.landingpage');
+
 
 Route::get('/about', function () {
     return view('customer.about');

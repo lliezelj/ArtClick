@@ -302,7 +302,7 @@
           </div>
           <!-- End .row -->
 
-          <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+          <div id="faqs" class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
               <div class="container">
                 <h1 class="page-title">FAQs</h1>
               </div>

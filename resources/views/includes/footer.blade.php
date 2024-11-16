@@ -35,7 +35,7 @@
 
                                 <ul class="widget-list">
                                     <li><a href="{{route('about')}}">About Asiano</a></li> <!-- wala pang html ito-->
-                                    <li><a href="faq.html">FAQ</a></li>
+                                    <li><a href="{{ route('contact') . '#faqs' }}">FAQ</a></li>
                                     <li><a href="{{route('contact')}}">Contact us</a></li>
                                     <li><a href="{{route('login')}}">Register</a></li>
                                 </ul>
