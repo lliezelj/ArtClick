@@ -68,7 +68,9 @@
                                     Users</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="{{route('view.users')}}" class="{{ request()->routeIs('view.users') ? 'active' : '' }}">Users List</a></li>
+                                <li><a href="{{route('view.messages')}}" class="{{ request()->routeIs('view.messages') ? 'active' : '' }}">Message</a></li>
                             </ul>
+                           
                         </li>
                 </div>
             </div>

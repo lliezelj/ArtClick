@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth','verified','admin']], function () {
     Route::get('/admin/categories/{id}/products', [App\Http\Controllers\CategoryController::class, 'getProductsByCategory'])->name('get.products');
     Route::put('/admin/category/{id}/edit', [App\Http\Controllers\CategoryController::class, 'update'])->name('update.category');
     Route::delete('/admin/category/{id}/delete', [App\Http\Controllers\CategoryController::class, 'delete'])->name('delete.category');
+    Route::post('/add-message', [App\Http\Controllers\MessageController::class, 'guestMessage'])->name('add.message');
 
     //items/products routes
     Route::get('/admin/items-list', [App\Http\Controllers\ProductController::class, 'index'])->name('admin.product');
@@ -122,6 +123,11 @@ Route::group(['middleware' => ['auth','verified','admin']], function () {
     // Users Routes
     Route::get('/view/users', [App\Http\Controllers\UsersController::class, 'index'])->name('view.users');
     Route::post('/admin/add/admin-user', [App\Http\Controllers\UsersController::class, 'addAdmin'])->name('add.admin');
+
+     // Messages Routes
+     Route::get('/view/messages', [App\Http\Controllers\MessageController::class, 'index'])->name('view.messages');
+     Route::post('/reply/message/{id}', [App\Http\Controllers\MessageController::class, 'replyMessage'])->name('replied.message');
+     Route::delete('/delete/message/{id}', [App\Http\Controllers\MessageController::class, 'delete'])->name('delete.message');
 
 });    
 
