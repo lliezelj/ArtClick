@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Questions extends Model
+class Messages extends Model
 {
-    protected $table = 'questions'; 
+    protected $table = 'messages'; 
     protected $primaryKey = 'id';
-    protected $fillable = ['name', 'email','phone','subject', 'message'];
-
+    protected $fillable = ['fullname', 'email','phone','subject', 'message','status','reply'];
 }
