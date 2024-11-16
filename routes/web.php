@@ -23,6 +23,7 @@ Route::get('/customer/categories/{id}/products', [App\Http\Controllers\ShopContr
 Route::get('/customer/item-details/{id}', [App\Http\Controllers\ShopController::class, 'viewProductDetails'])->name('view.details');
 Route::get('/sendSms', [App\Http\Controllers\SmsController::class, 'sendSms']);
 Route::get('/search/products', [App\Http\Controllers\ProductController::class, 'search'])->name('search');
+Route::post('/add-message', [App\Http\Controllers\MessageController::class, 'guestMessage'])->name('add.message');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
 Route::get('/homepage',[App\Http\Controllers\HomeController::class, 'index'])->name('homepage');
@@ -64,7 +65,6 @@ Route::group(['middleware' => ['auth','verified','admin']], function () {
     Route::get('/admin/categories/{id}/products', [App\Http\Controllers\CategoryController::class, 'getProductsByCategory'])->name('get.products');
     Route::put('/admin/category/{id}/edit', [App\Http\Controllers\CategoryController::class, 'update'])->name('update.category');
     Route::delete('/admin/category/{id}/delete', [App\Http\Controllers\CategoryController::class, 'delete'])->name('delete.category');
-    Route::post('/add-message', [App\Http\Controllers\MessageController::class, 'guestMessage'])->name('add.message');
 
     //items/products routes
     Route::get('/admin/items-list', [App\Http\Controllers\ProductController::class, 'index'])->name('admin.product');

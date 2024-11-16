@@ -29,6 +29,20 @@
 
     <link rel="stylesheet" href="{{ asset('manager/css/style.css') }}">
 </head>
+<style>
+    .gradient-highlight {
+    background: linear-gradient(
+        to right,
+        rgba(0, 128, 0, 0.3), /* Light green with low opacity */
+        rgba(0, 255, 0, 0.3)  /* Bright green with low opacity */
+    );
+    color: black; /* White text */
+    padding: 8px; /* Optional: Add some padding for better appearance */
+    text-align: left; /* Optional: Align text */
+    border: 1px solid #ddd; /* Optional: Add a border */
+}
+
+</style>
 <script>
         document.addEventListener('DOMContentLoaded', function () {
             @if(session('success'))
@@ -146,10 +160,6 @@
                 <div class="page-header">
                     <div class="page-title">
                         <h4>Messages List</h4>
-                    </div>
-                    <div class="page-btn">
-                        <a class="btn btn-added" data-bs-toggle="modal" data-bs-target="#users-add">
-                            <img src="{{ asset('manager/img/icons/plus.svg') }}" alt="img" class="me-1">Add Admin</a>
                     </div>
                 </div>
 
@@ -277,14 +287,14 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($messages as $message)
-                                    <tr class="{{ $message->status === 'unview' ?  'bg-success' : ' '}}">
-                                    <td class="{{ $message->status === 'viewed' ?  'text-dark' : 'text-white'}}">{{$message->fullname}}</td>
-                                    <td class="{{ $message->status === 'viewed' ?  'text-dark' : 'text-white'}}">{{$message->email}}</td>
-                                    <td class="{{ $message->status === 'viewed' ?  'text-dark' : 'text-white'}}">{{$message->phone}}</td>
-                                    <td class="{{ $message->status === 'viewed' ?  'text-dark' : 'text-white'}}">{{$message->subject}}</td>
-                                    <td class="{{ $message->status === 'viewed' ?  'text-dark' : 'text-white'}}">{{ \Illuminate\Support\Str::limit($message->message, 15, '...') }}</td>
-                                    <td class="{{ $message->status === 'viewed' ?  'text-dark' : 'text-white'}}">{{$message->reply}}</td>
-                                    <td class="{{ $message->status === 'viewed' ?  'text-dark' : 'text-white'}}">
+                                    <tr class="{{ $message->status === 'unview' ?  'gradient-highlight' : ' '}}">
+                                    <td class="text-dark">{{$message->fullname}}</td>
+                                    <td class="text-dark">{{$message->email}}</td>
+                                    <td class="text-dark">{{$message->phone}}</td>
+                                    <td class="text-dark">{{$message->subject}}</td>
+                                    <td class="text-dark">{{ \Illuminate\Support\Str::limit($message->message, 15, '...') }}</td>
+                                    <td class="text-dark">{{$message->reply}}</td>
+                                    <td class="text-dark">
                                         <a class="me-3" data-bs-toggle="modal" data-bs-target="#message-view{{$message->id}}">
                                             <img src="{{ asset('manager/img/icons/eye.svg')}}" alt="img">
                                         </a>
