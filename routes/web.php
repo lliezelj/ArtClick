@@ -22,6 +22,7 @@ Route::post('/question/create', [App\Http\Controllers\ContactController::class, 
 Route::get('/customer/categories/{id}/products', [App\Http\Controllers\ShopController::class, 'getProductsByCategory'])->name('customer.getProducts');
 Route::get('/customer/item-details/{id}', [App\Http\Controllers\ShopController::class, 'viewProductDetails'])->name('view.details');
 Route::get('/sendSms', [App\Http\Controllers\SmsController::class, 'sendSms']);
+Route::get('/search/products', [App\Http\Controllers\ProductController::class, 'search'])->name('search');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
 Route::get('/homepage',[App\Http\Controllers\HomeController::class, 'index'])->name('homepage');
@@ -128,6 +129,7 @@ Route::group(['middleware' => ['auth','verified','admin']], function () {
      Route::get('/view/messages', [App\Http\Controllers\MessageController::class, 'index'])->name('view.messages');
      Route::post('/reply/message/{id}', [App\Http\Controllers\MessageController::class, 'replyMessage'])->name('replied.message');
      Route::delete('/delete/message/{id}', [App\Http\Controllers\MessageController::class, 'delete'])->name('delete.message');
+
 
 });    
 

@@ -80,7 +80,7 @@
                 height="25" />
             </a>
 
-            @include('includes.nav')
+           @include('includes.nav')
             <!-- End .main-nav -->
           </div>
           <!-- End .header-left -->
@@ -116,7 +116,6 @@
                   @else
                   <a href="{{route('login')}}" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
                   @endif
-                </form>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
@@ -137,17 +136,18 @@
         <!-- End .container -->
       </div>
       <!-- End .header-middle -->
-    </header>
-    <!-- End .header -->
+    </header><!-- End .header -->
 
         <main class="main">
-        	<div 
-            class="page-header text-center" 
-            style="background-image: url('customer/images/page-header-bg.jpg')">
+        	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
         		<div class="container">
-        			<h1 class="page-title">{{$theArtist->lastname}}, {{$theArtist->firstname}} <span>Gallery</span></h1>
+        			<h1 class="page-title">Here's the results match for your search<span>Shop</span></h1>
         		</div><!-- End .container -->
         	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
+                <div class="container">
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
 
             <div class="page-content">
                 <div class="container">
@@ -158,43 +158,40 @@
 
                     <div class="products">
                         <div class="row">
-                           @foreach($artworks as $artwork)
+                            @foreach ($products as $product)
                             <div class="col-6 col-md-4 col-lg-4 col-xl-3">
                                 <div class="product">
                                     <figure class="product-media">
-                                        <a href="{{route('view.details',['id' => $artwork->id])}}">
-                                            <img src="{{$artwork->product_image ? asset('storage/productPictures/' .$artwork->product_image) : asset('icon/null-image.png')}}" alt="Product image" class="product-image">
+                                        <a href="{{ route('view.details', ['id' => $product->id]) }}">
+                                            <img src="{{$product->product_image ? asset('storage/productPictures/' .$product->product_image) : asset('icon/null-image.png')}}" alt="Product image" class="product-image">
                                         </a>
                                     </figure><!-- End .product-media -->
 
                                     <div class="product-body">
                                         <div class="product-cat">
-                                            <a href="{{route('customer.getProducts', ['id' => $artwork->category->id])}}">{{$artwork->category->name}}</a>
+                                            <a href="{{route('customer.getProducts', ['id' => $product->category->id])}}">{{$product->category->name}}</a>
                                         </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="{{route('view.details',['id' => $artwork->id])}}">{{$artwork->name}}</a></h3><!-- End .product-title -->
+                                        <h3 class="product-title"><a href="{{ route('view.details', ['id' => $product->id]) }}">{{$product->name}}</a></h3><!-- End .product-title -->
                                         <div class="product-price">
-                                        {{$artwork->price}}
+                                            {{$product->price}}
                                         </div><!-- End .product-price -->
                                         <div class="ratings-container">
                                             <div class="ratings">
-                                                <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
+                                                <div class="ratings-val" style="width: {{$reviewsData[$product->id]['average']}}%;"></div><!-- End .ratings-val -->
                                             </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 0 Reviews )</span>
+                                            <span class="ratings-text">( {{ $reviewsData[$product->id]['count']}} Reviews )</span>
                                         </div><!-- End .rating-container -->
+                                        <p>Designed by: <span><a href="{{route('get.items',['id' => $product->artist->id]) }}">{{$product->artist->lastname}}, {{$product->artist->firstname}}</a></span></p>
 
-                                        <div class="product-nav product-nav-dots">
-                                            <a href="#" style="background: #cc9966;"><span class="sr-only">Color name</span></a>
-                                            <a href="#" class="active" style="background: #ebebeb;"><span class="sr-only">Color name</span></a>
-                                        </div><!-- End .product-nav -->
                                     </div><!-- End .product-body -->
                                 </div><!-- End .product -->
                             </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
                             @endforeach
+
+
                         </div><!-- End .row -->
 
-                        <div class="load-more-container text-center">
-                            <a href="#" class="btn btn-outline-darker btn-load-more">More Products <i class="icon-refresh"></i></a>
-                        </div><!-- End .load-more-container -->
+
                     </div><!-- End .products -->
 
                     <div class="sidebar-filter-overlay"></div><!-- End .sidebar-filter-overlay -->
@@ -452,7 +449,6 @@
         </main><!-- End .main -->
 
         @include('includes.footer')
-
     </div><!-- End .page-wrapper -->
     @include('includes.mobile-nav')
 
