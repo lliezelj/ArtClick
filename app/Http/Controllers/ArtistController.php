@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Artists;
 use App\Models\Products;
 use App\Models\Category;
+use App\Models\Reviews;
 use Intervention\Image\Facades\Image;
 
 class ArtistController extends Controller
@@ -30,11 +31,26 @@ class ArtistController extends Controller
 
     public function getItemsByArtists($id)
     {
+
         $artworks = Products::with('category')->where('artist_id', $id)->get();
         $artists = Artists::all();
         $theArtist = Artists::select('lastname', 'firstname')->where('id', $id)->first();
         $categories = Category::all();
-        return view('customer.gallery-items',compact('artists','artworks','categories','theArtist'));
+
+        $reviewsData = []; 
+    
+       foreach ($artworks as $product) {
+        $reviewsCount = Reviews::where('product_id', $product->id)->count();
+        $averageRating = $reviewsCount > 0 
+            ? Reviews::where('product_id', $product->id)->sum('rating_percentage') / $reviewsCount 
+            : 0;
+        
+        $reviewsData[$product->id] = [
+            'count' => $reviewsCount,
+            'average' => $averageRating,
+        ];
+    }
+        return view('customer.gallery-items',compact('artists','artworks','categories','theArtist','reviewsData'));
     }
 
     public function storeArtist(Request $request){

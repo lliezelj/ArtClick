@@ -53,8 +53,8 @@
   <link rel="stylesheet" href="{{ asset('customer/css/plugins/jquery.countdown.css') }}" />
   <!-- Main CSS File -->
   <link rel="stylesheet" href="{{ asset('customer/css/style.css') }}" />
-  <link rel="stylesheet" href="{{ asset('customer/css/skins/skin-demo-2.css') }}" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+  <link rel="stylesheet" href="{{ asset('customer/css/skins/skin-demo-2.css') }}" />
   <link rel="stylesheet" href="{{ asset('customer/css/demos/demo-2.css') }}" />
 </head>
 <script>
@@ -105,8 +105,7 @@
                 height="25" />
             </a>
 
-          @include('includes.nav')
-            <!-- End .main-nav -->
+           @include('includes.nav')
             <!-- End .main-nav -->
           </div>
           <!-- End .header-left -->
@@ -168,119 +167,59 @@
     <!-- End .header -->
 
     <main class="main">
+            <div 
+            class="page-header text-center" 
+            style="background-image: url('customer/images/page-header-bg.jpg')">
+                <div class="container">
+                    <h1 class="page-title">Change Password</h1>
+                </div><!-- End .container -->
+            </div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+            </nav><!-- End .breadcrumb-nav -->
 
-      <!-- End .intro-slider-container -->
+            <div class="page-content">
+                <div class="dashboard">
+                    <div class="container">
+                        <div class="row">
+                            <aside class="col-md-4 col-lg-3">
+                                <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+                                </ul>
+                            </aside><!-- End .col-lg-3 -->
 
-      <!-- Category Title -->
-      <h2 class="category-title">CATEGORY</h2>
+                            <div class="col-md-4 col-lg-6">
+                                <div class="tab-content">
 
-      <!-- Subtitle -->
-      <h3 class="category-subtitle">Explore our wide range of categories</h3>
+                                    <div class="tab-pane fade show active" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
+                                        <form action="{{route('password.update', $user->id)}}" method="POST">
+                                            @csrf
+                                            @method('POST')
+                                            <label>Current password</label>
+                                            <input type="password" name="password" class="form-control">
 
-      <!--start product category-->
-    <section class="category-section">
-      <div class="row">
-        @foreach($categories as $category)
-        <a href="{{ route('customer.getProducts',['id' => $category->id]) }}" class="category-card">
-          <img src="{{$category->image ? asset('storage/categoryPictures/' .$category->image) : asset('icon/null-image.png') }}" alt="Category Image" />
-          <h3>{{$category->name}}</h3>
-          <p>Discover a variety of items tailored to this category</p>
-        </a>
-        @endforeach
-        </div>
-      </section>
-      <!--end product category-->
+                                            <label>New password</label>
+                                            <input type="password" name="npassword" class="form-control">
 
+                                            <label>Confirm new password</label>
+                                            <input type="password" name="cnpassword" class="form-control mb-2">
 
-      <div
-        class="brands-border owl-carousel owl-simple"
-        data-toggle="owl"
-        data-owl-options='{
-                    "nav": false, 
-                    "dots": false,
-                    "margin": 0,
-                    "loop": false,
-                    "responsive": {
-                        "0": {
-                            "items":2
-                        },
-                        "420": {
-                            "items":3
-                        },
-                        "600": {
-                            "items":4
-                        },
-                        "900": {
-                            "items":5
-                        },
-                        "1024": {
-                            "items":6
-                        },
-                        "1360": {
-                            "items":7
-                        }
-                    }
-                }'></div>
-      <!-- End .brands-border -->
-
-      <div class="mb-3"></div>
-      <!-- End .mb-6 -->
-
-      <div class="container-fluid">
-        <div class="tab-content tab-content-carousel">
-          <div
-            class="tab-pane p-0 fade show active"
-            id="products-featured-tab"
-            role="tabpanel"
-            aria-labelledby="products-featured-link">
-            <div
-              class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow"
-              data-toggle="owl"
-              data-owl-options='{
-                                "nav": false, 
-                                "dots": true,
-                                "margin": 20,
-                                "loop": false,
-                                "responsive": {
-                                    "0": {
-                                        "items":2
-                                    },
-                                    "480": {
-                                        "items":2
-                                    },
-                                    "768": {
-                                        "items":3
-                                    },
-                                    "992": {
-                                        "items":4
-                                    },
-                                    "1200": {
-                                        "items":5
-                                    },
-                                    "1600": {
-                                        "items":6,
-                                        "nav": true
-                                    }
-                                }
-                            }'></div>
-            <!-- End .owl-carousel -->
-          </div>
-          <!-- .End .tab-pane -->
-        </div>
-        <!-- End .tab-content -->
-      </div>
-      <!-- End .container-fluid -->
-
-      <div class="mb-5"></div>
-      <!-- End .mb-5 -->
-    </main>
+                                            <button type="submit" name="submit" class="btn btn-outline-primary-2">
+                                                <span>SAVE CHANGES</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </button>
+                                        </form>
+                                    </div><!-- .End .tab-pane -->
+                                </div>
+                            </div><!-- End .col-lg-9 -->
+                        </div><!-- End .row -->
+                    </div><!-- End .container -->
+                </div><!-- End .dashboard -->
+            </div><!-- End .page-content -->
+        </main>
     <!-- End .main -->
     @include('includes.footer')
 
-    </div><!-- End .page-wrapper -->
-    @include('includes.mobile-nav')
-    
-        
+</div><!-- End .page-wrapper -->
+@include('includes.mobile-nav')
     <!-- Plugins JS File -->
     <script src="{{ asset('customer/js/jquery.min.js') }}"></script>
     <script src="{{ asset('customer/js/bootstrap.bundle.min.js') }}"></script>
@@ -291,9 +230,9 @@
     <script src="{{ asset('customer/js/jquery.plugin.min.js') }}"></script>
     <script src="{{ asset('customer/js/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ asset('customer/js/jquery.countdown.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Main JS File -->
     <script src="{{ asset('customer/js/main.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('customer/js/demos/demo-2.js') }}"></script>
   </div>
   <!-- End .page-wrapper -->

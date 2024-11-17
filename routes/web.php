@@ -24,9 +24,16 @@ Route::get('/customer/item-details/{id}', [App\Http\Controllers\ShopController::
 Route::get('/sendSms', [App\Http\Controllers\SmsController::class, 'sendSms']);
 Route::get('/search/products', [App\Http\Controllers\ProductController::class, 'search'])->name('search');
 Route::post('/add-message', [App\Http\Controllers\MessageController::class, 'guestMessage'])->name('add.message');
+Route::get('/customer/gallery/{id}/artist-items', [App\Http\Controllers\ArtistController::class, 'getItemsByArtists'])->name('get.items');
+
+
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
 Route::get('/homepage',[App\Http\Controllers\HomeController::class, 'index'])->name('homepage');
+Route::get('/account',[App\Http\Controllers\UsersController::class, 'account'])->name('account');
+Route::get('/change-password',[App\Http\Controllers\UsersController::class, 'cpassword'])->name('change.password');
+Route::post('/user/{user}', [App\Http\Controllers\UsersController::class, 'update'])->name('user.update');
+Route::post('/password-update/{user}', [App\Http\Controllers\UsersController::class, 'updatePassword'])->name('password.update');
 
 
 //Shop Routes
@@ -40,8 +47,6 @@ Route::post('/customer/add-to-order', [App\Http\Controllers\CartController::clas
 Route::put('/customer/order/{id}/cancelled', [App\Http\Controllers\CartController::class, 'cancelOrder'])->name('customer.cancel');
 Route::get('/customer/view-orders', [App\Http\Controllers\CartController::class, 'viewOrders'])->name('view.orders');
 //Gallery Routes
-
-Route::get('/customer/gallery/{id}/artist-items', [App\Http\Controllers\ArtistController::class, 'getItemsByArtists'])->name('get.items');
 
 //Announcements Routes
 
@@ -191,9 +196,7 @@ Route::get('/cart', function () {
     return view('customer.cart');
 })->name('cart');
 
-Route::get('/account', function () {
-    return view('customer.account');
-})->name('account');
+;
 
 Route::get('/checkout', function () {
     return view('customer.checkout');
