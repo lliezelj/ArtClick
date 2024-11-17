@@ -131,7 +131,7 @@
               </a>
               <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-cart-action">
-                  <a href="cart.html" class="btn btn-primary">Account</a>
+                  <a href="{{ route('account') }}" class="btn btn-primary">Account</a>
                   <form method="POST" action="{{ route('logout') }}">
                   @csrf
                   <button type="submit" class="btn btn-outline-primary-2"><span>Log out</span><i class="icon-long-arrow-left"></i></button>
