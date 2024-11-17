@@ -100,13 +100,13 @@
           <!-- End .header-left -->
 
           <div class="header-right">
-            <div class="header-search">
-              <a href="#" class="search-toggle" role="button" title="Search"><i
+          <div class="header-search">
+            <form action="{{route('search')}}" method="get">
+              <a href="#" type="submit" name="submit" class="search-toggle" role="button" title="Search"><i
                   class="icon-search"></i></a>
-              <form action="#" method="get">
                 <div class="header-search-wrapper">
                   <label for="q" class="sr-only">Search</label>
-                  <input type="search" class="form-control" name="q" id="q" placeholder="Search in..."
+                  <input type="search" class="form-control" name="search" id="q" placeholder="Search in..."
                     required />
                 </div>
                 <!-- End .header-search-wrapper -->
@@ -225,17 +225,17 @@
                 Use the form below to get in touch with the sales team
               </p>
 
-              <form method="POST" action="{{route('create.question')}}" class="contact-form mb-3">
+              <form method="POST" action="{{route('add.message')}}" class="contact-form mb-3">
                 @csrf
                 <div class="row">
                   <div class="col-sm-6">
                     <label for="cname" class="sr-only">Name</label>
                     <input
-                      name="name"
+                      name="fullname"
                       type="text"
                       class="form-control"
                       id="cname"
-                      placeholder="Name *"
+                      placeholder="Full Name *"
                       required />
                   </div>
                   <!-- End .col-sm-6 -->
@@ -465,9 +465,9 @@
     <script src="{{ asset('customer/js/jquery.waypoints.min.js') }}"></script>
     <script src="{{ asset('customer/js/superfish.min.js') }}"></script>
     <script src="{{ asset('customer/js/owl.carousel.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Main JS File -->
     <script src="{{ asset('customer/js/main.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

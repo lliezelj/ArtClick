@@ -25,10 +25,33 @@
     <meta name="theme-color" content="#ffffff">
     <!-- Plugins CSS File -->
     <link rel="stylesheet" href="{{ asset('customer/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <link rel="stylesheet" href="{{ asset('customer/css/plugins/owl-carousel/owl.carousel.css') }}">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{{ asset('customer/css/style.css') }}">
 </head>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}'
+                });
+            @endif
+        });
+    </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: '{{ session('error') }}'
+                });
+            @endif
+        });
+    </script>
 
 <body>
     <div class="page-wrapper">
@@ -61,13 +84,13 @@
           <!-- End .header-left -->
 
           <div class="header-right">
-            <div class="header-search">
-              <a href="#" class="search-toggle" role="button" title="Search"><i
+          <div class="header-search">
+            <form action="{{route('search')}}" method="get">
+              <a href="#" type="submit" name="submit" class="search-toggle" role="button" title="Search"><i
                   class="icon-search"></i></a>
-              <form action="#" method="get">
                 <div class="header-search-wrapper">
                   <label for="q" class="sr-only">Search</label>
-                  <input type="search" class="form-control" name="q" id="q" placeholder="Search in..."
+                  <input type="search" class="form-control" name="search" id="q" placeholder="Search in..."
                     required />
                 </div>
                 <!-- End .header-search-wrapper -->
@@ -319,6 +342,7 @@
     <script src="{{ asset('customer/js/jquery.waypoints.min.js')}}"></script>
     <script src="{{ asset('customer/js/superfish.min.js')}}"></script>
     <script src="{{ asset('customer/js/owl.carousel.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Main JS File -->
     <script src="{{ asset('customer/js/main.js')}}"></script>
 </body>
