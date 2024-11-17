@@ -139,9 +139,18 @@
                 <i class="icon-user"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-cart-action">
+              <div class="dropdown-cart-action">
+                 @if(Auth::user())
                   <a href="{{ route('account') }}" class="btn btn-primary">Account</a>
-                  <a href="{{route('login')}}" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  @endif
+                  @if(Auth::user())
+                  <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" class="btn btn-outline-primary-2"><span>Log out</span><i class="icon-long-arrow-left"></i></button>
+                </form>
+                  @else
+                  <a href="{{route('login')}}" class="btn btn-outline-primary-2" style="width: 250px;"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  @endif
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>

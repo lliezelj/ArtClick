@@ -106,17 +106,18 @@
                 <i class="icon-user"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-cart-action">
+              <div class="dropdown-cart-action">
+                 @if(Auth::user())
                   <a href="{{ route('account') }}" class="btn btn-primary">Account</a>
+                  @endif
                   @if(Auth::user())
                   <form method="POST" action="{{ route('logout') }}">
                   @csrf
                   <button type="submit" class="btn btn-outline-primary-2"><span>Log out</span><i class="icon-long-arrow-left"></i></button>
                 </form>
                   @else
-                  <a href="{{route('login')}}" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <a href="{{route('login')}}" class="btn btn-outline-primary-2" style="width: 250px;"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
                   @endif
-                </form>
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>
@@ -177,15 +178,10 @@
                                         </div><!-- End .product-price -->
                                         <div class="ratings-container">
                                             <div class="ratings">
-                                                <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
+                                                <div class="ratings-val" style="width: {{$reviewsData[$artwork->id]['average']}}%;"></div><!-- End .ratings-val -->
                                             </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 0 Reviews )</span>
+                                            <span class="ratings-text">( {{ $reviewsData[$artwork->id]['count']}} Reviews )</span>
                                         </div><!-- End .rating-container -->
-
-                                        <div class="product-nav product-nav-dots">
-                                            <a href="#" style="background: #cc9966;"><span class="sr-only">Color name</span></a>
-                                            <a href="#" class="active" style="background: #ebebeb;"><span class="sr-only">Color name</span></a>
-                                        </div><!-- End .product-nav -->
                                     </div><!-- End .product-body -->
                                 </div><!-- End .product -->
                             </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->

@@ -105,31 +105,7 @@
                 height="25" />
             </a>
 
-            <nav class="main-nav">
-              <ul class="menu sf-arrows">
-                <li>
-                  <a href="{{ route('homepage') }}" class="sf-with-ul">Home</a>
-                </li>
-                <li>
-                  <a href="{{ route('shop-category') }}" class="sf-with-ul">Shop</a>
-                </li>
-                <li>
-                  <a href="{{ route('gallery') }}" class="sf-with-ul">Gallery</a>
-                </li>
-
-                <li>
-                  <a href="{{ route('announcement') }}" class="sf-with-ul">Announcement</a>
-                </li>
-                <li>
-                  <a href="{{ route('about') }}" class="sf-with-ul">About</a>
-                </li>
-                <li>
-                  <a href="{{ route('contact') }}" class="sf-with-ul">Contact</a>
-                </li>
-              </ul>
-
-              <!-- End .menu -->
-            </nav>
+           @include('includes.nav')
             <!-- End .main-nav -->
           </div>
           <!-- End .header-left -->
@@ -155,15 +131,17 @@
                 <i class="icon-user"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-cart-action">
+              <div class="dropdown-cart-action">
+                 @if(Auth::user())
                   <a href="{{ route('account') }}" class="btn btn-primary">Account</a>
+                  @endif
                   @if(Auth::user())
                   <form method="POST" action="{{ route('logout') }}">
                   @csrf
                   <button type="submit" class="btn btn-outline-primary-2"><span>Log out</span><i class="icon-long-arrow-left"></i></button>
                 </form>
                   @else
-                  <a href="{{route('login')}}" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <a href="{{route('login')}}" class="btn btn-outline-primary-2" style="width: 250px;"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
                   @endif
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
@@ -205,54 +183,88 @@
                         <div class="row">
                             <aside class="col-md-4 col-lg-3">
                                 <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
-
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="true">Account Details</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Sign Out</a>
+                                        <a class="nav-link"  href="{{route('change.password')}}">Change Password</a>
                                     </li>
                                 </ul>
                             </aside><!-- End .col-lg-3 -->
 
-                            <div class="col-md-8 col-lg-9">
+                            <div class="col-md-8 col-lg-8">
                                 <div class="tab-content">
 
                                     <div class="tab-pane fade show active" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
-                                        <form action="#">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <label>First Name *</label>
-                                                    <input type="text" class="form-control" required>
-                                                </div><!-- End .col-sm-6 -->
+                                    <form action="{{ route('user.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                                      @csrf
+                                      @method('POST')
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="mb-3">
+                                                    <!-- Display current profile picture -->
+                                                    <img id="profileImagePreview" src="{{ $user->profile_image ? asset('storage/pictures/' . $user->profile_image) : asset('default-profile.png') }}" 
+                                                        alt="Profile Picture" 
+                                                        style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%; margin-bottom: 10px;">
+                                                </div>
+                                                <!-- File input for uploading new profile picture -->
+                                                <input type="file" name="profile_image" id="profileImage" class="form-control" accept="image/*">
+                                            </div>
+                                        </div>
 
-                                                <div class="col-sm-6">
-                                                    <label>Last Name *</label>
-                                                    <input type="text" class="form-control" required>
-                                                </div><!-- End .col-sm-6 -->
-                                            </div><!-- End .row -->
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <label>First Name *</label>
+                                                <input type="text" name="first_name" value="{{ $user->first_name }}" class="form-control" required>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>Last Name *</label>
+                                                <input type="text" name="last_name" value="{{ $user->last_name }}" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <label>Phone Number *</label>
+                                                <input type="text" name="phone_number" value="{{ $user->phone_number }}" class="form-control" required>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>Email *</label>
+                                                <input type="email" name="email" value="{{ $user->email }}" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <label>Street Address *</label>
+                                                <input type="text" name="street_address" value="{{ $user->street_address }}" class="form-control" required>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>Barangay *</label>
+                                                <input type="text" name="barangay" value="{{ $user->barangay }}" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <label>Town City *</label>
+                                                <input type="text" name="town_city" value="{{ $user->town_city }}" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <button type="submit" name="submit" class="btn btn-outline-primary-2">
+                                            <span>SAVE CHANGES</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+                                    </form>
 
-                                            <label>Display Name *</label>
-                                            <input type="text" class="form-control" required>
-                                            <small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
+                                    <script>
+                                        // JavaScript to preview the selected image
+                                        document.getElementById('profileImage').addEventListener('change', function (event) {
+                                            const file = event.target.files[0];
+                                            if (file) {
+                                                const reader = new FileReader();
+                                                reader.onload = function (e) {
+                                                    document.getElementById('profileImagePreview').src = e.target.result;
+                                                };
+                                                reader.readAsDataURL(file);
+                                            }
+                                        });
+                                    </script>
 
-                                            <label>Email address *</label>
-                                            <input type="email" class="form-control" required>
-
-                                            <label>Current password (leave blank to leave unchanged)</label>
-                                            <input type="password" class="form-control">
-
-                                            <label>New password (leave blank to leave unchanged)</label>
-                                            <input type="password" class="form-control">
-
-                                            <label>Confirm new password</label>
-                                            <input type="password" class="form-control mb-2">
-
-                                            <button type="submit" class="btn btn-outline-primary-2">
-                                                <span>SAVE CHANGES</span>
-                                                <i class="icon-long-arrow-right"></i>
-                                            </button>
-                                        </form>
                                     </div><!-- .End .tab-pane -->
                                 </div>
                             </div><!-- End .col-lg-9 -->

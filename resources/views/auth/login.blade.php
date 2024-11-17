@@ -87,13 +87,13 @@
           <!-- End .header-left -->
 
           <div class="header-right">
-            <div class="header-search">
-              <a href="#" class="search-toggle" role="button" title="Search"><i
+          <div class="header-search">
+            <form action="{{route('search')}}" method="get">
+              <a href="#" type="submit" name="submit" class="search-toggle" role="button" title="Search"><i
                   class="icon-search"></i></a>
-              <form action="#" method="get">
                 <div class="header-search-wrapper">
                   <label for="q" class="sr-only">Search</label>
-                  <input type="search" class="form-control" name="q" id="q" placeholder="Search in..."
+                  <input type="search" class="form-control" name="search" id="q" placeholder="Search in..."
                     required />
                 </div>
                 <!-- End .header-search-wrapper -->
@@ -107,9 +107,18 @@
                 <i class="icon-user"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-cart-action">
+              <div class="dropdown-cart-action">
+                 @if(Auth::user())
                   <a href="{{ route('account') }}" class="btn btn-primary">Account</a>
-                  <a href="" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  @endif
+                  @if(Auth::user())
+                  <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" class="btn btn-outline-primary-2"><span>Log out</span><i class="icon-long-arrow-left"></i></button>
+                </form>
+                  @else
+                  <a href="{{route('login')}}" class="btn btn-outline-primary-2" style="width: 250px;"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  @endif
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
             </div>

@@ -131,15 +131,17 @@
                 <i class="icon-user"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-cart-action">
+              <div class="dropdown-cart-action">
+                 @if(Auth::user())
                   <a href="{{ route('account') }}" class="btn btn-primary">Account</a>
+                  @endif
                   @if(Auth::user())
                   <form method="POST" action="{{ route('logout') }}">
                   @csrf
                   <button type="submit" class="btn btn-outline-primary-2"><span>Log out</span><i class="icon-long-arrow-left"></i></button>
                 </form>
                   @else
-                  <a href="{{route('login')}}" class="btn btn-outline-primary-2"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
+                  <a href="{{route('login')}}" class="btn btn-outline-primary-2" style="width: 250px;"><span>Sign Up</span><i class="icon-long-arrow-right"></i></a>
                   @endif
                 </div><!-- End .dropdown-cart-total -->
               </div><!-- End .dropdown-menu -->
@@ -322,13 +324,14 @@
                             <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel"
                                 aria-labelledby="product-desc-link">
                                 <div class="product-desc-content">
-                                    <h3>Product Review</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque
-                                        volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna viverra
-                                        non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis
-                                        fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque
-                                        felis. Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer
-                                        ligula vulputate sem tristique cursus. </p>
+                                    <h3>Product Overview</h3>
+                                    <p class="justify-content-center">This product offers a unique blend of artistic expression and 
+                                        functional design, perfect for art enthusiasts and collectors alike.
+                                         Inspired by contemporary trends, it showcases intricate craftsmanship and bold creativity, 
+                                         making it a standout piece in any space. Whether displayed in a gallery or as a centerpiece 
+                                         in your home, its striking visual appeal and thoughtful details invite conversation and admiration. 
+                                         This work of art not only captures beauty but also evokes emotion, serving as a timeless addition 
+                                         to any collection that appreciates the fusion of art and innovation.</p>
                                 </div><!-- End .product-desc-content -->
                             </div><!-- .End .tab-pane -->
                             <div class="tab-pane fade" id="product-shipping-tab" role="tabpanel"
