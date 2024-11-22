@@ -20,7 +20,7 @@
     rel="mask-icon"
     href="{{ asset('customer/images/icons/safari-pinned-tab.svg') }}"
     color="#666666" />
-  <link rel="shortcut icon" href="{{ asset('customer/images/icons/favicon.png') }}" />
+  <link rel="shortcut icon" href="{{ asset('manager/img/artclick-shortcut-icon.png') }}">
   <title>Announcements - ARTCLICK</title>
   <link rel="stylesheet" href="{{ asset('customer/css/bootstrap.min.css') }}" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">

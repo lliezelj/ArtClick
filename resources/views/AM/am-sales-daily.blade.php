@@ -11,7 +11,7 @@
     <meta name="robots" content="noindex, nofollow">
     <title>ArtClick</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('manager/img/favicon.png')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('manager/img/artclick-shortcut-icon.png') }}">
 
     <link rel="stylesheet" href="{{ asset('manager/css/bootstrap.min.css')}}">
 
