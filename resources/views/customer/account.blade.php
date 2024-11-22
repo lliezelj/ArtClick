@@ -31,7 +31,7 @@
     rel="mask-icon"
     href="{{ asset('customer/images/icons/safari-pinned-tab.svg') }}"
     color="#666666" />
-  <link rel="shortcut icon" href="{{ asset('customer/images/icons/favicon.ico') }}" />
+  <link rel="shortcut icon" href="{{ asset('manager/img/artclick-shortcut-icon.png') }}">
   <meta name="apple-mobile-web-app-title" content="Molla" />
   <meta name="application-name" content="Molla" />
   <meta name="msapplication-TileColor" content="#cc9966" />
