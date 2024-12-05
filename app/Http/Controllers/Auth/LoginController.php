@@ -43,4 +43,33 @@ class LoginController extends Controller
         // Default redirect if no role matches
         return redirect('/');
     }
+    public function adminLogin(Request $request)
+    {
+        // Validate admin login credentials
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        // Attempt to log in with provided credentials
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            // Check if the authenticated user is an admin
+            $user = Auth::user();
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
+
+            // Log out if not an admin
+            Auth::logout();
+
+            return redirect()->route('am.signin')->withErrors([
+                'email' => 'Access denied. Admins account only.',
+            ]);
+        }
+
+        // If authentication fails
+        return redirect()->route('am.signin')->withErrors([
+               'email' => 'Invalid credentials.',
+        ]);
+    }
 }

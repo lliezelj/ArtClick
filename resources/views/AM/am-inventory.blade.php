@@ -107,7 +107,11 @@
                                             </a>
                                             <a href="javascript:void(0);">{{$stock->product->name}}</a>
                                         </td>
+                                        @if($stock->quantity < 5)
+                                        <td class="text-danger">{{$stock->quantity}}</td>
+                                        @else 
                                         <td>{{$stock->quantity}}</td>
+                                        @endif
                                         <td>
                                             <a class="me-3" data-bs-toggle="modal" data-bs-target="#inventory-edit{{$stock->id}}">
                                                 <img src="{{ asset('manager/img/icons/edit.svg') }}" alt="img">
