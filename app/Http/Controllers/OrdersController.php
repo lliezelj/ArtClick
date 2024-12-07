@@ -257,6 +257,7 @@ public function updateOrderStatus(Request $request, String $id)
 
 public function orderDateIndex(){
     $orders = Orders::selectRaw('DATE(order_date) as order_date, COUNT(*) as order_count')
+    ->orderBy('id', 'desc')
     ->groupBy(DB::raw('DATE(order_date)'))
     ->get();
 

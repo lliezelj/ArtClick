@@ -164,6 +164,11 @@
                     <div class="card-body">
                         <div class="table-top">
                             <div class="search-set">
+                            <div class="search-path">
+                                    <a class="btn btn-filter">
+                                    <i class="fa fa-arrow-left" style="font-size: 1em; color: white"></i>
+                                    </a>
+                                </div>
                                 <div class="search-input">
                                     <a class="btn btn-searchset"><img src="{{ asset('manager/img/icons/search-white.svg') }}"
                                             alt="img"></a>
@@ -175,7 +180,7 @@
                             <table class="table  datanew">
                                 <thead>
                                     <tr>
-                                        <th>artworks Name</th> 
+                                        <th>Artworks Name</th> 
                                         <th>Category </th>                                       
                                         <th>Price</th>                                       
                                         <th>Quantity</th>
