@@ -185,12 +185,11 @@
             <div
               class="intro-slide" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('customer/images/backgrounds/homepage.jpg') }}'); background-size: cover; background-position: center;">
               <div class="container intro-content">
-                <p class="intro-subtitle">Express your art with handmade art</p>
+                <p class="intro-subtitle"></p>
                 <!-- End .h3 intro-subtitle -->
                 <h4 class="intro-title">
-                  Enhance your space with unique handmade <br />
-                  art and unique crafts that showcase your style <br />
-                  and add character.
+                Discover the charm of authentic Palawan crafts, handcrafted by indigenous artisans. 
+                Every piece is one-of-a-kind, reflecting the vibrant culture and traditions of Palawan.
                 </h4>
                 <!-- End .intro-title -->
 

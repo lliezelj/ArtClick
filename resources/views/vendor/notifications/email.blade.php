@@ -131,7 +131,7 @@
 													<table class="paragraph_block block-3" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
 														<tr>
 															<td class="pad">
-																<div style="color:#a1662f;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:30px;line-height:150%;text-align:center;mso-line-height-alt:45px;">
+																<div style="color:#a1662f;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:30px;line-height:150%; text-align:center; mso-line-height-alt:45px; margin-left:10px" >
 																	<p style="margin: 0;">&nbsp;</p>
 																	<p style="margin: 0;"><strong>VERIFY YOUR E-MAIL ADRESS</strong></p>
 																</div>

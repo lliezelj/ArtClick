@@ -12,6 +12,15 @@ Route::get('/about', function () {
     return view('customer.about');
 })->name('about');
 
+Route::get('/profile', function () {
+    return view('AM.am-profile');
+})->name('am-profile');
+
+Route::get('/super-admin/signin-index', function () {
+    return view('AM.am-signin');
+})->name('am.signin');
+Route::post('/admin/login', [App\Http\Controllers\Auth\LoginController::class, 'adminLogin'])->name('admin.login');
+
 //outside Routes to access without authentication
 Route::get('/customer/shop-category',[App\Http\Controllers\ShopController::class, 'index'])->name('customer.shop');
 Route::get('/customer/my-cart',[App\Http\Controllers\CartController::class, 'index'])->name('customer.cart');

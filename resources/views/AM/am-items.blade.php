@@ -129,7 +129,7 @@
                                     <div class="col-lg-4 col-sm-12 col-12">
                                         <div class="form-group">
                                             <label>Artists</label>
-                                            <select class="select" name="artist_id">
+                                            <select class="select" name="artist_id" required>
                                                 <option selected disabled>Choose Artist</option>
                                                 @foreach($artists as $artist)
                                                 <option value="{{ $artist->id }}">{{ $artist->lastname}}, {{ $artist->firstname}}</option>
@@ -176,6 +176,11 @@
                     <div class="card-body">
                         <div class="table-top">
                             <div class="search-set">
+                            <div class="search-path">
+                                <a class="btn btn-filter"  href="javascript:history.back()">
+                                    <i class="fa fa-arrow-left" style="font-size: 1em; color: white"></i>
+                                    </a>
+                                </div>
                                 <div class="search-input">
                                     <a class="btn btn-searchset"><img src="{{ asset('manager/img/icons/search-white.svg') }}"
                                             alt="img"></a>
@@ -209,7 +214,7 @@
                                         <td>{{$item->price}}</td>                                      
                                         <!-- <td>{{$item->quantity}}</td> -->
                                         <td>{{$item->size}}</td>
-                                        <td>{{$item->description}}</td>
+                                        <td>{{ Str::limit($item->description, 20, '...') }}</td>
                                         <td>
                                             <a class="me-3" href="{{ route('view.product',['id'=> $item->id]) }}">
                                                 <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">

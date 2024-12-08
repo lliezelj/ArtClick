@@ -17,6 +17,7 @@ class SalesController extends Controller
     $dailySales = Orders::selectRaw('DATE(updated_at) as date, SUM(total_price) as total_sales, COUNT(*) as total_orders')
     ->where('status', 'Delivered')
     ->groupBy(DB::raw('DATE(updated_at)'))
+    ->orderBy('updated_at', 'desc')
     ->get();
 
     return view('AM.am-sales-daily', compact('dailySales'));

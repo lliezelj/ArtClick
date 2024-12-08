@@ -52,8 +52,14 @@
                 <div class="row">
                     <div class="col-lg-8 col-sm-12">
                         <div class="card">
+                        
                             <div class="card-body">
-
+                            <div class="search-set" style="margin-bottom: 12px">
+                        <div class="search-path">
+                                    <a class="btn btn-filter"  href="javascript:history.back()">
+                                    <i class="fa fa-arrow-left" style="font-size: 1em; color: white;"></i>
+                                    </a>
+                                </div> </div>
                                 <div class="productdetails">
                                     <ul class="product-bar">
                                         <li>

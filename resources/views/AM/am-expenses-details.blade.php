@@ -78,9 +78,9 @@
                     <div class="card-body">
                         <div class="table-top">
                             <div class="search-set">
-                                <div class="search-path">
+                            <div class="search-path">
                                     <a class="btn btn-filter">
-                                        <img src="{{ asset('manager/img/icons/filter.svg') }}" alt="img">
+                                    <i class="fa fa-arrow-left" style="font-size: 1em; color: white"></i>
                                     </a>
                                 </div>
                                 <div class="search-input">

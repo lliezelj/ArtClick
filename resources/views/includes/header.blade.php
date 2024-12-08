@@ -33,7 +33,7 @@
                                     <span><img src="{{asset('manager/img/icons/closes.svg') }}" alt="img"></span>
                                 </div>
                             </div>
-                            <a class="btn" id="searchdiv"><img src="{{ asset('manager/img/icons/search.svg') }}" alt="img"></a>
+                            
                         </form>
                     </div>
                 </li>

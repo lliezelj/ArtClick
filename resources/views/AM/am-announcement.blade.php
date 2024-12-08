@@ -118,7 +118,7 @@
                                         <td>{{$announce->title}}</td>
                                         <td>{{  \Carbon\Carbon::parse($announce->start)->format('F j, Y')}}</td>
                                         <td>{{  \Carbon\Carbon::parse($announce->end)->format('F j, Y')}}</td>
-                                        <td>{{$announce->description}}</td>
+                                        <td>{{ Str::limit($announce->description, 20, '...') }}</td>
                                         <td>
                                             <a class="me-3" href="{{route('view.announcement', ['id' => $announce->id])}}">
                                                 <img src="{{ asset('manager/img/icons/eye.svg') }}" alt="img">
